@@ -1,4 +1,3 @@
-/* Reset browser default styles */
 * {
   margin: 0;
   padding: 0;
@@ -6,7 +5,7 @@
 }
 
 body {
-  font-family: Arial, /* Reset browser default styles */
+  font-family: Arial, 
 * {
   margin: 0;
   padding: 0;
@@ -20,7 +19,6 @@ body {
   background-color: #f0f8f0;
 }
 
-/* Main layout */
 header {
   background: linear-gradient(135deg, #3c9d3c 0%, #68c268 100%);
   color: #fff;
@@ -96,7 +94,7 @@ footer {
 }
 
 /* Responsive styles */
-@media (max-width: 768px) {
+  @media (max-width: 768px) {
   nav ul {
     display: block;
     text-align: center;
@@ -113,7 +111,6 @@ footer {
   color: #333;
 }
 
-/* Main layout */
 header,
 footer {
   background: #333;
@@ -163,7 +160,6 @@ section {
   margin-bottom: 40px;
 }
 
-/* Responsive styles */
 @media (max-width: 768px) {
   nav ul {
     display: block;
