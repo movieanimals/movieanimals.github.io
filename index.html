@@ -1,66 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movie Animals</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="script.js" defer></script>
-</head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+header {
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
 
+.logo {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+nav {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem;
+  flex: 1;
+  text-align: center;
+}
+
+nav a:hover {
+  background-color: #555;
+}
+
+.container {
+  padding: 2rem;
+}
+
+.container h2 {
+  margin-bottom: 1rem;
+}
+
+.container p {
+  margin-bottom: 1rem;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  nav a {
+    flex: 0 0 100%;
+  }
+}
+ </style>
+</head>
 <body>
   <header>
-    <h1>Movie Animals</h1>
+    <h1 class="logo">Movie Animals</h1>
     <nav>
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
-
   <main>
-    <section id="about">
+    <section class="container" id="about">
       <h2>About Movie Animals</h2>
       <p>Movie Animals is a professional animal training and film services company based in Palmdale, California, with a rich family history in the film industry. Our founder, Derek Toth, is a third-generation animal trainer with over 10 years of experience working on film sets and training animals for various productions.</p>
     </section>
-
-    <section id="services">
+    <section class="container" id="services">
       <h2>Our Services</h2>
-      <ul>
-        <li>
-          <h3>Animal Training Services</h3>
-          <p>We offer expert animal training services for film productions as well as personalized private training sessions for pets, ensuring their full potential is reached in a safe and nurturing environment.</p>
-        </li>
-        <li>
-          <h3>Pet Grooming and Boarding</h3>
-          <p>Our professional pet grooming and boarding services provide top-notch care for your furry companions, whether they need a fresh haircut, a pampering bath, or a home away from home while you're on vacation.</p>
-        </li>
-        <li>
-          <h3>Location Scouting and Wildlife Abatement</h3>
-          <p>We help film productions find the perfect locations for their projects while ensuring rattlesnake and wildlife abatement for a safe and seamless on-set experience.</p>
-        </li>
-      </ul>
+      <h3>Animal Training Services</h3>
+      <p>We offer expert animal training services for film productions as well as personalized private training sessions for pets, ensuring their full potential is reached in a safe and nurturing environment.</p>
+      <h3>Pet Grooming and Boarding</h3>
+      <p>Our professional pet grooming and boarding services provide top-notch care for your furry companions, whether they need a fresh haircut, a pampering bath, or a home away from home while you're on vacation.</p>
+      <h3>Location Scouting and Wildlife Abatement</h3>
+      <p>We help film productions find the perfect locations for their projects while ensuring rattlesnake and wildlife abatement for a safe and seamless on-set experience.</p>
     </section>
-
-    <section id="portfolio">
+    <section class="container" id="portfolio">
       <h2>Portfolio</h2>
       <p>Some of Derek Toth's notable credits include commercials for Apple, Brooks Brothers, Target, Dominos, Skechers, Mercy Health, Nationwide Insurance, Georgia Electric; TV shows like American Horror Story and Legends of the Hidden Temple; Films such as Palm Springs, Birds of Prey, The Starling, Being the Ricardos, various foreign films; and video games like Killzone 3 and Cabela's Big Game Hunter.</p>
-    </section>
-
-    <section id="contact">
-      <h2>Contact Us</h2>
-      <p>If you have any questions or would like to inquire about our services, please don't hesitate to reach out. You can contact Derek Toth at derek.toth@icloud.com.</p>
-    </section>
+</section>
+<section class="container" id="contact">
+<h2>Contact Us</h2>
+<p>If you have any questions or would like to inquire about our services, please don't hesitate to reach out. You can contact Derek Toth at derek.toth@icloud.com.</p>
+</section>
   </main>
-
   <footer>
-    <p>&copy; Movie Animals. All rights reserved.</p>
+    &copy; 2023 Movie Animals. All rights reserved.
   </footer>
-<script src="scripts.js"></script>
 </body>
-
 </html>
