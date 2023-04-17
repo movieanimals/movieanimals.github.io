@@ -14,72 +14,73 @@ header {
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  align-items: center;
 }
 .logo {
-color: #fff;
-font-size: 1.5rem;
-margin-bottom: 1rem;
+  width: 100%;
+  max-width: 150px;
+  margin: 0 auto 1rem;
 }
 
 nav {
-display: flex;
-justify-content: space-around;
-flex-wrap: wrap;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 nav a {
-color: #fff;
-text-decoration: none;
-padding: 0.5rem;
-flex: 1;
-text-align: center;
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem;
+  flex: 1;
+  text-align: center;
 }
 
 nav a:hover {
-background-color: #555;
+  background-color: #555;
 }
 
 .container {
-padding: 2rem;
+  padding: 2rem;
 }
 
 .container h2 {
-margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .container p {
-margin-bottom: 1rem;
-text-align: justify;
+  margin-bottom: 1rem;
+  text-align: justify;
 }
 
 footer {
-background-color: #0D7685;
-color: #fff;
-font-size: 0.8rem;
-padding: 1rem;
-text-align: center;
+  background-color: #0D7685;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 1rem;
+  text-align: center;
 }
 
-@media screen and (max-width: 768px) {
-nav a {
-flex: 0 0 100%;
-}
+@media screen and (max-width: 600px) {
+  nav a {
+    flex: 0 0 100%;
+  }
 }
 </style>
 
 </head>
-  <img src="logo.png" alt="logo">
 <body>
   <header>
+    <img class="logo" src="logo.png" alt="logo">
     <nav>
       <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#portfolio">Portfolio</a>
-      <a class="contact" href="#contact">Contact</a>
-    </nav>
-  </header>
-  <main>
-    <section class="container" id="about">
+   <a class="contact" href="#contact">Contact</a>
+</nav>
+</header>
+<main>
+  <section class="container" id="about">
       <h2>About Movie Animals</h2>
       <p>Movie Animals is a professional animal training and film services company based in Palmdale, California, with a rich family history in the film industry. Our founder, Derek Toth, is a distinguished third-generation animal trainer with deep-rooted family connections in the field. Nurtured by his grandfather's legacy as a master falconer and founder of a prominent animal training company, Derek was immersed in an environment that fueled his passion for wildlife, environmental conservation, and animals from a young age.</p>  <p>His career commenced early, working with animals in various media productions and following in his family's footsteps. Derek gained extensive experience in caring for and training a wide array of wild and domestic species, contributing to the family's enduring legacy in the motion picture industry.</p>
 
