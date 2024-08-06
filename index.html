@@ -3,206 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #0D7685;
-      display: flex;
-      flex-direction: column;
-      padding: 1rem;
-      align-items: center;
-    }
-    .logo {
-      width: 100%;
-      max-width: 150px;
-      margin: 0 auto 1rem;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      padding: 0.5rem;
-      flex: 1;
-      text-align: center;
-    }
-
-    nav a:hover {
-      background-color: #555;
-    }
-
-    .container {
-      padding: 2rem;
-    }
-      
-    h2 {
-      color: #0D7685;
-      margin-bottom: 1rem;
-    }
-      
-    h3 {
-      color: #0D7685;
-    }
-
-    .container p {
-      margin-bottom: 1rem;
-      text-align: justify;
-    }
-
-footer {   
-  background-color: #0D7685;
-  color: #fff;
-  font-size: 0.8rem;
-  padding: 1rem;
-  text-align: center;
-}
-
-img {
-  width: 100%;
-  height: auto;
-}
-
-.container img {
-  max-width: 500px;
-  display: block;
-  margin: auto;
-}
-
-.dog1 {
-  max-width: 250px;
-}
-
-@media screen and (max-width: 600px) {
-  nav a {
-    flex: 0 0 100%;
-  }
-
-  .container p {
-    text-align: left;
-  }
-
-  .container img, .dog1 {
-    max-width: 100%;
-  }
-}
-  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <title>Toth Movie Animals</title>
 </head>
 <body>
-  <header>
-    <img class="logo" src="logo.png" alt="logo">
-    <nav>
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#portfolio">Portfolio</a>
-      <a class="contact" href="#contact">Contact</a>
-    </nav>
-  </header>
-  <main>
-    <section class="container" id="about">
-      <h2>About Toth Movie Animals</h2>
-<p>Based near Los Angeles, Toth Movie Animals is a professional animal training and film services company with deep roots in the industry. Our mission is to enrich filmmakers' creative visions by bringing narratives to life with meticulously trained and well-cared-for animals.</p>
-<p>Founded by Derek Toth, a third-generation animal trainer, Toth Movie Animals embodies a family tradition of professional animal handling and environmental stewardship. Immersed in this legacy from an early age, Derek developed a profound respect for wildlife, guiding his ventures with these principles. With over a decade of experience, he is well-versed in handling diverse production environments, including venomous snake management and location scouting.</p>
-<p>We are committed to delivering seamless, professional service, ensuring animal safety and respect on every project. We strive to create a safe, nurturing environment for animals while guaranteeing exceptional service and professionalism on every film set.</p>
-<p>Off the set, Derek maintains a close bond with nature through activities like hiking, environmentalism, and animal activism. His enduring passion for wildlife fuels our mission at Toth Movie Animals: to enrich storytelling in film while championing animal welfare.</p>
-    <section class="container" id="services">
-      <h2>Our Services</h2>
-      <h3>Animal Training Services</h3>
-      <p>We offer expert animal training services for film productions as well as personalized private training sessions for pets, ensuring their full potential is reached in a safe and nurturing environment.</p>
-      <img src="assets/img/IMG_9722.jpeg" alt="Cat Job for Cat food Commercial in Los Angeles" width="500" height="300">
-      <h3>Animal Safety Consulting</h3>
-<p>Ensuring the welfare of animals on set is paramount. We are grateful to be able to offer Animal Safety Consulting in collaboration with the <a href="https://theanimalprotectionagency.org">Animal Protection Agency (APA)</a>, providing comprehensive oversight for film and TV productions, press junkets, as well as live events. We are dedicated to creating a secure environment where animals can work alongside humans harmoniously, promoting their well-being at every stage of production.</p>
-      <img src="assets/img/IMG_9602.JPG" alt="Derek poses with Dogpool at Deadpool Premiere in New York" width="500" height="300">
-      <h3>Location Scouting and Wildlife Abatement</h3>
-      <p>We help film productions find the perfect locations for their projects while ensuring rattlesnake and wildlife abatement for a safe and seamless on-set experience.</p>
-      <img src="assets/img/3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek wrangles a rattlensnake in Santa Clarita, CA" width="500" height="300">
-    </section>
-    <section class="container" id="portfolio">
-      <h2>Portfolio</h2>
-      <p>Some of Derek Toth's notable credits include commercials for Apple, Versace, Nationwide Insurance, Levi's, Brooks Brothers, Dockers, Target, Mercy Health, Georgia Electric, Tinder, Skechers, Dominos, Khy by Kylie Jenner, and Olipop; TV shows like American Horror Story, The Rookie, 911: Lonestar, and  S.W.A.T.; films such as Deadpool and Wolverine, Birds of Prey, Palm Springs, White Men Can't Jump, About My Father; as well as various foreign films. Read more about Derek's career here: <a href="https://www.imdb.com/name/nm14670166/" title="Derek Toth IMDb">Derek Toth IMDb</a>
-</p>
-    </section>
-    <section class="container" id="contact">
-      <h2>Get In Touch</h2>
-      <p>If you have any questions or would like to inquire about our services, please don't hesitate to reach out. <p> At Toth Movie Animals, we believe in the power of storytelling and the distinctive voice of independent cinema. We are dedicated to working closely with indie filmmakers, understanding their financial constraints, and offering flexible, budget-friendly solutions without compromising on quality or authenticity.</p> <!DOCTYPE html>
-<html>
-<body>
-    <h2>Contact Us</h2>
-  <style>
-    form {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="text"],
-        input[type="tel"],
-        input[type="email"],
-        textarea {
-            width: 100%;
-            padding: 8px;
-            margin-top: 4px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        textarea {
-            resize: vertical;
-        }
-        button {
-            padding: 10px 20px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <form action="https://formspree.io/f/xdkngqyo" method="POST">
-        <label>
-            Your message:
-            <textarea name="message" rows="4" required></textarea>
-        </label>
-        <label>
-            Your name:
-            <input type="text" name="name" required>
-        </label>
-        <label>
-            Your phone number:
-            <input type="tel" name="phone">
-        </label>
-        <label>
-            Your email:
-            <input type="email" name="email" required>
-        </label>
-        <button type="submit">Send</button>
-    </form>
-</body>
-</html>
-</p>
+
+<header class="hero is-primary">
+  <div class="hero-body">
+    <div class="container">
+      <img class="logo" src="logo.png" alt="logo">
+      <nav class="navbar">
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#portfolio">Portfolio</a></li>
+          <li><a class="contact" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section container" id="about">
+    <h2>About Toth Movie Animals</h2>
     </section>
   </main>
-  <footer>
-    &copy; 2024 Toth Movie Animals. All rights reserved.
-  </footer>
+
+<footer class="section container has-text-centered">
+  &copy; 2024 Toth Movie Animals. All rights reserved.
+</footer>
+
 </body>
 </html>
