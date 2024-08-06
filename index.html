@@ -127,7 +127,7 @@ img {
     </section>
     <section class="container" id="portfolio">
       <h2>Portfolio</h2>
-      <p>Some of Derek Toth's notable credits include commercials for Apple, Versace, Nationwide Insurance, Levi's, Brooks Brothers, Dockers, Target, Mercy Health, Georgia Electric, Tinder, Skechers, Dominos, Khy by Kylie Jenner, and Olipop; TV shows like American Horror Story, The Rookie, S.W.A.T., and 911: Lonestar; films such as Palm Springs, Birds of Prey, About My Father, White Men Can't Jump, Deadpool, and Wolverine; as well as various foreign films.</p>
+      <p>Some of Derek Toth's notable credits include commercials for Apple, Versace, Nationwide Insurance, Levi's, Brooks Brothers, Dockers, Target, Mercy Health, Georgia Electric, Tinder, Skechers, Dominos, Khy by Kylie Jenner, and Olipop; TV shows like American Horror Story, The Rookie, 911: Lonestar, and  S.W.A.T.; films such as Deadpool and Wolverine, Birds of Prey, Palm Springs, White Men Can't Jump, About My Father; as well as various foreign films.</p>
     </section>
     <section class="container" id="contact">
       <h2>Get In Touch</h2>
@@ -135,29 +135,67 @@ img {
 <html>
 <body>
     <h2>Contact Us</h2>
+  <style>
+    form {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-top: 4px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h2>Contact Us</h2>
     <form action="https://formspree.io/f/xdkngqyo" method="POST">
-  <label>
-    Your message:
-    <textarea name="message" rows="4" cols="50" required></textarea>
-  </label>
-  <br>
-  <label>
-    Your name:
-    <input type="text" name="name" required>
-  </label>
-  <br>
-  <label>
-    Your phone number:
-    <input type="tel" name="phone">
-  </label>
-  <br>
-  <label>
-    Your email:
-    <input type="email" name="email" required>
-  </label>
-  <br>
-  <button type="submit">Send</button>
-</form>
+        <label>
+            Your message:
+            <textarea name="message" rows="4" required></textarea>
+        </label>
+        <label>
+            Your name:
+            <input type="text" name="name" required>
+        </label>
+        <label>
+            Your phone number:
+            <input type="tel" name="phone">
+        </label>
+        <label>
+            Your email:
+            <input type="email" name="email" required>
+        </label>
+        <button type="submit">Send</button>
+    </form>
 </body>
 </html>
 </p>
