@@ -3,207 +3,285 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toth Movie Animals - Premier Animal Training & Film Services</title>
+  
+  <!-- Favicon links -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    /* Global Styles */
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+    }
+
     header {
-      background-color: #0D7685;
-      display: flex;
-      flex-direction: column;
-      padding: 1rem;
-      align-items: center;
+      background: linear-gradient(135deg, #0D7685, #2c3e50);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
     }
+
     .logo {
-      width: 100%;
       max-width: 150px;
-      margin: 0 auto 1rem;
+      margin-bottom: 1rem;
     }
 
     nav {
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
+      gap: 1rem;
       flex-wrap: wrap;
     }
 
     nav a {
-      color: #fff;
+      color: white;
       text-decoration: none;
-      padding: 0.5rem;
-      flex: 1;
-      text-align: center;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
     }
 
     nav a:hover {
-      background-color: #555;
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
     }
 
-    .container {
+    main {
       padding: 2rem;
     }
-      
+
     h2 {
+      font-size: 2rem;
       color: #0D7685;
       margin-bottom: 1rem;
-    }
-      
-    h3 {
-      color: #0D7685;
+      text-align: center;
+      position: relative;
     }
 
-    .container p {
+    h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background-color: #0D7685;
+      margin: 0.5rem auto;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
       margin-bottom: 1rem;
       text-align: justify;
     }
 
-footer {   
-  background-color: #0D7685;
-  color: #fff;
-  font-size: 0.8rem;
-  padding: 1rem;
-  text-align: center;
-}
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 1rem auto;
+      display: block;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
 
-img {
-  width: 100%;
-  height: auto;
-}
+    img:hover {
+      transform: scale(1.05);
+    }
 
-.container img {
-  max-width: 500px;
-  display: block;
-  margin: auto;
-}
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
 
-.dog1 {
-  max-width: 250px;
-}
+    footer {
+      background: linear-gradient(135deg, #0D7685, #2c3e50);
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+    }
 
-@media screen and (max-width: 600px) {
-  nav a {
-    flex: 0 0 100%;
-  }
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      h2 {
+        font-size: 1.75rem;
+      }
 
-  .container p {
-    text-align: left;
-  }
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
 
-  .container img, .dog1 {
-    max-width: 100%;
-  }
-}
+    /* Contact Form Styling */
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      transition: border-color 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #0D7685;
+      outline: none;
+    }
+
+    button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      background: #0D7685;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2c3e50;
+      transform: scale(1.05);
+    }
+
+    /* Portfolio List Styling */
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    strong {
+      color: #0D7685;
+    }
   </style>
 </head>
 <body>
   <header>
-    <img class="logo" src="logo.png" alt="logo">
+    <img class="logo" src="logo.png" alt="Toth Movie Animals Logo">
     <nav>
       <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#portfolio">Portfolio</a>
-      <a class="contact" href="#contact">Contact</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
+
   <main>
+    <!-- About Section -->
     <section class="container" id="about">
       <h2>About Toth Movie Animals</h2>
-<p>Based near Los Angeles, Toth Movie Animals is a premier animal training and film services company with deep industry roots. Our mission is to enhance filmmakers' creative visions by bringing narratives to life with meticulously trained and well-cared-for animals.</p>
-<p>Founded by Derek Toth, a third-generation animal trainer, Toth Movie Animals continues a family tradition of professional animal handling and environmental stewardship. Immersed in this legacy from an early age, Derek's profound respect for wildlife shapes his work. With over a decade of experience, he manages animal handling seamlessly across all production stages, from pre-production planning to post-production care.</p>
-<p>We are dedicated to providing seamless, professional service, ensuring animal safety and respect on every project.</p>
-<p>Beyond the set, Derek maintains a close bond with nature through hiking, environmentalism, and animal activism. His enduring passion for wildlife drives our mission at Toth Movie Animals: to enrich storytelling in film while championing animal welfare.</p>
-   
-      <section class="container" id="services">
+      <p>Based near Los Angeles, Toth Movie Animals is a trusted partner for filmmakers seeking to bring their creative visions to life through animals. With a deep-rooted passion for wildlife and storytelling, we strive to create unforgettable moments while prioritizing the safety and well-being of every animal involved.</p>
+      
+      <p>Founded by Derek Toth—a third-generation animal trainer—our team carries forward a legacy of dedication and care. While Derek has had the privilege of working on high-profile projects, he remains grounded in his commitment to environmental stewardship and animal advocacy. Whether it’s training animals for film or ensuring their comfort on set, Derek approaches every task with humility and respect.</p>
+      
+      <p>When not on set, Derek enjoys hiking, exploring nature, and advocating for animal rights. These passions inspire our mission at Toth Movie Animals: to enrich stories through animals while fostering a culture of kindness and responsibility.</p>
+    </section>
+
+    <!-- Services Section -->
+    <section class="container" id="services">
       <h2>Our Services</h2>
-      <h3>Animal Training Services</h3>
-      <p>We offer expert animal training services for film productions as well as personalized private training sessions for pets, ensuring their full potential is reached in a safe and nurturing environment.</p>
-      <img src="assets/img/IMG_9722.jpeg" alt="Cat Job for Cat food Commercial in Los Angeles" width="500" height="300">
+      
+      <h3>Animal Training for Film & Television</h3>
+      <p>We specialize in providing expertly trained animals for commercials, TV shows, and feature films. Our trainers ensure that each animal performs safely and effectively under the most demanding conditions.</p>
+      <img src="assets/img/IMG_9722.jpeg" alt="Cat Job for Cat Food Commercial in Los Angeles">
+
+      <h3>Private Pet Training</h3>
+      <p>In addition to our work in entertainment, we offer personalized private training sessions for pets. Our goal is to help owners unlock their pets’ full potential in a nurturing environment.</p>
+      
       <h3>Animal Safety Consulting</h3>
-<p>Ensuring the welfare of animals on set is paramount. We are grateful to be able to offer Animal Safety Consulting in collaboration with the <a href="https://theanimalprotectionagency.org">Animal Protection Agency (APA)</a>, providing comprehensive oversight for film and TV productions, press junkets, as well as live events. We are dedicated to creating a secure environment where animals can work alongside humans harmoniously, promoting their well-being at every stage of production.</p>
-      <img src="assets/img/IMG_9602.JPG" alt="Derek poses with Dogpool at Deadpool Premiere in New York" width="500" height="300">
-      <h3>Location Scouting and Wildlife Abatement</h3>
-      <p>We help film productions find the perfect locations for their projects while ensuring rattlesnake and wildlife abatement for a safe and seamless on-set experience.</p>
-      <img src="assets/img/3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek wrangles a rattlensnake in Santa Clarita, CA" width="500" height="300">
+      <p>Collaborating with the <a href="https://theanimalprotectionagency.org">Animal Protection Agency (APA)</a>, we provide comprehensive oversight to ensure the well-being of animals during film shoots, live events, and press junkets. Safety is always our top priority.</p>
+      <img src="assets/img/IMG_9602.JPG" alt="Derek Poses with Dogpool at Deadpool Premiere in New York">
+      
+      <h3>Location Scouting & Wildlife Abatement</h3>
+      <p>Our team assists productions in finding ideal filming locations while mitigating risks posed by local wildlife. From rattlesnake abatement to habitat preservation, we create safe environments for both humans and animals.</p>
+      <img src="assets/img/3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Wrangles a Rattlesnake in Santa Clarita, CA">
     </section>
+
+    <!-- Portfolio Section -->
     <section class="container" id="portfolio">
-      <h2>Portfolio</h2>
-      <p>Some of Derek Toth's notable credits include commercials for Apple, Versace, Nationwide Insurance, Levi's, Brooks Brothers, Dockers, Target, Mercy Health, Georgia Electric, Tinder, Skechers, Dominos, Khy by Kylie Jenner, and Olipop; TV shows like American Horror Story, The Rookie, 911: Lonestar, and  S.W.A.T.; films such as Deadpool and Wolverine, Birds of Prey, Palm Springs, White Men Can't Jump, About My Father; as well as various foreign films. Read more about Derek's career here: <a href="https://www.imdb.com/name/nm14670166/" title="Derek Toth IMDb">Derek Toth IMDb</a>
-</p>
+      <h2>Notable Credits</h2>
+      <p>Derek Toth has worked on high-profile projects spanning commercials, television, and film. Some highlights include:</p>
+      <ul>
+        <li><strong>Commercials:</strong> Apple, Versace, Nationwide Insurance, Levi's, Brooks Brothers, Dockers, Target, Mercy Health, Georgia Electric, Tinder, Skechers, Domino's, Khy by Kylie Jenner, Olipop</li>
+        <li><strong>TV Shows:</strong> American Horror Story, The Rookie, 911: Lone Star, S.W.A.T.</li>
+        <li><strong>Films:</strong> Deadpool and Wolverine, Birds of Prey, Palm Springs, White Men Can't Jump, About My Father</li>
+      </ul>
+      <p>For more details about Derek's career, visit his <a href="https://www.imdb.com/name/nm14670166/" title="Derek Toth IMDb">IMDb page</a>.</p>
     </section>
+
+    <!-- Contact Section -->
     <section class="container" id="contact">
       <h2>Get In Touch</h2>
-      <p>If you have any questions or would like to inquire about our services, please don't hesitate to reach out. <p> At Toth Movie Animals, we believe in the power of storytelling and the distinctive voice of independent cinema. We are dedicated to working closely with indie filmmakers, understanding their financial constraints, and offering flexible, budget-friendly solutions without compromising on quality or authenticity.</p> <!DOCTYPE html>
-<html>
-<body>
-    <h2>Contact Us</h2>
-  <style>
-    form {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-        }
-        label {
-            display: block;
-            margin-bottom: 10px;
-        }
-        input[type="text"],
-        input[type="tel"],
-        input[type="email"],
-        textarea {
-            width: 100%;
-            padding: 8px;
-            margin-top: 4px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        textarea {
-            resize: vertical;
-        }
-        button {
-            padding: 10px 20px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <form action="https://formspree.io/f/xdkngqyo" method="POST">
+      <p>If you’re interested in our services or have questions, we’d love to hear from you! At Toth Movie Animals, we understand the unique challenges faced by indie filmmakers and are committed to offering flexible, budget-friendly solutions without compromising quality or authenticity.</p>
+      
+      <form action="https://formspree.io/f/xdkngqyo" method="POST">
         <label>
-            Your message:
-            <textarea name="message" rows="4" required></textarea>
+          Your message:
+          <textarea name="message" rows="4" required></textarea>
         </label>
         <label>
-            Your name:
-            <input type="text" name="name" required>
+          Your name:
+          <input type="text" name="name" required>
         </label>
         <label>
-            Your phone number:
-            <input type="tel" name="phone">
+          Your phone number:
+          <input type="tel" name="phone">
         </label>
         <label>
-            Your email:
-            <input type="email" name="email" required>
+          Your email:
+          <input type="email" name="email" required>
         </label>
         <button type="submit">Send</button>
-    </form>
-</body>
-</html>
-</p>
+      </form>
     </section>
   </main>
+
   <footer>
     &copy; 2024 Toth Movie Animals. All rights reserved.
   </footer>
 </body>
 </html>
+  
