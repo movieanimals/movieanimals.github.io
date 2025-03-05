@@ -1,382 +1,13 @@
-<script>
-    // Wait for DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      // Preloader
-      const preloader = document.getElementById('preloader');
-      const preloaderProgressBar = document.getElementById('preloader-progress-bar');
-      const main = document.querySelector('main');
-      
-      // Simulate loading progress with cinematic effect
-      let progress = 0;
-      const loadingInterval = setInterval(() => {
-        progress += Math.random() * 10;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(loadingInterval);
-          
-          // Hide preloader with fade out effect
-          setTimeout(() => {
-            preloader.style.opacity = '0';
-            main.style.opacity = '1';
-            setTimeout(() => {
-              preloader.style.display = 'none';
-            }, 1000);
-          }, 800);
-        }
-        preloaderProgressBar.style.width = `${progress}%`;
-      }, 200);
-      
-      // Custom cursor
-      const cursor = document.getElementById('cursor');
-      const cursorTrail = document.getElementById('cursor-trail');
-      
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-        
-        setTimeout(() => {
-          cursorTrail.style.left = e.clientX + 'px';
-          cursorTrail.style.top = e.clientY + 'px';
-        }, 100);
-        
-        // Spotlight effect
-        const spotlight = document.getElementById('spotlight');
-        spotlight.style.left = e.clientX + 'px';
-        spotlight.style.top = e.clientY + 'px';
-        
-        // Show spotlight only on header
-        const header = document.querySelector('header');
-        const headerRect = header.getBoundingClientRect();
-        
-        if (
-          e.clientY >= headerRect.top &&
-          e.clientY <= headerRect.bottom &&
-          e.clientX >= headerRect.left &&
-          e.clientX <= headerRect.right
-        ) {
-          spotlight.classList.add('active');
-        } else {
-          spotlight.classList.remove('active');
-        }
-      });
-      
-      // Change cursor size on clickable elements
-      const clickables = document.querySelectorAll('a, button, input, textarea');
-      
-      clickables.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-          cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-          cursor.style.backgroundColor = '#ffffff';
-          cursor.style.boxShadow = '0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4)';
-          cursorTrail.style.opacity = '0.8';
-          cursorTrail.style.borderColor = '#ffffff';
-        });
-        
-        element.addEventListener('mouseleave', () => {
-          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-          cursor.style.backgroundColor = var(--primary-color);
-          cursor.style.boxShadow = '0 0 10px rgba(229, 9, 20, 0.8), 0 0 20px rgba(229, 9, 20, 0.4)';
-          cursorTrail.style.opacity = '0.7';
-          cursorTrail.style.borderColor = var(--primary-color);
-        });
-      });
-      
-      // Scroll progress indicator
-      const scrollProgress = document.getElementById('scroll-progress');
-      
-      window.addEventListener('scroll', () => {
-        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollTop = document.documentElement.scrollTop;
-        const scrollPercentage = (scrollTop / windowHeight) * 100;
-        
-        scrollProgress.style.width = scrollPercentage + '%';
-        
-        // Reveal sections on scroll with animation
-        const sections = document.querySelectorAll('section');
-        sections.forEach(section => {
-          const sectionTop = section.getBoundingClientRect().top;
-          const sectionHeight = section.offsetHeight;
-          const windowHeight = window.innerHeight;
-          
-          if (sectionTop < windowHeight - sectionHeight / 4) {
-            section.classList.add('visible');
-          }
-        });
-      });
-      
-      // Initialize particles.js for background effect
-      if (typeof particlesJS !== 'undefined') {
-        particlesJS('particles-js', {
-          particles: {
-            number: { value: 30, density: { enable: true, value_area: 800 } },
-            color: { value: '#E50914' },
-            shape: { type: 'circle' },
-            opacity: { value: 0.3, random: true },
-            size: { value: 3, random: true },
-            line_linked: {
-              enable: true,
-              distance: 150,
-              color: '#F5C518',
-              opacity: 0.2,
-              width: 1
-            },
-            move: {
-              enable: true,
-              speed: 1,
-              direction: 'none',
-              random: true,
-              straight: false,
-              out_mode: 'out',
-              bounce: false
-            }
-          },
-          interactivity: {
-            detect_on: 'canvas',
-            events: {
-              onhover: { enable: true, mode: 'repulse' },
-              onclick: { enable: true, mode: 'push' },
-              resize: true
-            }
-          },
-          retina_detect: true
-        });
-      }
-      
-      // Credit tabs functionality
-      const creditTabs = document.querySelectorAll('.credit-tab');
-      const creditContents = document.querySelectorAll('.credit-content');
-      
-      creditTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          // Remove active class from all tabs and contents
-          creditTabs.forEach(t => t.classList.remove('active'));
-          creditContents.forEach(c => c.classList.remove('active'));
-          
-          // Add active class to clicked tab
-          tab.classList.add('active');
-          
-          // Show corresponding content
-          const tabId = tab.getAttribute('data-tab');
-          document.getElementById(`${tabId}-content`).classList.add('active');
-        });
-      });
-      
-      // Image zoom effect
-      const zoomImages = document.querySelectorAll('.service-image, .portfolio-feature-image');
-      
-      zoomImages.forEach(image => {
-        image.addEventListener('mouseenter', () => {
-          image.style.transform = 'scale(1.05)';
-        });
-        
-        image.addEventListener('mouseleave', () => {
-          image.style.transform = 'scale(1)';
-        });
-      });
-      
-      // Smooth scrolling for navigation
-      const navLinks = document.querySelectorAll('nav a, .hero-button');
-      
-      navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          
-          const targetId = link.getAttribute('href');
-          const targetElement = document.querySelector(targetId);
-          
-          window.scrollTo({
-            top: targetElement.offsetTop - 100,
-            behavior: 'smooth'
-          });
-          
-          // Update active nav link
-          document.querySelectorAll('nav a').forEach(navLink => navLink.classList.remove('active'));
-          if (link.classList.contains('nav-link')) {
-            link.classList.add('active');
-          }
-        });
-      });
-      
-      // Form validation with animation
-      const contactForm = document.getElementById('contact-form');
-      const submitBtn = document.getElementById('submit-btn');
-      
-      contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Validate form
-        const formInputs = contactForm.querySelectorAll('input, textarea');
-        let isValid = true;
-        
-        formInputs.forEach(input => {
-          if (input.hasAttribute('required') && !input.value) {
-            isValid = false;
-            input.classList.add('error');
-            input.style.borderColor = '#E50914';
-          } else {
-            input.classList.remove('error');
-            input.style.borderColor = '';
-          }
-        });
-        
-        if (isValid) {
-          // Show loading animation
-          submitBtn.innerHTML = 'Sending...';
-          submitBtn.style.width = '150px';
-          submitBtn.disabled = true;
-          
-          // Simulate form submission with Hollywood-style delay
-          setTimeout(() => {
-            // Actual form submission here
-            contactForm.submit();
-          }, 1500);
-        }
-      });
-      
-      // Text reveal animation for headings
-      const revealText = (element) => {
-        const text = element.textContent;
-        element.textContent = '';
-        
-        for (let i = 0; i < text.length; i++) {
-          const span = document.createElement('span');
-          span.textContent = text[i];
-          span.style.opacity = '0';
-          span.style.animation = `fadeIn 0.1s forwards ${i * 0.05}s`;
-          element.appendChild(span);
-        }
-      };
-      
-      // Apply to hero heading
-      const heroHeading = document.querySelector('.cinematic-text');
-      if (heroHeading) {
-        revealText(heroHeading);
-      }
-      
-      // Initialize video background with cinema effect
-      const initVideoBackground = () => {
-        const videoBackground = document.getElementById('video-background');
-        
-        // Create a virtual showreel of work
-        // (In a real implementation, this would be an actual video showreel)
-        const createVirtualShowreel = () => {
-          // Create a canvas element for dynamic content
-          const canvas = document.createElement('canvas');
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-          videoBackground.appendChild(canvas);
-          
-          const ctx = canvas.getContext('2d');
-          
-          // Define frames for our "virtual showreel"
-          const frames = [
-            { color: '#000', text: 'TOTH MOVIE ANIMALS PRESENTS' },
-            { color: '#111', text: 'ANIMAL TALENT THAT STEALS THE SHOW' },
-            { color: '#222', text: 'FEATURED IN MAJOR PRODUCTIONS' },
-            { color: '#111', text: 'TRUSTED BY LEADING DIRECTORS' },
-            { color: '#000', text: 'AWARD-WINNING TRAINING' },
-          ];
-          
-          let currentFrame = 0;
-          
-          // Animation function
-          const animate = () => {
-            const frame = frames[currentFrame];
-            
-            // Create cinematic letterbox effect
-            ctx.fillStyle = frame.color;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Add film grain
-            for (let i = 0; i < 5000; i++) {
-              const x = Math.random() * canvas.width;
-              const y = Math.random() * canvas.height;
-              const opacity = Math.random() * 0.05;
-              ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-              ctx.fillRect(x, y, 1, 1);
-            }
-            
-            // Add text
-            ctx.fillStyle = '#fff';
-            ctx.font = 'bold 32px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(frame.text, canvas.width / 2, canvas.height / 2);
-            
-            // Simulate lens flare occasionally
-            if (Math.random() > 0.97) {
-              const flareX = Math.random() * canvas.width;
-              const flareY = Math.random() * canvas.height;
-              const gradient = ctx.createRadialGradient(flareX, flareY, 0, flareX, flareY, 100);
-              gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-              gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.2)');
-              gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-              
-              ctx.fillStyle = gradient;
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-            
-            // Change frame
-            if (Math.random() > 0.99) {
-              currentFrame = (currentFrame + 1) % frames.length;
-            }
-            
-            requestAnimationFrame(animate);
-          };
-          
-          animate();
-          
-          // Handle window resize
-          window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-          });
-        };
-        
-        createVirtualShowreel();
-      };
-      
-      initVideoBackground();
-      
-      // Marquee animation enhancement
-      const marqueeContent = document.querySelector('.marquee-content');
-      if (marqueeContent) {
-        // Clone the content for seamless looping
-        marqueeContent.innerHTML += marqueeContent.innerHTML;
-      }
-      
-      // Set active navigation based on scroll position
-      const sections = document.querySelectorAll('section');
-      const navItems = document.querySelectorAll('nav a');
-      
-      window.addEventListener('scroll', () => {
-        let current = '';
-        
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
-          
-          if (window.pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute('id');
-          }
-        });
-        
-        navItems.forEach(navItem => {
-          navItem.classList.remove('active');
-          if (navItem.getAttribute('href') === `#${current}`) {
-            navItem.classList.add('active');
-          }
-        });
-      });
-    });
-  </script>
-</body>
-</html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Toth Movie Animals - Premier Animal Training & Film Services</title>
+  
+  <!-- Meta tags for SEO -->
+  <meta name="description" content="Professional animal training and handling services for film, television, and commercial productions. Toth Movie Animals delivers expert training and reliable animal actors.">
+  <meta name="keywords" content="animal training, film animals, movie animals, animal actors, professional animal handlers">
   
   <!-- Favicon links -->
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -384,2297 +15,1946 @@
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
   
-  <!-- CDN Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <!-- CDN Libraries - Using newer versions of libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r139/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
   
   <style>
-    /* Global Styles with Entertainment Industry Appeal */
     :root {
-      --primary-color: #E50914; /* Netflix-inspired red */
-      --secondary-color: #1DB954; /* Spotify green for accent */
-      --accent-color: #F5C518; /* IMDB yellow */
-      --text-color: #f9f9f9;
-      --dark-bg: #0A0A0A; /* Film noir dark */
-      --light-bg: #141414; /* Streaming platform dark */
-      --glow-color: rgba(229, 9, 20, 0.7); /* Red glow */
-      --shadow-intensity: 0.8;
+      /* Modern Professional Color Palette */
+      --primary-color: #101d2c;        /* Deep Navy */
+      --secondary-color: #1e2a3b;      /* Rich Blue */
+      --accent-color: #e63946;         /* Bold Red */
+      --accent-color-hover: #d52b38;   /* Darker Red for hover states */
+      --text-color: #f8f9fa;           /* Clean White */
+      --text-color-dark: #202124;      /* Dark text for light backgrounds */
+      --muted-text: #adb5bd;           /* Subtle Gray */
+      --background: #0d151e;           /* Near Black */
+      --surface-1: #121c26;            /* Darkest Panel */
+      --surface-2: #1a2634;            /* Dark Panel */
+      --surface-3: #233141;            /* Mid Panel */
+      --success: #2ecc71;              /* Success Green */
+      --line-color: rgba(255,255,255,0.07); /* Subtle Line */
+      --card-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Consistent shadow */
+      --transition-standard: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transitions */
     }
 
-    @font-face {
-      font-family: 'Cyber';
-      src: url('https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/fonts/roboto/Roboto-Bold.woff') format('woff');
-      font-weight: bold;
-    }
-    
-    @keyframes borderGlow {
-      0% { box-shadow: 0 0 5px var(--glow-color); }
-      50% { box-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); }
-      100% { box-shadow: 0 0 5px var(--glow-color); }
-    }
-    
-    @keyframes textGlow {
-      0% { text-shadow: 0 0 5px var(--glow-color); }
-      50% { text-shadow: 0 0 10px var(--glow-color), 0 0 15px var(--glow-color); }
-      100% { text-shadow: 0 0 5px var(--glow-color); }
-    }
-    
-    @keyframes floatAnimation {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes rotate3D {
-      0% { transform: perspective(1000px) rotateY(0deg); }
-      100% { transform: perspective(1000px) rotateY(360deg); }
-    }
-
+    /* Modern CSS Reset */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      scroll-behavior: smooth;
+      font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
-    
-    /* Cursor enhancement for better visibility */
-    * {
-      cursor: none !important;
-    }
-    
-    /* Add extra glow and visibility for cursor across the entire page */
-    #cursor, #cursor-trail {
-      will-change: transform;
-    }
-    
-    #cursor {
-      filter: drop-shadow(0 0 8px rgba(229, 9, 20, 1)); 
-    }
-    
-    /* Ensure cursor is visible across all z-index layers */
+
     body {
-      position: relative;
-      z-index: 0;
+      background-color: var(--background);
+      color: var(--text-color);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: var(--transition-standard);
+      font-size: 16px;
     }
-    
-    section, footer, header, .container, .hero-container, #particles-js {
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      background: var(--background);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--primary-color);
+    }
+
+    /* Typography System */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      letter-spacing: -0.02em;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -0.01em;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2rem;
+    }
+
+    h2:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: var(--accent-color);
+    }
+
+    h3 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: -0.01em;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      color: var(--muted-text);
+      font-size: clamp(1rem, 1.5vw, 1.125rem);
+    }
+
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+      transition: var(--transition-standard);
+    }
+
+    a:hover {
+      color: var(--accent-color-hover);
+    }
+
+    .text-accent {
+      color: var(--accent-color);
+    }
+
+    .text-muted {
+      color: var(--muted-text);
+    }
+
+    /* Layout System */
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    /* Modern Button System */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.875rem 1.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: var(--transition-standard);
+      position: relative;
+      overflow: hidden;
+      border: none;
+      outline: none;
+      text-transform: uppercase;
+      gap: 0.5rem;
+    }
+
+    .btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+      transition: all 0.6s ease;
+    }
+
+    .btn:hover:before {
+      left: 100%;
+    }
+
+    .btn-primary {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-color-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+
+    .btn-outline:hover {
+      background: rgba(230, 57, 70, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .btn-icon {
+      margin-left: 0.5rem;
+      font-size: 0.875rem;
+      transition: var(--transition-standard);
+    }
+
+    .btn:hover .btn-icon {
+      transform: translateX(3px);
+    }
+
+    /* Modern Header with Animation */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 100;
+      transition: var(--transition-standard);
+      padding: 1.5rem 0;
+      background: rgba(13, 21, 30, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line-color);
+    }
+
+    header.scrolled {
+      padding: 1rem 0;
+      background: rgba(13, 21, 30, 0.95);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo {
+      height: 40px;
+      transition: var(--transition-standard);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-color);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-link {
+      color: var(--text-color);
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-link:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-color);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover:after,
+    .nav-link.active:after {
+      width: 100%;
+    }
+
+    .nav-link.active {
+      color: var(--accent-color);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .header-cta {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Hero Section with Parallax and Animation */
+    .hero {
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      align-items: center;
+      background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.7)), url('https://images.unsplash.com/photo-1551730459-92db2a308d6a?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      position: relative;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards 0.5s;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-title {
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.125rem, 2vw, 1.35rem);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      color: var(--muted-text);
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* Particles Background with Tech Feel */
+    #particles-js {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    /* About Section with Modern Grid */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-image {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      height: 100%;
+    }
+
+    .about-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .about-image:hover img {
+      transform: scale(1.05);
+    }
+
+    .about-image::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 50px;
+      height: 50px;
+      border-top: 3px solid var(--accent-color);
+      border-left: 3px solid var(--accent-color);
+      z-index: 1;
+    }
+
+    .about-image::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      right: -10px;
+      width: 50px;
+      height: 50px;
+      border-bottom: 3px solid var(--accent-color);
+      border-right: 3px solid var(--accent-color);
+      z-index: 1;
+    }
+
+    .about-content h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .stat-item {
+      background: var(--surface-2);
+      padding: 1.75rem;
+      border-radius: 12px;
+      text-align: center;
+      transition: var(--transition-standard);
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent-color);
+    }
+
+    .stat-item:hover {
+      transform: translateY(-8px);
+      background: var(--surface-3);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--accent-color);
+      position: relative;
+      display: inline-block;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Services Section with Hover Effects */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: var(--surface-2);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: var(--transition-standard);
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--card-shadow);
+      height: 100%;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      background: var(--surface-3);
+    }
+
+    .service-image-container {
+      position: relative;
+      overflow: hidden;
+      height: 220px;
+    }
+
+    .service-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .service-card:hover .service-image {
+      transform: scale(1.1);
+    }
+
+    .service-content {
+      padding: 1.75rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .service-title {
+      font-size: 1.35rem;
+      margin-bottom: 1rem;
+    }
+
+    .service-desc {
+      font-size: 1rem;
+      color: var(--muted-text);
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    .service-link {
+      align-self: flex-start;
+      color: var(--accent-color);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .service-link-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .service-link:hover .service-link-icon {
+      transform: translateX(5px);
+    }
+
+    /* Portfolio Section with Filtering and Smooth Animations */
+    .portfolio-section {
+      background-color: var(--surface-1);
+    }
+
+    .portfolio-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .portfolio-tab {
+      padding: 0.75rem 1.5rem;
+      background: var(--surface-2);
+      border: none;
+      border-radius: 30px;
+      color: var(--text-color);
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition-standard);
+    }
+
+    .portfolio-tab.active, 
+    .portfolio-tab:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+    }
+
+    .portfolio-item {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+      height: 280px;
+    }
+
+    .portfolio-img-container {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .portfolio-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .portfolio-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .portfolio-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(16, 29, 44, 0.85);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+
+    .portfolio-item:hover .portfolio-overlay {
+      opacity: 1;
+    }
+
+    .portfolio-title {
+      color: white;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+    }
+
+    .portfolio-category {
+      color: var(--accent-color);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transform: translateY(20px);
+      transition: all 0.3s ease 0.1s;
+    }
+
+    .portfolio-item:hover .portfolio-title,
+    .portfolio-item:hover .portfolio-category {
+      transform: translateY(0);
+    }
+
+    /* Portfolio Modal with Smooth Transitions */
+    .portfolio-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .portfolio-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      width: 90%;
+      max-width: 900px;
+      background: var(--surface-2);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+      transform: scale(0.9);
+      opacity: 0;
+      transition: all 0.3s ease 0.1s;
+    }
+
+    .portfolio-modal.active .modal-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .modal-header {
+      position: relative;
+      height: 400px;
+    }
+
+    .modal-header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .modal-close:hover {
+      background: var(--accent-color);
+    }
+
+    .modal-body {
+      padding: 2.5rem;
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-meta {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 0.875rem;
+      color: var(--muted-text);
+      margin-bottom: 0.3rem;
+    }
+
+    .meta-value {
+      font-weight: 500;
+    }
+
+    .modal-desc {
+      margin-bottom: 2rem;
+      line-height: 1.8;
+    }
+
+    /* Testimonials Section */
+    .testimonials-section {
+      background-color: var(--surface-1);
+    }
+
+    .testimonials-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .testimonial-slider {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial-slides {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .testimonial-slide {
+      min-width: 100%;
+      padding: 2rem;
+    }
+
+    .testimonial-card {
+      background: var(--surface-2);
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: var(--card-shadow);
+      position: relative;
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 6rem;
+      line-height: 1;
+      color: var(--accent-color);
+      opacity: 0.2;
+      font-family: Georgia, serif;
+    }
+
+    .testimonial-content {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
       position: relative;
       z-index: 1;
     }
-    
-    #cursor, #cursor-trail {
-      z-index: 10000;
-    }
-    
-    @media (max-width: 768px) {
-      * {
-        cursor: auto !important;
-      }
-      
-      #cursor, #cursor-trail {
-        display: none;
-      }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
-    body {
-      font-family: 'Cyber', 'Arial', sans-serif;
-      line-height: 1.6;
-      color: var(--text-color);
-      background-color: var(--dark-bg);
-      overflow-x: hidden;
-      perspective: 1000px;
-    }
-    
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at center, rgba(13, 118, 133, 0.15) 0%, rgba(18, 18, 18, 0.9) 70%);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    #cursor {
-      position: fixed;
-      width: 24px;
-      height: 24px;
+    .author-avatar {
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      background-color: var(--primary-color);
-      box-shadow: 0 0 10px rgba(229, 9, 20, 0.8), 0 0 20px rgba(229, 9, 20, 0.4);
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 9999;
-      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+      object-fit: cover;
+      border: 3px solid var(--accent-color);
     }
 
-    #cursor-trail {
-      position: fixed;
+    .author-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .author-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .author-position {
+      color: var(--muted-text);
+      font-size: 0.9rem;
+    }
+
+    .testimonial-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .testimonial-btn {
       width: 50px;
       height: 50px;
-      border: 2px solid var(--primary-color);
       border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      transition: width 0.3s ease, height 0.3s ease, opacity 0.5s ease;
-      opacity: 0.7;
-      z-index: 9998;
-      box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+      background: var(--surface-2);
+      border: none;
+      color: var(--text-color);
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: var(--transition-standard);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    
-    #scroll-progress {
-      position: fixed;
+
+    .testimonial-btn:hover {
+      background: var(--accent-color);
+      color: white;
+    }
+
+    /* Contact Section with Modern Form */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .contact-title {
+      font-size: 2.25rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .contact-text {
+      color: var(--muted-text);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .contact-method {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line-color);
+    }
+
+    .contact-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: var(--surface-2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      transition: var(--transition-standard);
+    }
+
+    .contact-method:hover .contact-icon {
+      background: var(--accent-color);
+      color: white;
+      transform: translateY(-5px);
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .contact-label {
+      font-size: 0.9rem;
+      color: var(--muted-text);
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+    }
+
+    .contact-value {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .contact-form {
+      background: var(--surface-2);
+      padding: 2.5rem;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .contact-form::before {
+      content: '';
+      position: absolute;
       top: 0;
-      left: 0;
-      width: 0%;
-      height: 3px;
-      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-      z-index: 9999;
-    }
-    
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
+      right: 0;
+      width: 150px;
+      height: 150px;
+      background: var(--accent-color);
+      opacity: 0.05;
+      border-radius: 50%;
+      transform: translate(50%, -50%);
       z-index: -1;
     }
 
-    #three-container {
+    .contact-form::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200px;
+      height: 200px;
+      background: var(--accent-color);
+      opacity: 0.05;
+      border-radius: 50%;
+      transform: translate(-50%, 50%);
+      z-index: -1;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 1rem;
+      background: var(--surface-1);
+      border: 1px solid var(--line-color);
+      border-radius: 8px;
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: var(--transition-standard);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+    }
+
+    textarea.form-control {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    .form-submit {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    /* Modern Footer */
+    footer {
+      background: var(--primary-color);
+      padding: 5rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 300px;
+      background: var(--accent-color);
+      opacity: 0.03;
+      border-radius: 50%;
+      transform: translate(50%, -50%);
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .footer-logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .footer-logo {
+      height: 36px;
+    }
+
+    .footer-logo-text {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-color);
+    }
+
+    .footer-text {
+      color: var(--muted-text);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .footer-title {
+      font-size: 1.35rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      padding-bottom: 0.75rem;
+    }
+
+    .footer-title:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent-color);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .footer-link {
+      color: var(--muted-text);
+      transition: var(--transition-standard);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-link:hover {
+      color: var(--accent-color);
+      transform: translateX(5px);
+    }
+
+    .footer-link-icon {
+      font-size: 0.75rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: var(--surface-2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--text-color);
+      transition: var(--transition-standard);
+      font-size: 1.15rem;
+    }
+
+    .social-link:hover {
+      background: var(--accent-color);
+      color: white;
+      transform: translateY(-5px);
+    }
+
+    .footer-bottom {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .copyright {
+      color: var(--muted-text);
+      font-size: 0.95rem;
+    }
+
+    /* Booking Modal with Modern Design */
+    .booking-modal {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      z-index: -2;
-      opacity: 0.4;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
     }
-    
+
+    .booking-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .booking-content {
+      width: 90%;
+      max-width: 600px;
+      background: var(--surface-2);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+      transform: scale(0.9);
+      opacity: 0;
+      transition: all 0.3s ease 0.1s;
+    }
+
+    .booking-modal.active .booking-content {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .booking-header {
+      padding: 2rem;
+      background: var(--surface-3);
+      position: relative;
+    }
+
+    .booking-title {
+      font-size: 1.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .booking-subtitle {
+      color: var(--muted-text);
+    }
+
+    .booking-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 1.25rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+    }
+
+    .booking-close:hover {
+      background: var(--accent-color);
+    }
+
+    .booking-body {
+      padding: 2rem;
+    }
+
+    .booking-form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .booking-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .booking-input {
+      width: 100%;
+      padding: 1rem;
+      background: var(--surface-1);
+      border: 1px solid var(--line-color);
+      border-radius: 8px;
+      color: var(--text-color);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .booking-input:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
+    }
+
+    textarea.booking-input {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .booking-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23adb5bd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+    }
+
+    /* Loading Animation */
     #preloader {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: var(--dark-bg);
+      background: var(--background);
+      z-index: 9999;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 10000;
-    }
-    
-    #preloader-logo {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      border: 3px solid var(--primary-color);
-      animation: borderGlow 2s infinite, rotate3D 6s infinite linear;
-      margin-bottom: 20px;
-    }
-    
-    #preloader-text {
-      font-size: 1.5rem;
-      color: var(--primary-color);
-      animation: textGlow 2s infinite;
-    }
-    
-    #preloader-progress {
-      width: 200px;
-      height: 5px;
-      background-color: var(--light-bg);
-      margin-top: 20px;
-      overflow: hidden;
-      border-radius: 5px;
-    }
-    
-    #preloader-progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-      transition: width 0.3s ease;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
     }
 
-    header {
-      background: transparent;
-      color: white;
-      text-align: center;
-      padding: 2rem 1rem;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(13, 118, 133, 0.7), rgba(44, 62, 80, 0.7));
-      backdrop-filter: blur(10px);
-      z-index: -1;
-    }
-
-    .logo {
-      max-width: 150px;
-      margin-bottom: 1rem;
-      filter: drop-shadow(0 0 10px var(--glow-color));
-      animation: floatAnimation 4s ease-in-out infinite;
-      transition: transform 0.3s ease;
-    }
-    
-    .logo:hover {
-      transform: scale(1.1) rotate(5deg);
-    }
-
-    nav {
+    .preloader-content {
       display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-      z-index: 10;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(5px);
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    .preloader-content p {
+      color: var(--muted-text);
+      font-size: 1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+
+    /* Scroll Animations */
+    .reveal {
       position: relative;
-      overflow: hidden;
-    }
-    
-    nav a::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.7s ease;
-    }
-    
-    nav a:hover::before {
-      left: 100%;
-    }
-
-    nav a:hover {
-      background-color: rgba(13, 118, 133, 0.5);
-      transform: scale(1.1) translateY(-3px);
-      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3);
-    }
-    
-    nav a.active {
-      background-color: var(--primary-color);
-      transform: scale(1.05);
-    }
-
-    main {
-      padding: 2rem;
       opacity: 0;
-      transition: opacity 1s ease;
-      position: relative;
-      z-index: 1;
+      transform: translateY(30px);
+      transition: all 0.8s ease;
     }
 
-    section {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease;
-    }
-    
-    section.visible {
+    .reveal.active {
       opacity: 1;
       transform: translateY(0);
     }
 
-    h2 {
-      font-size: 2.5rem;
-      color: var(--primary-color);
-      margin-bottom: 1.5rem;
-      text-align: center;
-      position: relative;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      animation: textGlow 4s infinite;
+    /* Responsive Design System */
+    @media (max-width: 1200px) {
+      .footer-content {
+        grid-template-columns: 1.5fr 1fr 1fr;
+        gap: 2.5rem;
+      }
+      
+      .footer-column:last-child {
+        grid-column: span 3;
+      }
     }
 
-    h2::after {
-      content: '';
-      display: block;
-      width: 100px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
-      margin: 0.7rem auto;
-      animation: borderGlow 4s infinite;
-    }
+    @media (max-width: 992px) {
+      h1 {
+        font-size: clamp(2.25rem, 5vw, 3rem);
+      }
 
-    h3 {
-      font-size: 1.8rem;
-      color: var(--accent-color);
-      margin-bottom: 1rem;
-      position: relative;
-      padding-left: 1rem;
-    }
-    
-    h3::before {
-      content: '>';
-      position: absolute;
-      left: 0;
-      color: var(--primary-color);
-    }
+      h2 {
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+      }
 
-    p {
-      margin-bottom: 1.2rem;
-      text-align: justify;
-      line-height: 1.8;
-      position: relative;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    p a {
-      color: var(--accent-color);
-      text-decoration: none;
-      position: relative;
-      padding: 0 5px;
-      transition: all 0.3s ease;
-    }
-    
-    p a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 1px;
-      background-color: var(--accent-color);
-      transform: scaleX(0);
-      transform-origin: bottom right;
-      transition: transform 0.3s ease;
-    }
-    
-    p a:hover::after {
-      transform: scaleX(1);
-      transform-origin: bottom left;
-    }
+      section {
+        padding: 5rem 0;
+      }
 
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 10px;
-      margin: 2rem auto;
-      display: block;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-      filter: saturate(1.2) brightness(1.1);
-      transform-style: preserve-3d;
-    }
-
-    img:hover {
-      transform: scale(1.03) translateY(-5px) rotateX(5deg);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-      filter: saturate(1.4) brightness(1.15);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 3rem;
-      background: var(--light-bg);
-      border-radius: 15px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-      margin-bottom: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 5px;
-      height: 100%;
-      background: linear-gradient(to bottom, var(--primary-color), transparent);
-    }
-    
-    .container::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 5px;
-      height: 100%;
-      background: linear-gradient(to bottom, transparent, var(--primary-color));
-    }
-
-    footer {
-      background: transparent;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.9rem;
-      position: relative;
-    }
-    
-    footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, rgba(13, 118, 133, 0.7), rgba(44, 62, 80, 0.7));
-      backdrop-filter: blur(10px);
-      z-index: -1;
-    }
-    
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 1rem;
-      margin: 1rem 0;
-    }
-    
-    .social-link {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.3s ease;
-    }
-    
-    .social-link:hover {
-      background: var(--primary-color);
-      transform: translateY(-5px);
-    }
-
-    /* Contact Form Styling */
-    form {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 2rem;
-      background: rgba(20, 20, 20, 0.8);
-      border-radius: 10px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(13, 118, 133, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    form::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        rgba(13, 118, 133, 0.05) 10px,
-        rgba(13, 118, 133, 0.05) 20px
-      );
-      animation: borderGlow 10s linear infinite;
-      z-index: -1;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-      color: var(--accent-color);
-      position: relative;
-      padding-left: 1.2rem;
-    }
-    
-    label::before {
-      content: '>';
-      position: absolute;
-      left: 0;
-      color: var(--primary-color);
-    }
-
-    input[type="text"],
-    input[type="tel"],
-    input[type="email"],
-    textarea {
-      width: 100%;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(13, 118, 133, 0.5);
-      border-radius: 5px;
-      color: var(--text-color);
-      font-family: 'Cyber', 'Arial', sans-serif;
-      resize: none;
-      transition: all 0.3s ease;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: var(--primary-color);
-      outline: none;
-      box-shadow: 0 0 15px rgba(13, 118, 133, 0.3);
-      background: rgba(13, 118, 133, 0.1);
-    }
-
-    button {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-family: 'Cyber', 'Arial', sans-serif;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-      z-index: 1;
-    }
-    
-    button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-      transition: left 0.7s ease;
-    }
-    
-    button:hover::before {
-      left: 100%;
-    }
-
-    button:hover {
-      background-color: var(--secondary-color);
-      transform: translateY(-5px);
-      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3), 0 0 15px rgba(13, 118, 133, 0.5);
-    }
-    
-    button:active {
-      transform: translateY(2px);
-    }
-
-    /* Portfolio List Styling */
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 2rem 0;
-    }
-
-    li {
-      margin-bottom: 0.8rem;
-      font-size: 1.1rem;
-      position: relative;
-      padding-left: 1.5rem;
-      transition: transform 0.3s ease;
-    }
-    
-    li::before {
-      content: '>';
-      position: absolute;
-      left: 0;
-      color: var(--primary-color);
-    }
-    
-    li:hover {
-      transform: translateX(5px);
-    }
-
-    strong {
-      color: var(--accent-color);
-      font-weight: bold;
-    }
-    
-    /* Hero Section */
-    .hero-container {
-      position: relative;
-      width: 100%;
-      height: 80vh;
-      min-height: 500px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 4rem;
-      overflow: hidden;
-      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/api/placeholder/1920/1080');
-      background-size: cover;
-      background-position: center;
-    }
-    
-    .hero-content {
-      text-align: center;
-      padding: 2rem;
-      z-index: 2;
-      max-width: 1000px;
-    }
-    
-    .hero-subtitle {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      opacity: 0.8;
-      letter-spacing: 2px;
-    }
-    
-    .hero-cta {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    
-    .hero-button {
-      padding: 0.75rem 2rem;
-      background: var(--primary-color);
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 30px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transition: all 0.3s ease;
-      border: 2px solid var(--primary-color);
-    }
-    
-    .hero-button:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
-    }
-    
-    .hero-button-secondary {
-      background: transparent;
-      border: 2px solid var(--accent-color);
-      color: var(--accent-color);
-    }
-    
-    .hero-button-secondary:hover {
-      background: var(--accent-color);
-      color: #000;
-      box-shadow: 0 10px 20px rgba(245, 197, 24, 0.3);
-    }
-    
-    /* Section Titles */
-    .section-title {
-      font-size: 3rem;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80px;
-      height: 3px;
-      background: var(--primary-color);
-    }
-    
-    .highlight {
-      color: var(--accent-color);
-    }
-    
-    /* Content Card */
-    .content-card {
-      background: rgba(20, 20, 20, 0.7);
-      border-radius: 8px;
-      padding: 2.5rem;
-      margin-bottom: 3rem;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-      border-left: 4px solid var(--primary-color);
-    }
-    
-    .card-title {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      color: var(--accent-color);
-      letter-spacing: 1px;
-    }
-    
-    /* Stats Container */
-    .stats-container {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-    
-    .stat-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 1.5rem;
-    }
-    
-    .stat-number {
-      font-size: 3rem;
-      font-weight: bold;
-      color: var(--primary-color);
-      margin-bottom: 0.5rem;
-    }
-    
-    .stat-label {
-      font-size: 0.9rem;
-      letter-spacing: 2px;
-      color: var(--text-color);
-      opacity: 0.7;
-    }
-    
-    /* Services Section */
-    .service-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-    
-    .service-card {
-      background: rgba(20, 20, 20, 0.5);
-      border-radius: 8px;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    
-    .service-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-    
-    .service-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-bottom: 3px solid var(--primary-color);
-    }
-    
-    .service-content {
-      padding: 1.5rem;
-    }
-    
-    .service-title {
-      font-size: 1.5rem;
-      margin-bottom: 1rem;
-      color: var(--accent-color);
-    }
-    
-    .service-description {
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-      line-height: 1.6;
-    }
-    
-    .service-icon {
-      position: absolute;
-      top: -15px;
-      right: 20px;
-      width: 50px;
-      height: 50px;
-      background: var(--primary-color);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 1.5rem;
-      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.5);
-    }
-    
-    /* Portfolio/Credits Section */
-    .feature-section {
-      padding-top: 4rem;
-      padding-bottom: 4rem;
-    }
-    
-    .marquee-container {
-      width: 100%;
-      overflow: hidden;
-      background: rgba(20, 20, 20, 0.3);
-      margin-bottom: 3rem;
-      padding: 1rem 0;
-      border-top: 1px solid rgba(245, 197, 24, 0.3);
-      border-bottom: 1px solid rgba(245, 197, 24, 0.3);
-    }
-    
-    .marquee-content {
-      display: flex;
-      animation: marquee 30s linear infinite;
-      white-space: nowrap;
-      padding: 0 2rem;
-    }
-    
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    
-    .marquee-content span {
-      display: inline-block;
-      padding: 0 2rem;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: var(--text-color);
-    }
-    
-    .marquee-dot {
-      color: var(--primary-color);
-    }
-    
-    .portfolio-showcase {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-    
-    .portfolio-image-container {
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    }
-    
-    .portfolio-feature-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    
-    .portfolio-image-container:hover .portfolio-feature-image {
-      transform: scale(1.05);
-    }
-    
-    .portfolio-image-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(transparent, rgba(0,0,0,0.8));
-    }
-    
-    .portfolio-label {
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      background: var(--primary-color);
-      color: white;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      border-radius: 4px;
-    }
-    
-    .portfolio-title {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      color: var(--accent-color);
-      letter-spacing: 1px;
-    }
-    
-    .portfolio-description {
-      margin-bottom: 2rem;
-      font-size: 1.1rem;
-      line-height: 1.8;
-    }
-    
-    .credit-tabs {
-      display: flex;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .credit-tab {
-      padding: 0.75rem 1.5rem;
-      font-weight: bold;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border-bottom: 3px solid transparent;
-    }
-    
-    .credit-tab.active {
-      color: var(--accent-color);
-      border-bottom: 3px solid var(--accent-color);
-    }
-    
-    .credit-content {
-      display: none;
-    }
-    
-    .credit-content.active {
-      display: block;
-    }
-    
-    .credit-list {
-      list-style: none;
-      padding-left: 0;
-    }
-    
-    .credit-list li {
-      padding: 0.5rem 0;
-      border-bottom: 1px dashed rgba(255,255,255,0.1);
-      font-size: 1.1rem;
-    }
-    
-    .credit-list li:last-child {
-      border-bottom: none;
-    }
-    
-    .imdb-button {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.75rem 1.5rem;
-      background: var(--accent-color);
-      color: #000;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 4px;
-      margin-top: 1.5rem;
-      transition: all 0.3s ease;
-    }
-    
-    .imdb-button:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(245, 197, 24, 0.3);
-    }
-    
-    .imdb-icon {
-      font-weight: bold;
-      margin-right: 0.75rem;
-    }
-    
-    /* Contact Form Styling */
-    .contact-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-    
-    .contact-info {
-      padding: 2rem;
-      background: rgba(20, 20, 20, 0.5);
-      border-radius: 8px;
-      border-left: 4px solid var(--accent-color);
-    }
-    
-    .contact-heading {
-      font-size: 1.8rem;
-      margin-bottom: 1.5rem;
-      color: var(--accent-color);
-    }
-    
-    .contact-text {
-      margin-bottom: 2rem;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-    
-    .contact-method {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1.5rem;
-    }
-    
-    .contact-icon {
-      width: 40px;
-      height: 40px;
-      background: rgba(229, 9, 20, 0.2);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-right: 1rem;
-      color: var(--primary-color);
-    }
-    
-    form {
-      max-width: none;
-      width: 100%;
-      padding: 2.5rem;
-      background: rgba(20, 20, 20, 0.5);
-      border-radius: 8px;
-      border-left: 4px solid var(--primary-color);
-    }
-    
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-    
-    .form-label {
-      display: block;
-      margin-bottom: 0.75rem;
-      font-weight: bold;
-      color: var(--accent-color);
-    }
-    
-    .form-control {
-      width: 100%;
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      color: var(--text-color);
-      font-family: inherit;
-      transition: all 0.3s ease;
-    }
-    
-    .form-control:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
-    }
-    
-    .submit-btn {
-      display: inline-block;
-      padding: 1rem 2rem;
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .submit-btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
-    }
-    
-    /* Footer */
-    footer {
-      margin-top: 4rem;
-      background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('/api/placeholder/1920/1080');
-      background-size: cover;
-      background-position: center;
-      color: var(--text-color);
-      text-align: center;
-      padding: 4rem 2rem 2rem;
-    }
-    
-    .footer-logo {
-      max-width: 120px;
-      margin-bottom: 2rem;
-    }
-    
-    .footer-nav {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-    }
-    
-    .footer-nav a {
-      color: var(--text-color);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .footer-nav a:hover {
-      color: var(--accent-color);
-    }
-    
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    
-    .social-link {
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.3s ease;
-      color: var(--text-color);
-      text-decoration: none;
-    }
-    
-    .social-link:hover {
-      background: var(--primary-color);
-      transform: translateY(-5px);
-    }
-    
-    .copyright {
-      font-size: 0.9rem;
-      opacity: 0.7;
-      margin-top: 2rem;
-    }
-    
-    /* Video Background */
-    #video-background {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      overflow: hidden;
-    }
-    
-    .overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.8) 100%);
-    }
-    
-    /* Tagline */
-    .tagline {
-      margin: 1rem 0 2rem;
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      color: var(--accent-color);
-      opacity: 0.8;
-    }
-    
-    /* Responsive */
-    @media screen and (max-width: 992px) {
-      .portfolio-showcase,
-      .contact-container {
+      .about-grid,
+      .contact-grid {
         grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .about-image {
+        max-height: 450px;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr 1fr;
       }
       
-      .hero-container {
-        height: 60vh;
-      }
-      
-      .cinematic-text {
-        font-size: 2.5rem;
+      .footer-column:last-child {
+        grid-column: span 2;
       }
     }
-    
-    @media screen and (max-width: 768px) {
-      .section-title {
-        font-size: 2.5rem;
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 1.5rem;
       }
       
-      .hero-content {
-        padding: 1rem;
+      .header-cta {
+        display: none;
       }
-      
-      .cinematic-text {
-        font-size: 2rem;
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: var(--surface-1);
+        flex-direction: column;
+        padding: 6rem 2rem 2rem;
+        gap: 1.5rem;
+        transition: right 0.3s ease;
+        z-index: 99;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
       }
-      
-      .hero-subtitle {
-        font-size: 1.2rem;
+
+      .nav-links.active {
+        right: 0;
       }
-      
+
+      .mobile-menu-toggle {
+        display: block;
+        z-index: 100;
+      }
+
       .hero-cta {
         flex-direction: column;
-        gap: 1rem;
-      }
-      
-      .service-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .credit-tabs {
-        flex-direction: column;
-      }
-      
-      .credit-tab {
-        width: 100%;
-        text-align: center;
-      }
-    }
-    
-    /* Glitch effect */
-    /* Film Strip Effect */
-    .film-strip {
-      position: fixed;
-      left: 0;
-      width: 100%;
-      height: 20px;
-      background-image: 
-        linear-gradient(to right,
-          #000 0%, #000 10%,
-          transparent 10%, transparent 12%,
-          #000 12%, #000 22%,
-          transparent 22%, transparent 24%,
-          #000 24%, #000 34%,
-          transparent 34%, transparent 36%,
-          #000 36%, #000 46%,
-          transparent 46%, transparent 48%,
-          #000 48%, #000 58%,
-          transparent 58%, transparent 60%,
-          #000 60%, #000 70%,
-          transparent 70%, transparent 72%,
-          #000 72%, #000 82%,
-          transparent 82%, transparent 84%,
-          #000 84%, #000 94%,
-          transparent 94%, transparent 96%,
-          #000 96%, #000 100%
-        );
-      z-index: 100;
-    }
-    
-    .film-strip-top {
-      top: 0;
-    }
-    
-    .film-strip-bottom {
-      bottom: 0;
-    }
-    
-    /* Film Studio Clapperboard Preloader */
-    #clapperboard {
-      position: relative;
-      width: 200px;
-      height: 180px;
-      background: #222;
-      border-radius: 5px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-    
-    .clapperboard-top {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 60px;
-      background: repeating-linear-gradient(
-        to right,
-        #000,
-        #000 20px,
-        #fff 20px,
-        #fff 40px
-      );
-      transform-origin: bottom center;
-      animation: clap 3s infinite;
-      z-index: 2;
-    }
-    
-    @keyframes clap {
-      0% { transform: rotate(0deg); }
-      5% { transform: rotate(-40deg); }
-      10% { transform: rotate(0deg); }
-      100% { transform: rotate(0deg); }
-    }
-    
-    .clapperboard-bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 120px;
-      background: #111;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      padding: 10px;
-    }
-    
-    .clapperboard-bottom span {
-      margin: 5px 0;
-      font-family: monospace;
-    }
-    
-    .clapperboard-bottom span:nth-child(2) {
-      color: var(--accent-color);
-    }
-    
-    .clapperboard-bottom span:nth-child(3) {
-      color: var(--primary-color);
-      font-weight: bold;
-      letter-spacing: 2px;
-    }
-    
-    /* Spotlight effect */
-    .spotlight {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(
-        circle at center,
-        rgba(255, 255, 255, 0.3) 0%,
-        rgba(255, 255, 255, 0) 70%
-      );
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 2;
-      opacity: 0;
-    }
-    
-    .spotlight.active {
-      opacity: 1;
-    }
-    
-    /* Cinematic text effect */
-    .cinematic-text {
-      position: relative;
-      text-transform: uppercase;
-      letter-spacing: 5px;
-      font-size: 3rem;
-      font-weight: bold;
-      line-height: 1.2;
-      color: transparent;
-      -webkit-text-stroke: 1px var(--accent-color);
-      text-shadow: 0 0 10px rgba(245, 197, 24, 0.5);
-    }
-    
-    .glitch {
-      position: relative;
-      animation: cinematic-pulse 4s infinite;
-    }
-    
-    @keyframes cinematic-pulse {
-      0%, 100% { 
-        opacity: 1;
-        text-shadow: 0 0 10px rgba(245, 197, 24, 0.5);
-      }
-      50% { 
-        opacity: 0.8;
-        text-shadow: 0 0 20px rgba(245, 197, 24, 0.8), 0 0 30px rgba(245, 197, 24, 0.6);
-      }
-    }
-    
-    /* Terminal effect */
-    .terminal {
-      background: rgba(0, 0, 0, 0.8);
-      padding: 1.5rem;
-      border-radius: 10px;
-      border: 1px solid var(--primary-color);
-      box-shadow: 0 0 15px rgba(13, 118, 133, 0.3);
-      margin: 2rem 0;
-      font-family: monospace;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .terminal-header {
-      display: flex;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--primary-color);
-      padding-bottom: 0.5rem;
-    }
-    
-    .terminal-title {
-      margin-left: 1rem;
-      color: var(--primary-color);
-    }
-    
-    .terminal-controls {
-      display: flex;
-      gap: 0.5rem;
-    }
-    
-    .terminal-control {
-      width: 15px;
-      height: 15px;
-      border-radius: 50%;
-    }
-    
-    .terminal-control-red {
-      background-color: #ff5f56;
-    }
-    
-    .terminal-control-yellow {
-      background-color: #ffbd2e;
-    }
-    
-    .terminal-control-green {
-      background-color: #27c93f;
-    }
-    
-    .terminal-content {
-      position: relative;
-      padding-left: 1rem;
-    }
-    
-    .terminal-content p {
-      margin-bottom: 0.7rem;
-      font-family: monospace;
-    }
-    
-    .terminal-content::before {
-      content: '$';
-      position: absolute;
-      left: 0;
-      color: var(--primary-color);
-    }
-    
-    .terminal-blink {
-      animation: blink 1s infinite;
-    }
-    
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    
-    /* Modal */
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-    
-    .modal.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-    
-    .modal-content {
-      width: 80%;
-      max-width: 800px;
-      background: var(--light-bg);
-      padding: 2rem;
-      border-radius: 10px;
-      position: relative;
-      transform: scale(0.8);
-      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-    
-    .modal.active .modal-content {
-      transform: scale(1);
-    }
-    
-    .modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      font-size: 1.5rem;
-      color: var(--accent-color);
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    
-    .modal-close:hover {
-      transform: rotate(90deg);
-    }
-    
-    /* Responsive Design */
-    @media screen and (max-width: 768px) {
-      h2 {
-        font-size: 1.75rem;
+        align-items: flex-start;
       }
 
-      nav {
+      .hero-cta .btn {
+        width: 100%;
+      }
+
+      .portfolio-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      
+      .footer-column:last-child {
+        grid-column: span 1;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .portfolio-tabs {
         flex-direction: column;
         align-items: center;
       }
       
-      .container {
-        padding: 1.5rem;
+      .portfolio-tab {
+        width: 100%;
+        text-align: center;
       }
       
-      .portfolio-grid {
-        grid-template-columns: 1fr;
+      .modal-meta {
+        flex-direction: column;
+        gap: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Custom Cursor -->
-  <div id="cursor"></div>
-  <div id="cursor-trail"></div>
-  
-  <!-- Scroll Progress -->
-  <div id="scroll-progress"></div>
-  
-  <!-- Particles Background -->
-  <div id="particles-js"></div>
-  
-  <!-- Video Reel Background -->
-  <div id="video-background">
-    <div class="overlay"></div>
-  </div>
-  
-  <!-- Film Strip Effect -->
-  <div class="film-strip film-strip-top"></div>
-  <div class="film-strip film-strip-bottom"></div>
-  
   <!-- Preloader -->
   <div id="preloader">
-    <div id="clapperboard">
-      <div class="clapperboard-top"></div>
-      <div class="clapperboard-bottom">
-        <span>TOTH MOVIE ANIMALS</span>
-        <span>TAKE 1</span>
-        <span>ACTION!</span>
-      </div>
-    </div>
-    <div id="preloader-text">NOW LOADING</div>
-    <div id="preloader-progress">
-      <div id="preloader-progress-bar"></div>
-    </div>
-  </div>
-  
-  <!-- Modal -->
-  <div class="modal" id="video-modal">
-    <div class="modal-content">
-      <div class="modal-close" id="modal-close">&times;</div>
-      <div id="modal-content-container"></div>
+    <div class="preloader-content">
+      <svg width="50" height="50" viewBox="0 0 50 50">
+        <circle cx="25" cy="25" r="20" fill="none" stroke="#e63946" stroke-width="5" stroke-dasharray="31.415, 31.415" stroke-dashoffset="0">
+          <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+      <p>Loading Toth Movie Animals</p>
     </div>
   </div>
 
-  <header>
-    <div class="spotlight" id="spotlight"></div>
-    <img class="logo" src="logo.png" alt="Toth Movie Animals Logo">
-    <div class="tagline">BRINGING ANIMAL TALENT TO THE BIG SCREEN</div>
-    <nav>
-      <a href="#about" class="nav-link">About</a>
-      <a href="#services" class="nav-link">Services</a>
-      <a href="#portfolio" class="nav-link">Portfolio</a>
-      <a href="#contact" class="nav-link">Contact</a>
-    </nav>
+  <!-- Header -->
+  <header id="header">
+    <div class="container header-container">
+      <div class="logo-container">
+        <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" class="logo">
+        <span class="logo-text">Toth Animals</span>
+      </div>
+      
+      <nav>
+        <div class="nav-links" id="navLinks">
+          <a href="#home" class="nav-link active">Home</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#portfolio" class="nav-link">Portfolio</a>
+          <a href="#testimonials" class="nav-link">Testimonials</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+        
+        <button class="mobile-menu-toggle" id="menuToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </nav>
+      
+      <div class="header-cta">
+        <a href="#booking" class="btn btn-primary" id="bookingBtn">Book Now</a>
+      </div>
+    </div>
   </header>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero-container">
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div id="particles-js"></div>
+    <div class="container">
       <div class="hero-content">
-        <h1 class="cinematic-text">PREMIERE ANIMAL TALENT</h1>
-        <p class="hero-subtitle">AS SEEN IN BLOCKBUSTER FILMS AND HIT TV SHOWS</p>
+        <h1 class="hero-title">Premier Animal Training <span class="text-accent">&</span> Film Services</h1>
+        <p class="hero-subtitle">Providing professionally trained animals for film, television, and commercial productions with over 25 years of industry experience.</p>
         <div class="hero-cta">
-          <a href="#contact" class="hero-button">Book Now</a>
-          <a href="#showreel" class="hero-button hero-button-secondary">Watch Showreel</a>
+          <a href="#services" class="btn btn-primary">Our Services <i class="fas fa-arrow-right btn-icon"></i></a>
+          <a href="#portfolio" class="btn btn-outline">View Our Work</a>
         </div>
       </div>
-    </section>
-  
-    <!-- About Section -->
-    <section class="container" id="about">
-      <h2 class="section-title">The <span class="highlight">Story</span></h2>
-      <div class="content-card">
-        <div class="card-content">
-          <h3 class="card-title">WHERE HOLLYWOOD MEETS ANIMAL EXPERTISE</h3>
-          <p>Based near Los Angeles, Toth Movie Animals is a trusted partner for filmmakers seeking to bring their creative visions to life through animals. With a deep-rooted passion for wildlife and storytelling, we strive to create unforgettable moments while prioritizing the safety and well-being of every animal involved.</p>
-          <p>Founded by Derek Toth—a third-generation animal trainer—our team carries forward a legacy of dedication and care.</p>
-          <div class="stats-container">
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image reveal">
+          <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1624&auto=format&fit=crop" alt="Toth Movie Animals Team">
+        </div>
+        <div class="about-content reveal">
+          <h2>About Toth Movie Animals</h2>
+          <p>Founded in 1998, Toth Movie Animals has been the industry's leading provider of trained animals for entertainment productions. Our expert trainers work with a diverse range of species to deliver reliable, safe, and impressive animal performances.</p>
+          <p>We prioritize animal welfare and ethical treatment above all else, ensuring our animal actors are treated with the utmost care and respect. Every production is approached with meticulous planning and professional execution.</p>
+          <div class="stats-grid reveal">
             <div class="stat-item">
-              <span class="stat-number">100+</span>
-              <span class="stat-label">PRODUCTIONS</span>
+              <div class="stat-number">25+</div>
+              <div class="stat-label">Years Experience</div>
             </div>
             <div class="stat-item">
-              <span class="stat-number">50+</span>
-              <span class="stat-label">SPECIES</span>
+              <div class="stat-number">500+</div>
+              <div class="stat-label">Productions</div>
             </div>
             <div class="stat-item">
-              <span class="stat-number">15+</span>
-              <span class="stat-label">YEARS</span>
+              <div class="stat-number">50+</div>
+              <div class="stat-label">Animal Species</div>
             </div>
           </div>
-          <p>While Derek has had the privilege of working on high-profile projects, he remains grounded in his commitment to environmental stewardship and animal advocacy. Whether it's training animals for film or ensuring their comfort on set, Derek approaches every task with humility and respect.</p>
-          <p>When not on set, Derek enjoys hiking, exploring nature, and advocating for animal rights. These passions inspire our mission at Toth Movie Animals: to enrich stories through animals while fostering a culture of kindness and responsibility.</p>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Services Section -->
-    <section class="container" id="services">
-      <h2 class="section-title">Our <span class="highlight">Services</span></h2>
+  <!-- Services Section -->
+  <section id="services">
+    <div class="container">
+      <h2 class="text-center reveal">Our Professional Services</h2>
+      <p class="text-center text-muted reveal" style="max-width: 700px; margin: 0 auto 3rem auto;">We offer comprehensive animal training and handling services tailored to the unique needs of each production.</p>
       
-      <div class="service-grid">
-        <div class="service-card">
-          <div class="service-icon">🎬</div>
-          <img src="assets/img/IMG_9722.jpeg" alt="Cat Job for Cat Food Commercial in Los Angeles" class="service-image">
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-image-container">
+            <img src="https://images.unsplash.com/photo-1591824438708-ce405f36ba3d?q=80&w=1674&auto=format&fit=crop" alt="Film Production" class="service-image">
+          </div>
           <div class="service-content">
-            <h3 class="service-title">Animal Training for Film & TV</h3>
-            <p class="service-description">We specialize in providing expertly trained animals for commercials, TV shows, and feature films. Our trainers ensure that each animal performs safely and effectively under the most demanding conditions.</p>
+            <h3 class="service-title">Film & TV Production</h3>
+            <p class="service-desc">Our animals are extensively trained for the demanding environment of film and television sets. We ensure reliable performances while maintaining the highest standards of safety and animal welfare.</p>
+            <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right service-link-icon"></i></a>
           </div>
         </div>
         
-        <div class="service-card">
-          <div class="service-icon">🐾</div>
-          <img src="/api/placeholder/400/320" alt="Private Pet Training" class="service-image">
+        <div class="service-card reveal">
+          <div class="service-image-container">
+            <img src="https://images.unsplash.com/photo-1598605272254-16f0c0ecdfa5?q=80&w=1671&auto=format&fit=crop" alt="Commercial Shoots" class="service-image">
+          </div>
           <div class="service-content">
-            <h3 class="service-title">Private Pet Training</h3>
-            <p class="service-description">In addition to our work in entertainment, we offer personalized private training sessions for pets. Our goal is to help owners unlock their pets' full potential in a nurturing environment.</p>
+            <h3 class="service-title">Commercial Shoots</h3>
+            <p class="service-desc">From major advertising campaigns to product photography, our animals are trained to perform specific actions on cue and remain calm in busy commercial shooting environments.</p>
+            <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right service-link-icon"></i></a>
           </div>
         </div>
         
-        <div class="service-card">
-          <div class="service-icon">🛡️</div>
-          <img src="assets/img/IMG_9602.JPG" alt="Derek Poses with Dogpool at Deadpool Premiere in New York" class="service-image">
+        <div class="service-card reveal">
+          <div class="service-image-container">
+            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1738&auto=format&fit=crop" alt="Custom Training" class="service-image">
+          </div>
           <div class="service-content">
-            <h3 class="service-title">Animal Safety Consulting</h3>
-            <p class="service-description">Collaborating with the Animal Protection Agency (APA), we provide comprehensive oversight to ensure the well-being of animals during film shoots, live events, and press junkets.</p>
+            <h3 class="service-title">Custom Training</h3>
+            <p class="service-desc">Our experienced trainers can develop specialized training programs to achieve specific behaviors needed for your production, from basic commands to complex action sequences.</p>
+            <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right service-link-icon"></i></a>
           </div>
         </div>
         
-        <div class="service-card">
-          <div class="service-icon">🌄</div>
-          <img src="assets/img/3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Wrangles a Rattlesnake in Santa Clarita, CA" class="service-image">
+        <div class="service-card reveal">
+          <div class="service-image-container">
+            <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=1770&auto=format&fit=crop" alt="Animal Consulting" class="service-image">
+          </div>
           <div class="service-content">
-            <h3 class="service-title">Location & Wildlife Management</h3>
-            <p class="service-description">Our team assists productions in finding ideal filming locations while mitigating risks posed by local wildlife. From rattlesnake abatement to habitat preservation, we create safe environments for both humans and animals.</p>
+            <h3 class="service-title">Production Consulting</h3>
+            <p class="service-desc">Our industry experts provide guidance on incorporating animals into your production safely and effectively, from script development to post-production.</p>
+            <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right service-link-icon"></i></a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Portfolio/Credits Section -->
-    <section class="container feature-section" id="portfolio">
-      <h2 class="section-title">Featured <span class="highlight">Credits</span></h2>
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="portfolio-section">
+    <div class="container">
+      <h2 class="text-center reveal">Our Portfolio</h2>
+      <p class="text-center text-muted reveal" style="max-width: 700px; margin: 0 auto 3rem auto;">Browse our collection of past projects showcasing our animals' performances across different media formats.</p>
       
-      <!-- Marquee Ticker with Film Credits -->
-      <div class="marquee-container">
-        <div class="marquee-content">
-          <span>DEADPOOL AND WOLVERINE</span>
-          <span class="marquee-dot">•</span>
-          <span>BIRDS OF PREY</span>
-          <span class="marquee-dot">•</span>
-          <span>AMERICAN HORROR STORY</span>
-          <span class="marquee-dot">•</span>
-          <span>THE ROOKIE</span>
-          <span class="marquee-dot">•</span>
-          <span>APPLE</span>
-          <span class="marquee-dot">•</span>
-          <span>VERSACE</span>
-        </div>
+      <div class="portfolio-tabs reveal">
+        <button class="portfolio-tab active" data-filter="all">All Projects</button>
+        <button class="portfolio-tab" data-filter="film">Film</button>
+        <button class="portfolio-tab" data-filter="television">Television</button>
+        <button class="portfolio-tab" data-filter="commercial">Commercial</button>
       </div>
       
-      <div class="portfolio-showcase">
-        <div class="portfolio-image-container">
-          <img src="/api/placeholder/600/400" alt="On set with animals" class="portfolio-feature-image">
-          <div class="portfolio-image-overlay">
-            <span class="portfolio-label">FEATURED PRODUCTION</span>
+      <div class="portfolio-grid">
+        <div class="portfolio-item reveal" data-category="film">
+          <div class="portfolio-img-container">
+            <img src="https://images.unsplash.com/photo-1598839438250-2b2cfb689300?q=80&w=1770&auto=format&fit=crop" alt="Project 1">
+          </div>
+          <div class="portfolio-overlay">
+            <h3 class="portfolio-title">Wilderness Adventure</h3>
+            <span class="portfolio-category">Feature Film</span>
           </div>
         </div>
         
-        <div class="portfolio-details">
-          <h3 class="portfolio-title">BRINGING STORIES TO LIFE</h3>
-          <p class="portfolio-description">Derek Toth has worked with industry-leading directors and production companies to deliver exceptional animal performances for award-winning productions.</p>
-          
-          <div class="credit-tabs">
-            <div class="credit-tab active" data-tab="films">Films</div>
-            <div class="credit-tab" data-tab="tv">TV</div>
-            <div class="credit-tab" data-tab="commercials">Commercials</div>
+        <div class="portfolio-item reveal" data-category="television">
+          <div class="portfolio-img-container">
+            <img src="https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?q=80&w=1674&auto=format&fit=crop" alt="Project 2">
           </div>
-          
-          <div class="credit-content active" id="films-content">
-            <ul class="credit-list">
-              <li>Deadpool and Wolverine</li>
-              <li>Birds of Prey</li>
-              <li>Palm Springs</li>
-              <li>White Men Can't Jump</li>
-              <li>About My Father</li>
-            </ul>
+          <div class="portfolio-overlay">
+            <h3 class="portfolio-title">Nature Encounters</h3>
+            <span class="portfolio-category">TV Series</span>
           </div>
-          
-          <div class="credit-content" id="tv-content">
-            <ul class="credit-list">
-              <li>American Horror Story</li>
-              <li>The Rookie</li>
-              <li>911: Lone Star</li>
-              <li>S.W.A.T.</li>
-            </ul>
+        </div>
+        
+        <div class="portfolio-item reveal" data-category="commercial">
+          <div class="portfolio-img-container">
+            <img src="https://images.unsplash.com/photo-1443806798002-651c462956ff?q=80&w=1742&auto=format&fit=crop" alt="Project 3">
           </div>
-          
-          <div class="credit-content" id="commercials-content">
-            <ul class="credit-list">
-              <li>Apple</li>
-              <li>Versace</li>
-              <li>Nationwide Insurance</li>
-              <li>Levi's</li>
-              <li>Brooks Brothers</li>
-              <li>And many more...</li>
-            </ul>
+          <div class="portfolio-overlay">
+            <h3 class="portfolio-title">Outdoor Brand Campaign</h3>
+            <span class="portfolio-category">Commercial</span>
           </div>
-          
-          <div class="portfolio-cta">
-            <a href="https://www.imdb.com/name/nm14670166/" class="imdb-button">
-              <span class="imdb-icon">IMDb</span>
-              <span>VIEW FULL CREDITS</span>
-            </a>
+        </div>
+        
+        <div class="portfolio-item reveal" data-category="film">
+          <div class="portfolio-img-container">
+            <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1740&auto=format&fit=crop" alt="Project 4">
+          </div>
+          <div class="portfolio-overlay">
+            <h3 class="portfolio-title">Mountain Expedition</h3>
+            <span class="portfolio-category">Feature Film</span>
+          </div>
+        </div>
+        
+        <div class="portfolio-item reveal" data-category="television">
+          <div class="portfolio-img-container">
+            <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=1674&auto=format&fit=crop" alt="Project 5">
+          </div>
+          <div class="portfolio-overlay">
+            <h3 class="portfolio-title">Wildlife Documentary</h3>
+            <span class="portfolio-category">TV Series</span>
+          </div>
+        </div>
+        
+        <div class="portfolio-item reveal" data-category="commercial">
+          <div class="portfolio-img-container">
+            <img src="https://images.unsplash.com/photo-1529472119196-cb724127a98e?q=80&w=1742&auto=format&fit=crop" alt="Project 6">
+          </div>
+          <div class="portfolio-overlay">
+            <h3 class="portfolio-title">Pet Food Campaign</h3>
+            <span class="portfolio-category">Commercial</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Contact Section -->
-    <section class="container" id="contact">
-      <h2 class="section-title">Get <span class="highlight">In Touch</span></h2>
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="testimonials-section">
+    <div class="container testimonials-container">
+      <h2 class="text-center reveal">Client Testimonials</h2>
+      <p class="text-center text-muted reveal" style="max-width: 700px; margin: 0 auto 3rem auto;">What our clients say about working with Toth Movie Animals.</p>
       
-      <div class="contact-container">
-        <div class="contact-info">
-          <h3 class="contact-heading">Ready to Bring Your Vision to Life?</h3>
-          <p class="contact-text">If you're interested in our services or have questions, we'd love to hear from you! At Toth Movie Animals, we understand the unique challenges faced by indie filmmakers and are committed to offering flexible, budget-friendly solutions without compromising quality or authenticity.</p>
+      <div class="testimonial-slider reveal">
+        <div class="testimonial-slides" id="testimonialSlides">
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <p class="testimonial-content">"Working with Toth Movie Animals was an absolute pleasure. Their professionalism and ability to deliver exactly what we needed for our film made all the difference. The animals were incredibly well-trained and the handlers were knowledgeable and accommodating throughout the entire production."</p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop" alt="Author" class="author-avatar">
+                <div class="author-info">
+                  <h4 class="author-name">Michael Roberts</h4>
+                  <span class="author-position">Film Director</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <p class="testimonial-content">"The team at Toth Movie Animals exceeded all our expectations. They provided exceptional animals for our commercial shoot and were able to execute complex behaviors flawlessly. Their commitment to animal welfare while delivering outstanding results is truly impressive."</p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1522&auto=format&fit=crop" alt="Author" class="author-avatar">
+                <div class="author-info">
+                  <h4 class="author-name">Sarah Johnson</h4>
+                  <span class="author-position">Production Manager</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <p class="testimonial-content">"I've worked with many animal trainers over my 20-year career, and Toth Movie Animals stands out as the most reliable and professional. Their attention to detail and ability to solve problems on set is unmatched. I wouldn't consider working with anyone else for my productions."</p>
+              <div class="testimonial-author">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1374&auto=format&fit=crop" alt="Author" class="author-avatar">
+                <div class="author-info">
+                  <h4 class="author-name">David Wilson</h4>
+                  <span class="author-position">Executive Producer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-controls">
+          <button class="testimonial-btn" id="prevTestimonial">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <button class="testimonial-btn" id="nextTestimonial">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <h2 class="contact-title">Get In Touch</h2>
+          <p class="contact-text">Have a project in mind or need more information about our services? Reach out to us and our team will be happy to assist you with your production needs.</p>
           
           <div class="contact-method">
-            <div class="contact-icon">📱</div>
-            <span>Los Angeles, California</span>
+            <div class="contact-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-details">
+              <span class="contact-label">Our Location</span>
+              <span class="contact-value">1234 Studio Drive, Hollywood, CA 90028</span>
+            </div>
           </div>
           
           <div class="contact-method">
-            <div class="contact-icon">✉️</div>
-            <span>info@tothmovieanimals.com</span>
+            <div class="contact-icon">
+              <i class="fas fa-phone-alt"></i>
+            </div>
+            <div class="contact-details">
+              <span class="contact-label">Phone Number</span>
+              <span class="contact-value">+1 (323) 555-1234</span>
+            </div>
           </div>
           
           <div class="contact-method">
-            <div class="contact-icon">🎬</div>
-            <span>Available for productions worldwide</span>
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-details">
+              <span class="contact-label">Email Address</span>
+              <span class="contact-value">info@tothanimals.com</span>
+            </div>
           </div>
         </div>
         
-        <form action="https://formspree.io/f/xdkngqyo" method="POST" id="contact-form">
-          <div class="form-group">
-            <label class="form-label">Your Name</label>
-            <input type="text" name="name" class="form-control" required>
+        <div class="contact-form-container reveal">
+          <form class="contact-form" id="contactForm">
+            <div class="form-group">
+              <label for="name" class="form-label">Your Name</label>
+              <input type="text" id="name" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
+              <input type="email" id="email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="subject" class="form-label">Subject</label>
+              <input type="text" id="subject" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="message" class="form-label">Message</label>
+              <textarea id="message" class="form-control" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary form-submit">
+              Send Message <i class="fas fa-paper-plane btn-icon"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Modal -->
+  <div class="booking-modal" id="bookingModal">
+    <div class="booking-content">
+      <div class="booking-header">
+        <h3 class="booking-title">Book Our Services</h3>
+        <p class="booking-subtitle">Fill out the form below to request our services for your upcoming production.</p>
+        <button class="booking-close" id="closeBooking">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="booking-body">
+        <form id="bookingForm">
+          <div class="booking-form-group">
+            <label for="booking-name" class="booking-label">Full Name</label>
+            <input type="text" id="booking-name" class="booking-input" required>
           </div>
           
-          <div class="form-group">
-            <label class="form-label">Your Email</label>
-            <input type="email" name="email" class="form-control" required>
+          <div class="booking-form-group">
+            <label for="booking-email" class="booking-label">Email Address</label>
+            <input type="email" id="booking-email" class="booking-input" required>
           </div>
           
-          <div class="form-group">
-            <label class="form-label">Phone Number</label>
-            <input type="tel" name="phone" class="form-control">
+          <div class="booking-form-group">
+            <label for="booking-phone" class="booking-label">Phone Number</label>
+            <input type="tel" id="booking-phone" class="booking-input" required>
           </div>
           
-          <div class="form-group">
-            <label class="form-label">Your Message</label>
-            <textarea name="message" rows="4" class="form-control" required></textarea>
+          <div class="booking-form-group">
+            <label for="booking-service" class="booking-label">Service Required</label>
+            <select id="booking-service" class="booking-input booking-select" required>
+              <option value="">Select a Service</option>
+              <option value="film">Film Production</option>
+              <option value="tv">TV Production</option>
+              <option value="commercial">Commercial Shoot</option>
+              <option value="custom">Custom Training</option>
+              <option value="consulting">Production Consulting</option>
+            </select>
           </div>
           
-          <button type="submit" class="submit-btn" id="submit-btn">Send Message</button>
+          <div class="booking-form-group">
+            <label for="booking-date" class="booking-label">Preferred Date</label>
+            <input type="date" id="booking-date" class="booking-input" required>
+          </div>
+          
+          <div class="booking-form-group">
+            <label for="booking-details" class="booking-label">Project Details</label>
+            <textarea id="booking-details" class="booking-input" required></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            Submit Request <i class="fas fa-paper-plane btn-icon"></i>
+          </button>
         </form>
       </div>
-    </section>
-  </main>
-
-  <footer>
-    <img src="logo.png" alt="Toth Movie Animals Logo" class="footer-logo">
-    
-    <nav class="footer-nav">
-      <a href="#about">About</a>
-      <a href="#services">Services</a>
-      <a href="#portfolio">Portfolio</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    
-    <div class="social-links">
-      <a href="#" class="social-link">FB</a>
-      <a href="#" class="social-link">IG</a>
-      <a href="#" class="social-link">TW</a>
-      <a href="https://www.imdb.com/name/nm14670166/" class="social-link">IMDb</a>
     </div>
-    
-    <p class="copyright">&copy; 2024 Toth Movie Animals. All rights reserved.</p>
-  </footer>
+  </div>
 
-  <!-- JavaScript -->
-  <script>
-    // Wait for DOM to be fully loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      // Preloader
-      const preloader = document.getElementById('preloader');
-      const preloaderProgressBar = document.getElementById('preloader-progress-bar');
-      const main = document.querySelector('main');
+  <!-- Portfolio Modal -->
+  <div class="portfolio-modal" id="portfolioModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <img src="" alt="Project" id="modalImage">
+        <button class="modal-close" id="closeModal">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
       
-      // Simulate loading progress
-      let progress = 0;
-      const loadingInterval = setInterval(() => {
-        progress += Math.random() * 10;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(loadingInterval);
-          
-          // Hide preloader
-          setTimeout(() => {
-            preloader.style.opacity = '0';
-            main.style.opacity = '1';
-            setTimeout(() => {
-              preloader.style.display = 'none';
-            }, 500);
-          }, 500);
-        }
-        preloaderProgressBar.style.width = `${progress}%`;
-      }, 200);
-      
-      // Custom cursor
-      const cursor = document.getElementById('cursor');
-      const cursorTrail = document.getElementById('cursor-trail');
-      
-      document.addEventListener('mousemove', (e) => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+      <div class="modal-body">
+        <h3 class="modal-title" id="modalTitle"></h3>
         
-        setTimeout(() => {
-          cursorTrail.style.left = e.clientX + 'px';
-          cursorTrail.style.top = e.clientY + 'px';
-        }, 100);
-      });
-      
-      // Change cursor size on clickable elements
-      const clickables = document.querySelectorAll('a, button, input, textarea, .portfolio-item');
-      
-      clickables.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-          cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
-          cursor.style.mixBlendMode = 'difference';
-          cursorTrail.style.opacity = '0.2';
-        });
+        <div class="modal-meta">
+          <div class="meta-item">
+            <span class="meta-label">Category</span>
+            <span class="meta-value" id="modalCategory"></span>
+          </div>
+          
+          <div class="meta-item">
+            <span class="meta-label">Client</span>
+            <span class="meta-value" id="modalClient"></span>
+          </div>
+          
+          <div class="meta-item">
+            <span class="meta-label">Year</span>
+            <span class="meta-value" id="modalYear"></span>
+          </div>
+        </div>
         
-        element.addEventListener('mouseleave', () => {
-          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-          cursor.style.mixBlendMode = 'difference';
-          cursorTrail.style.opacity = '0.5';
-        });
-      });
-      
-      // Scroll progress indicator
-      const scrollProgress = document.getElementById('scroll-progress');
-      
-      window.addEventListener('scroll', () => {
-        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollTop = document.documentElement.scrollTop;
-        const scrollPercentage = (scrollTop / windowHeight) * 100;
+        <p class="modal-desc" id="modalDesc"></p>
         
-        scrollProgress.style.width = scrollPercentage + '%';
+        <a href="#" class="btn btn-primary" id="modalLink">
+          View Project <i class="fas fa-external-link-alt btn-icon"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column footer-brand">
+          <div class="footer-logo-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" class="footer-logo">
+            <span class="footer-logo-text">Toth Animals</span>
+          </div>
+          <p class="footer-text">We provide professionally trained animals for all your production needs with the highest standards of animal welfare and performance reliability.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
         
-        // Reveal sections on scroll
-        const sections = document.querySelectorAll('section');
-        sections.forEach(section => {
-          const sectionTop = section.getBoundingClientRect().top;
-          const sectionHeight = section.offsetHeight;
-          const windowHeight = window.innerHeight;
-          
-          if (sectionTop < windowHeight - sectionHeight / 4) {
-            section.classList.add('visible');
-          }
-        });
-      });
-      
-      // Initialize particles.js
-      if (typeof particlesJS !== 'undefined') {
-        particlesJS('particles-js', {
-          particles: {
-            number: { value: 50, density: { enable: true, value_area: 800 } },
-            color: { value: '#0D7685' },
-            shape: { type: 'circle' },
-            opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
-            line_linked: {
-              enable: true,
-              distance: 150,
-              color: '#0D7685',
-              opacity: 0.2,
-              width: 1
-            },
-            move: {
-              enable: true,
-              speed: 1,
-              direction: 'none',
-              random: true,
-              straight: false,
-              out_mode: 'out',
-              bounce: false
-            }
-          },
-          interactivity: {
-            detect_on: 'canvas',
-            events: {
-              onhover: { enable: true, mode: 'repulse' },
-              onclick: { enable: true, mode: 'push' },
-              resize: true
-            }
-          },
-          retina_detect: true
-        });
-      }
-      
-      // Initialize Video Background with cinematic effect
-      const initVideoBackground = () => {
-        const videoBackground = document.getElementById('video-background');
+        <div class="footer-column">
+          <h3 class="footer-title">Services</h3>
+          <div class="footer-links">
+            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Film & TV Production</a>
+            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Commercial Shoots</a>
+            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Custom Training</a>
+            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Production Consulting</a>
+            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Safety Coordination</a>
+          </div>
+        </div>
         
-        // Create a virtual showreel of work
-        // (In a real implementation, this would be an actual video showreel)
-        const createVirtualShowreel = () => {
-          // Create a canvas element for dynamic content
-          const canvas = document.createElement('canvas');
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-          videoBackground.appendChild(canvas);
-          
-          const ctx = canvas.getContext('2d');
-          
-          // Define frames for our "virtual showreel"
-          const frames = [
-            { color: '#000', text: 'TOTH MOVIE ANIMALS PRESENTS' },
-            { color: '#111', text: 'ANIMAL TALENT THAT STEALS THE SHOW' },
-            { color: '#222', text: 'FEATURED IN MAJOR PRODUCTIONS' },
-            { color: '#111', text: 'TRUSTED BY LEADING DIRECTORS' },
-            { color: '#000', text: 'AWARD-WINNING TRAINING' },
-          ];
-          
-          let currentFrame = 0;
-          
-          // Animation function
-          const animate = () => {
-            const frame = frames[currentFrame];
-            
-            // Create cinematic letterbox effect
-            ctx.fillStyle = frame.color;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Add film grain
-            for (let i = 0; i < 5000; i++) {
-              const x = Math.random() * canvas.width;
-              const y = Math.random() * canvas.height;
-              const opacity = Math.random() * 0.05;
-              ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-              ctx.fillRect(x, y, 1, 1);
-            }
-            
-            // Add text
-            ctx.fillStyle = '#fff';
-            ctx.font = 'bold 32px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(frame.text, canvas.width / 2, canvas.height / 2);
-            
-            // Simulate lens flare
-            if (Math.random() > 0.97) {
-              const flareX = Math.random() * canvas.width;
-              const flareY = Math.random() * canvas.height;
-              const gradient = ctx.createRadialGradient(flareX, flareY, 0, flareX, flareY, 100);
-              gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
-              gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.2)');
-              gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-              
-              ctx.fillStyle = gradient;
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-            
-            // Change frame
-            if (Math.random() > 0.99) {
-              currentFrame = (currentFrame + 1) % frames.length;
-            }
-            
-            requestAnimationFrame(animate);
-          };
-          
-          animate();
-          
-          // Handle window resize
-          window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-          });
-        };
+        <div class="footer-column">
+          <h3 class="footer-title">Quick Links</h3>
+          <div class="footer-links">
+            <a href="#home" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Home</a>
+            <a href="#about" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> About Us</a>
+            <a href="#portfolio" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Portfolio</a>
+            <a href="#testimonials" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Testimonials</a>
+            <a href="#contact" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Contact</a>
+          </div>
+        </div>
         
-        createVirtualShowreel();
-      };
-      
-      initVideoBackground();
-      
-      // Form input effects
-      const formInputs = document.querySelectorAll('input, textarea');
-      
-      formInputs.forEach(input => {
-        input.addEventListener('focus', () => {
-          input.parentElement.classList.add('active');
-        });
-        
-        input.addEventListener('blur', () => {
-          if (input.value === '') {
-            input.parentElement.classList.remove('active');
-          }
-        });
-      });
-      
-      // Smooth scrolling for navigation
-      const navLinks = document.querySelectorAll('.nav-link');
-      
-      navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          
-          const targetId = link.getAttribute('href');
-          const targetElement = document.querySelector(targetId);
-          
-          window.scrollTo({
-            top: targetElement.offsetTop - 100,
-            behavior: 'smooth'
-          });
-          
-          // Update active nav link
-          navLinks.forEach(navLink => navLink.classList.remove('active'));
-          link.classList.add('active');
-        });
-      });
-      
-      // Modal functionality
-      const modal = document.getElementById('video-modal');
-      const modalClose = document.getElementById('modal-close');
-      const modalContent = document.getElementById('modal-content-container');
-      
-      const openModal = (content) => {
-        modalContent.innerHTML = content;
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      };
-      
-      const closeModal = () => {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-      };
-      
-      modalClose.addEventListener('click', closeModal);
-      
-      // Close modal when clicking outside content
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          closeModal();
-        }
-      });
-      
-      // Portfolio item click
-      const portfolioItems = document.querySelectorAll('.portfolio-item');
-      
-      portfolioItems.forEach(item => {
-        item.addEventListener('click', () => {
-          const category = item.getAttribute('data-category');
-          const title = item.querySelector('.portfolio-item-title').textContent;
-          const description = item.querySelector('.portfolio-item-back p').textContent;
-          
-          const content = `
-            <h2>${title}</h2>
-            <p>${description}</p>
-            <div class="terminal">
-              <div class="terminal-header">
-                <div class="terminal-controls">
-                  <div class="terminal-control terminal-control-red"></div>
-                  <div class="terminal-control terminal-control-yellow"></div>
-                  <div class="terminal-control terminal-control-green"></div>
-                </div>
-                <div class="terminal-title">project-details.json</div>
-              </div>
-              <div class="terminal-content">
-                <pre>{
-  "project": "${title}",
-  "category": "${category}",
-  "lead_trainer": "Derek Toth",
-  "animals_involved": ["Various", "Based on Project Needs"],
-  "location": "Los Angeles Area"
-}</pre>
-              </div>
+        <div class="footer-column">
+          <h3 class="footer-title">Newsletter</h3>
+          <p class="footer-text">Subscribe to our newsletter for updates on our latest projects and industry insights.</p>
+          <form class="footer-form">
+            <div class="form-group">
+              <input type="email" class="form-control" placeholder="Email Address" required>
             </div>
-          `;
-          
-          openModal(content);
-        });
-      });
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+      </div>
       
-      // Add parallax effect to images
-      const parallaxImages = document.querySelectorAll('.parallax-img');
-      
-      window.addEventListener('scroll', () => {
-        parallaxImages.forEach(image => {
-          const scrollPosition = window.pageYOffset;
-          const imagePosition = image.offsetTop;
-          const windowHeight = window.innerHeight;
-          
-          if (imagePosition < scrollPosition + windowHeight && imagePosition + image.height > scrollPosition) {
-            const distance = (scrollPosition + windowHeight - imagePosition) * 0.1;
-            image.style.transform = `translateY(${distance}px)`;
-          }
-        });
-      });
-      
-      // Form submission with animation
-      const contactForm = document.getElementById('contact-form');
-      const submitBtn = document.getElementById('submit-btn');
-      
-      contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        // Validate form
-        const formInputs = contactForm.querySelectorAll('input, textarea');
-        let isValid = true;
-        
-        formInputs.forEach(input => {
-          if (input.hasAttribute('required') && !input.value) {
-            isValid = false;
-            input.classList.add('error');
-          } else {
-            input.classList.remove('error');
-          }
-        });
-        
-        if (isValid) {
-          // Show loading animation
-          submitBtn.innerHTML = '<span class="btn-effect"></span>Processing...';
-          submitBtn.disabled = true;
-          
-          // Simulate form submission
-          setTimeout(() => {
-            // Actual form submission here
-            contactForm.submit();
-          }, 1500);
-        }
-      });
-      
-      // Text scramble effect for headings
-      class TextScramble {
-        constructor(el) {
-          this.el = el;
-          this.chars = '!<>-_\\/[]{}—=+*^?#________';
-          this.update = this.update.bind(this);
-        }
-        
-        setText(newText) {
-          const oldText = this.el.innerText;
-          const length = Math.max(oldText.length, newText.length);
-          const promise = new Promise(resolve => this.resolve = resolve);
-          this.queue = [];
-          
-          for (let i = 0; i < length; i++) {
-            const from = oldText[i] || '';
-            const to = newText[i] || '';
-            const start = Math.floor(Math.random() * 40);
-            const end = start + Math.floor(Math.random() * 40);
-            this.queue.push({ from, to, start, end });
-          }
-          
-          cancelAnimationFrame(this.frameRequest);
-          this.frame = 0;
-          this.update();
-          return promise;
-        }
-        
-        update() {
-          let output = '';
-          let complete = 0;
-          
-          for (let i = 0, n = this.queue.length; i < n; i++) {
-            let { from, to, start, end, char } = this.queue[i];
-            
-            if (this.frame >= end) {
-              complete++;
-              output += to;
-            } else if (this.frame >= start) {
-              if (!char || Math.random() < 0.28) {
-                char = this.randomChar();
-                this.queue[i].char = char;
-              }
-              output += `<span class="dud">${char}</span>`;
-            } else {
-              output += from;
-            }
-          }
-          
-          this.el.innerHTML = output;
-          
-          if (complete === this.queue.length) {
-            this.resolve();
-          } else {
-            this.frameRequest = requestAnimationFrame(this.update);
-            this.frame++;
-          }
-        }
-        
-        randomChar() {
-          return this.chars[Math.floor(Math.random() * this.chars.length)];
-        }
-      }
-      
-      // Apply text scramble to all headings
-      const headings = document.querySelectorAll('h2, h3');
-      
-      headings.forEach(heading => {
-        const originalText = heading.textContent;
-        const fx = new TextScramble(heading);
-        
-        // Inview detection
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              fx.setText(originalText);
-              observer.unobserve(heading);
-            }
-          });
-        }, { threshold: 0.5 });
-        
-        observer.observe(heading);
-      });
-      
-      // Sound effects (optional)
-      if (typeof Howl !== 'undefined') {
-        const sounds = {
-          hover: new Howl({ src: ['data:audio/mp3;base64,SUQzAwAAAAAAIlRJVDIAAAAGAAAAaG92ZXJJTkZPAAAABwAAAGhvdmVy'] }),
-          click: new Howl({ src: ['data:audio/mp3;base64,SUQzAwAAAAAAIlRJVDIAAAAGAAAAY2xpY2tJTkZPAAAABwAAAGNsaWNr'] })
-        };
-        
-        const clickables = document.querySelectorAll('a, button');
-        
-        clickables.forEach(element => {
-          element.addEventListener('mouseenter', () => sounds.hover.play());
-          element.addEventListener('click', () => sounds.click.play());
-        });
-      }
-    });
-  </script>
-</body>
-</html>
+      <div class="footer-bottom">
+        <p class="copyright">© 2025 Toth Movie Animals. All Rights Reserved.</p>
+        <div class="footer-links">
+          <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column footer-brand">
+          <div class="footer-logo-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" class="footer-logo">
+            <span class="footer-logo-text">Toth Animals</span>
+          </div>
+          <p class="footer-text">We provide professionally trained animals for all your production needs with the highest standards of animal welfare and performance reliability.</p>
+          <div class="social-links">
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class
