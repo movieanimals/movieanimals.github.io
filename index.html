@@ -1,4 +1,373 @@
-<!DOCTYPE html>
+<script>
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Preloader
+      const preloader = document.getElementById('preloader');
+      const preloaderProgressBar = document.getElementById('preloader-progress-bar');
+      const main = document.querySelector('main');
+      
+      // Simulate loading progress with cinematic effect
+      let progress = 0;
+      const loadingInterval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(loadingInterval);
+          
+          // Hide preloader with fade out effect
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+            main.style.opacity = '1';
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 1000);
+          }, 800);
+        }
+        preloaderProgressBar.style.width = `${progress}%`;
+      }, 200);
+      
+      // Custom cursor
+      const cursor = document.getElementById('cursor');
+      const cursorTrail = document.getElementById('cursor-trail');
+      
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+          cursorTrail.style.left = e.clientX + 'px';
+          cursorTrail.style.top = e.clientY + 'px';
+        }, 100);
+        
+        // Spotlight effect
+        const spotlight = document.getElementById('spotlight');
+        spotlight.style.left = e.clientX + 'px';
+        spotlight.style.top = e.clientY + 'px';
+        
+        // Show spotlight only on header
+        const header = document.querySelector('header');
+        const headerRect = header.getBoundingClientRect();
+        
+        if (
+          e.clientY >= headerRect.top &&
+          e.clientY <= headerRect.bottom &&
+          e.clientX >= headerRect.left &&
+          e.clientX <= headerRect.right
+        ) {
+          spotlight.classList.add('active');
+        } else {
+          spotlight.classList.remove('active');
+        }
+      });
+      
+      // Change cursor size on clickable elements
+      const clickables = document.querySelectorAll('a, button, input, textarea');
+      
+      clickables.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+          cursor.style.mixBlendMode = 'difference';
+          cursorTrail.style.opacity = '0.2';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursor.style.mixBlendMode = 'difference';
+          cursorTrail.style.opacity = '0.5';
+        });
+      });
+      
+      // Scroll progress indicator
+      const scrollProgress = document.getElementById('scroll-progress');
+      
+      window.addEventListener('scroll', () => {
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollPercentage = (scrollTop / windowHeight) * 100;
+        
+        scrollProgress.style.width = scrollPercentage + '%';
+        
+        // Reveal sections on scroll with animation
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          const sectionTop = section.getBoundingClientRect().top;
+          const sectionHeight = section.offsetHeight;
+          const windowHeight = window.innerHeight;
+          
+          if (sectionTop < windowHeight - sectionHeight / 4) {
+            section.classList.add('visible');
+          }
+        });
+      });
+      
+      // Initialize particles.js for background effect
+      if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+          particles: {
+            number: { value: 30, density: { enable: true, value_area: 800 } },
+            color: { value: '#E50914' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.3, random: true },
+            size: { value: 3, random: true },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: '#F5C518',
+              opacity: 0.2,
+              width: 1
+            },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: 'none',
+              random: true,
+              straight: false,
+              out_mode: 'out',
+              bounce: false
+            }
+          },
+          interactivity: {
+            detect_on: 'canvas',
+            events: {
+              onhover: { enable: true, mode: 'repulse' },
+              onclick: { enable: true, mode: 'push' },
+              resize: true
+            }
+          },
+          retina_detect: true
+        });
+      }
+      
+      // Credit tabs functionality
+      const creditTabs = document.querySelectorAll('.credit-tab');
+      const creditContents = document.querySelectorAll('.credit-content');
+      
+      creditTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs and contents
+          creditTabs.forEach(t => t.classList.remove('active'));
+          creditContents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          tab.classList.add('active');
+          
+          // Show corresponding content
+          const tabId = tab.getAttribute('data-tab');
+          document.getElementById(`${tabId}-content`).classList.add('active');
+        });
+      });
+      
+      // Image zoom effect
+      const zoomImages = document.querySelectorAll('.service-image, .portfolio-feature-image');
+      
+      zoomImages.forEach(image => {
+        image.addEventListener('mouseenter', () => {
+          image.style.transform = 'scale(1.05)';
+        });
+        
+        image.addEventListener('mouseleave', () => {
+          image.style.transform = 'scale(1)';
+        });
+      });
+      
+      // Smooth scrolling for navigation
+      const navLinks = document.querySelectorAll('nav a, .hero-button');
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          const targetId = link.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+          
+          // Update active nav link
+          document.querySelectorAll('nav a').forEach(navLink => navLink.classList.remove('active'));
+          if (link.classList.contains('nav-link')) {
+            link.classList.add('active');
+          }
+        });
+      });
+      
+      // Form validation with animation
+      const contactForm = document.getElementById('contact-form');
+      const submitBtn = document.getElementById('submit-btn');
+      
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Validate form
+        const formInputs = contactForm.querySelectorAll('input, textarea');
+        let isValid = true;
+        
+        formInputs.forEach(input => {
+          if (input.hasAttribute('required') && !input.value) {
+            isValid = false;
+            input.classList.add('error');
+            input.style.borderColor = '#E50914';
+          } else {
+            input.classList.remove('error');
+            input.style.borderColor = '';
+          }
+        });
+        
+        if (isValid) {
+          // Show loading animation
+          submitBtn.innerHTML = 'Sending...';
+          submitBtn.style.width = '150px';
+          submitBtn.disabled = true;
+          
+          // Simulate form submission with Hollywood-style delay
+          setTimeout(() => {
+            // Actual form submission here
+            contactForm.submit();
+          }, 1500);
+        }
+      });
+      
+      // Text reveal animation for headings
+      const revealText = (element) => {
+        const text = element.textContent;
+        element.textContent = '';
+        
+        for (let i = 0; i < text.length; i++) {
+          const span = document.createElement('span');
+          span.textContent = text[i];
+          span.style.opacity = '0';
+          span.style.animation = `fadeIn 0.1s forwards ${i * 0.05}s`;
+          element.appendChild(span);
+        }
+      };
+      
+      // Apply to hero heading
+      const heroHeading = document.querySelector('.cinematic-text');
+      if (heroHeading) {
+        revealText(heroHeading);
+      }
+      
+      // Initialize video background with cinema effect
+      const initVideoBackground = () => {
+        const videoBackground = document.getElementById('video-background');
+        
+        // Create a virtual showreel of work
+        // (In a real implementation, this would be an actual video showreel)
+        const createVirtualShowreel = () => {
+          // Create a canvas element for dynamic content
+          const canvas = document.createElement('canvas');
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          videoBackground.appendChild(canvas);
+          
+          const ctx = canvas.getContext('2d');
+          
+          // Define frames for our "virtual showreel"
+          const frames = [
+            { color: '#000', text: 'TOTH MOVIE ANIMALS PRESENTS' },
+            { color: '#111', text: 'ANIMAL TALENT THAT STEALS THE SHOW' },
+            { color: '#222', text: 'FEATURED IN MAJOR PRODUCTIONS' },
+            { color: '#111', text: 'TRUSTED BY LEADING DIRECTORS' },
+            { color: '#000', text: 'AWARD-WINNING TRAINING' },
+          ];
+          
+          let currentFrame = 0;
+          
+          // Animation function
+          const animate = () => {
+            const frame = frames[currentFrame];
+            
+            // Create cinematic letterbox effect
+            ctx.fillStyle = frame.color;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add film grain
+            for (let i = 0; i < 5000; i++) {
+              const x = Math.random() * canvas.width;
+              const y = Math.random() * canvas.height;
+              const opacity = Math.random() * 0.05;
+              ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+              ctx.fillRect(x, y, 1, 1);
+            }
+            
+            // Add text
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(frame.text, canvas.width / 2, canvas.height / 2);
+            
+            // Simulate lens flare occasionally
+            if (Math.random() > 0.97) {
+              const flareX = Math.random() * canvas.width;
+              const flareY = Math.random() * canvas.height;
+              const gradient = ctx.createRadialGradient(flareX, flareY, 0, flareX, flareY, 100);
+              gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+              gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.2)');
+              gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+              
+              ctx.fillStyle = gradient;
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            // Change frame
+            if (Math.random() > 0.99) {
+              currentFrame = (currentFrame + 1) % frames.length;
+            }
+            
+            requestAnimationFrame(animate);
+          };
+          
+          animate();
+          
+          // Handle window resize
+          window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          });
+        };
+        
+        createVirtualShowreel();
+      };
+      
+      initVideoBackground();
+      
+      // Marquee animation enhancement
+      const marqueeContent = document.querySelector('.marquee-content');
+      if (marqueeContent) {
+        // Clone the content for seamless looping
+        marqueeContent.innerHTML += marqueeContent.innerHTML;
+      }
+      
+      // Set active navigation based on scroll position
+      const sections = document.querySelectorAll('section');
+      const navItems = document.querySelectorAll('nav a');
+      
+      window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          
+          if (window.pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navItems.forEach(navItem => {
+          navItem.classList.remove('active');
+          if (navItem.getAttribute('href') === `#${current}`) {
+            navItem.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html><!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -13,31 +382,220 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+  
+  <!-- CDN Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  
   <style>
-    /* Global Styles */
+    /* Global Styles with Entertainment Industry Appeal */
+    :root {
+      --primary-color: #E50914; /* Netflix-inspired red */
+      --secondary-color: #1DB954; /* Spotify green for accent */
+      --accent-color: #F5C518; /* IMDB yellow */
+      --text-color: #f9f9f9;
+      --dark-bg: #0A0A0A; /* Film noir dark */
+      --light-bg: #141414; /* Streaming platform dark */
+      --glow-color: rgba(229, 9, 20, 0.7); /* Red glow */
+      --shadow-intensity: 0.8;
+    }
+
+    @font-face {
+      font-family: 'Cyber';
+      src: url('https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/fonts/roboto/Roboto-Bold.woff') format('woff');
+      font-weight: bold;
+    }
+    
+    @keyframes borderGlow {
+      0% { box-shadow: 0 0 5px var(--glow-color); }
+      50% { box-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); }
+      100% { box-shadow: 0 0 5px var(--glow-color); }
+    }
+    
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 5px var(--glow-color); }
+      50% { text-shadow: 0 0 10px var(--glow-color), 0 0 15px var(--glow-color); }
+      100% { text-shadow: 0 0 5px var(--glow-color); }
+    }
+    
+    @keyframes floatAnimation {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes rotate3D {
+      0% { transform: perspective(1000px) rotateY(0deg); }
+      100% { transform: perspective(1000px) rotateY(360deg); }
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      cursor: none;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Cyber', 'Arial', sans-serif;
       line-height: 1.6;
-      color: #333;
-      background-color: #f9f9f9;
+      color: var(--text-color);
+      background-color: var(--dark-bg);
+      overflow-x: hidden;
+      perspective: 1000px;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, rgba(13, 118, 133, 0.15) 0%, rgba(18, 18, 18, 0.9) 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    #cursor {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      mix-blend-mode: difference;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+    }
+
+    #cursor-trail {
+      position: fixed;
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--primary-color);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease, opacity 0.5s ease;
+      opacity: 0.5;
+      z-index: 9998;
+    }
+    
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      z-index: 9999;
+    }
+    
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    #three-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.4;
+    }
+    
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--dark-bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+    
+    #preloader-logo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid var(--primary-color);
+      animation: borderGlow 2s infinite, rotate3D 6s infinite linear;
+      margin-bottom: 20px;
+    }
+    
+    #preloader-text {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      animation: textGlow 2s infinite;
+    }
+    
+    #preloader-progress {
+      width: 200px;
+      height: 5px;
+      background-color: var(--light-bg);
+      margin-top: 20px;
+      overflow: hidden;
+      border-radius: 5px;
+    }
+    
+    #preloader-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      transition: width 0.3s ease;
     }
 
     header {
-      background: linear-gradient(135deg, #0D7685, #2c3e50);
+      background: transparent;
       color: white;
       text-align: center;
       padding: 2rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(13, 118, 133, 0.7), rgba(44, 62, 80, 0.7));
+      backdrop-filter: blur(10px);
+      z-index: -1;
     }
 
     .logo {
       max-width: 150px;
       margin-bottom: 1rem;
+      filter: drop-shadow(0 0 10px var(--glow-color));
+      animation: floatAnimation 4s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
     }
 
     nav {
@@ -45,6 +603,7 @@
       justify-content: center;
       gap: 1rem;
       flex-wrap: wrap;
+      z-index: 10;
     }
 
     nav a {
@@ -52,74 +611,1268 @@
       text-decoration: none;
       padding: 0.5rem 1rem;
       border-radius: 5px;
-      transition: background-color 0.3s ease, transform 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s ease;
+    }
+    
+    nav a:hover::before {
+      left: 100%;
     }
 
     nav a:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-      transform: scale(1.1);
+      background-color: rgba(13, 118, 133, 0.5);
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3);
+    }
+    
+    nav a.active {
+      background-color: var(--primary-color);
+      transform: scale(1.05);
     }
 
     main {
       padding: 2rem;
+      opacity: 0;
+      transition: opacity 1s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     h2 {
-      font-size: 2rem;
-      color: #0D7685;
-      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
       text-align: center;
       position: relative;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      animation: textGlow 4s infinite;
     }
 
     h2::after {
       content: '';
       display: block;
-      width: 50px;
+      width: 100px;
       height: 3px;
-      background-color: #0D7685;
-      margin: 0.5rem auto;
+      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+      margin: 0.7rem auto;
+      animation: borderGlow 4s infinite;
     }
 
     h3 {
-      font-size: 1.5rem;
-      color: #2c3e50;
-      margin-bottom: 0.5rem;
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+    
+    h3::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
     }
 
     p {
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       text-align: justify;
+      line-height: 1.8;
+      position: relative;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    p a {
+      color: var(--accent-color);
+      text-decoration: none;
+      position: relative;
+      padding: 0 5px;
+      transition: all 0.3s ease;
+    }
+    
+    p a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--accent-color);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+    }
+    
+    p a:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
     }
 
     img {
       max-width: 100%;
       height: auto;
       border-radius: 10px;
-      margin: 1rem auto;
+      margin: 2rem auto;
       display: block;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      filter: saturate(1.2) brightness(1.1);
+      transform-style: preserve-3d;
     }
 
     img:hover {
-      transform: scale(1.05);
+      transform: scale(1.03) translateY(-5px) rotateX(5deg);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      filter: saturate(1.4) brightness(1.15);
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 1rem;
+      padding: 3rem;
+      background: var(--light-bg);
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary-color), transparent);
+    }
+    
+    .container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, var(--primary-color));
     }
 
     footer {
-      background: linear-gradient(135deg, #0D7685, #2c3e50);
+      background: transparent;
       color: white;
       text-align: center;
-      padding: 1rem;
+      padding: 2rem;
       font-size: 0.9rem;
+      position: relative;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(13, 118, 133, 0.7), rgba(44, 62, 80, 0.7));
+      backdrop-filter: blur(10px);
+      z-index: -1;
+    }
+    
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background: var(--primary-color);
+      transform: translateY(-5px);
     }
 
+    /* Contact Form Styling */
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(13, 118, 133, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    form::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(13, 118, 133, 0.05) 10px,
+        rgba(13, 118, 133, 0.05) 20px
+      );
+      animation: borderGlow 10s linear infinite;
+      z-index: -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      position: relative;
+      padding-left: 1.2rem;
+    }
+    
+    label::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(13, 118, 133, 0.5);
+      border-radius: 5px;
+      color: var(--text-color);
+      font-family: 'Cyber', 'Arial', sans-serif;
+      resize: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 15px rgba(13, 118, 133, 0.3);
+      background: rgba(13, 118, 133, 0.1);
+    }
+
+    button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Cyber', 'Arial', sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 1;
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s ease;
+    }
+    
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-5px);
+      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3), 0 0 15px rgba(13, 118, 133, 0.5);
+    }
+    
+    button:active {
+      transform: translateY(2px);
+    }
+
+    /* Portfolio List Styling */
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 2rem 0;
+    }
+
+    li {
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+      position: relative;
+      padding-left: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+    }
+    
+    li:hover {
+      transform: translateX(5px);
+    }
+
+    strong {
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+    
+    /* Hero Section */
+    .hero-container {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      min-height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 4rem;
+      overflow: hidden;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('/api/placeholder/1920/1080');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .hero-content {
+      text-align: center;
+      padding: 2rem;
+      z-index: 2;
+      max-width: 1000px;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+      letter-spacing: 2px;
+    }
+    
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .hero-button {
+      padding: 0.75rem 2rem;
+      background: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: 2px solid var(--primary-color);
+    }
+    
+    .hero-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+    }
+    
+    .hero-button-secondary {
+      background: transparent;
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+    
+    .hero-button-secondary:hover {
+      background: var(--accent-color);
+      color: #000;
+      box-shadow: 0 10px 20px rgba(245, 197, 24, 0.3);
+    }
+    
+    /* Section Titles */
+    .section-title {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--primary-color);
+    }
+    
+    .highlight {
+      color: var(--accent-color);
+    }
+    
+    /* Content Card */
+    .content-card {
+      background: rgba(20, 20, 20, 0.7);
+      border-radius: 8px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .card-title {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-color);
+      letter-spacing: 1px;
+    }
+    
+    /* Stats Container */
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+    }
+    
+    .stat-number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: var(--text-color);
+      opacity: 0.7;
+    }
+    
+    /* Services Section */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .service-card {
+      background: rgba(20, 20, 20, 0.5);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    
+    .service-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 3px solid var(--primary-color);
+    }
+    
+    .service-content {
+      padding: 1.5rem;
+    }
+    
+    .service-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent-color);
+    }
+    
+    .service-description {
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    .service-icon {
+      position: absolute;
+      top: -15px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.5);
+    }
+    
+    /* Portfolio/Credits Section */
+    .feature-section {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+    
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(20, 20, 20, 0.3);
+      margin-bottom: 3rem;
+      padding: 1rem 0;
+      border-top: 1px solid rgba(245, 197, 24, 0.3);
+      border-bottom: 1px solid rgba(245, 197, 24, 0.3);
+    }
+    
+    .marquee-content {
+      display: flex;
+      animation: marquee 30s linear infinite;
+      white-space: nowrap;
+      padding: 0 2rem;
+    }
+    
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .marquee-content span {
+      display: inline-block;
+      padding: 0 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+    
+    .marquee-dot {
+      color: var(--primary-color);
+    }
+    
+    .portfolio-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    
+    .portfolio-image-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    
+    .portfolio-feature-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .portfolio-image-container:hover .portfolio-feature-image {
+      transform: scale(1.05);
+    }
+    
+    .portfolio-image-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    }
+    
+    .portfolio-label {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--primary-color);
+      color: white;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      border-radius: 4px;
+    }
+    
+    .portfolio-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-color);
+      letter-spacing: 1px;
+    }
+    
+    .portfolio-description {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    .credit-tabs {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .credit-tab {
+      padding: 0.75rem 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .credit-tab.active {
+      color: var(--accent-color);
+      border-bottom: 3px solid var(--accent-color);
+    }
+    
+    .credit-content {
+      display: none;
+    }
+    
+    .credit-content.active {
+      display: block;
+    }
+    
+    .credit-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .credit-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+      font-size: 1.1rem;
+    }
+    
+    .credit-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .imdb-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 4px;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .imdb-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(245, 197, 24, 0.3);
+    }
+    
+    .imdb-icon {
+      font-weight: bold;
+      margin-right: 0.75rem;
+    }
+    
+    /* Contact Form Styling */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    
+    .contact-info {
+      padding: 2rem;
+      background: rgba(20, 20, 20, 0.5);
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-color);
+    }
+    
+    .contact-heading {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-color);
+    }
+    
+    .contact-text {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    .contact-method {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(229, 9, 20, 0.2);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1rem;
+      color: var(--primary-color);
+    }
+    
+    form {
+      max-width: none;
+      width: 100%;
+      padding: 2.5rem;
+      background: rgba(20, 20, 20, 0.5);
+      border-radius: 8px;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.75rem;
+      font-weight: bold;
+      color: var(--accent-color);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: var(--text-color);
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+    }
+    
+    .submit-btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+    }
+    
+    /* Footer */
+    footer {
+      margin-top: 4rem;
+      background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('/api/placeholder/1920/1080');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    
+    .footer-logo {
+      max-width: 120px;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .footer-nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-nav a:hover {
+      color: var(--accent-color);
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .social-link {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    
+    .social-link:hover {
+      background: var(--primary-color);
+      transform: translateY(-5px);
+    }
+    
+    .copyright {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-top: 2rem;
+    }
+    
+    /* Video Background */
+    #video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.8) 100%);
+    }
+    
+    /* Tagline */
+    .tagline {
+      margin: 1rem 0 2rem;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      color: var(--accent-color);
+      opacity: 0.8;
+    }
+    
+    /* Responsive */
+    @media screen and (max-width: 992px) {
+      .portfolio-showcase,
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero-container {
+        height: 60vh;
+      }
+      
+      .cinematic-text {
+        font-size: 2.5rem;
+      }
+    }
+    
+    @media screen and (max-width: 768px) {
+      .section-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-content {
+        padding: 1rem;
+      }
+      
+      .cinematic-text {
+        font-size: 2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .hero-cta {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .credit-tabs {
+        flex-direction: column;
+      }
+      
+      .credit-tab {
+        width: 100%;
+        text-align: center;
+      }
+    }
+    
+    /* Glitch effect */
+    /* Film Strip Effect */
+    .film-strip {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background-image: 
+        linear-gradient(to right,
+          #000 0%, #000 10%,
+          transparent 10%, transparent 12%,
+          #000 12%, #000 22%,
+          transparent 22%, transparent 24%,
+          #000 24%, #000 34%,
+          transparent 34%, transparent 36%,
+          #000 36%, #000 46%,
+          transparent 46%, transparent 48%,
+          #000 48%, #000 58%,
+          transparent 58%, transparent 60%,
+          #000 60%, #000 70%,
+          transparent 70%, transparent 72%,
+          #000 72%, #000 82%,
+          transparent 82%, transparent 84%,
+          #000 84%, #000 94%,
+          transparent 94%, transparent 96%,
+          #000 96%, #000 100%
+        );
+      z-index: 100;
+    }
+    
+    .film-strip-top {
+      top: 0;
+    }
+    
+    .film-strip-bottom {
+      bottom: 0;
+    }
+    
+    /* Film Studio Clapperboard Preloader */
+    #clapperboard {
+      position: relative;
+      width: 200px;
+      height: 180px;
+      background: #222;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+      overflow: hidden;
+      transform-origin: center bottom;
+      animation: clapperboard-animate 3s infinite;
+    }
+    
+    @keyframes clapperboard-animate {
+      0%, 40%, 100% { transform: rotate(0deg); }
+      10%, 30% { transform: rotate(-20deg); }
+    }
+    
+    .clapperboard-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: repeating-linear-gradient(
+        to right,
+        #000,
+        #000 20px,
+        #fff 20px,
+        #fff 40px
+      );
+      transform-origin: bottom center;
+      animation: clap 3s infinite;
+      z-index: 2;
+    }
+    
+    @keyframes clap {
+      0%, 40%, 100% { transform: rotate(0deg); }
+      10%, 30% { transform: rotate(-40deg); }
+    }
+    
+    .clapperboard-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      padding: 10px;
+    }
+    
+    .clapperboard-bottom span {
+      margin: 5px 0;
+      font-family: monospace;
+    }
+    
+    .clapperboard-bottom span:nth-child(2) {
+      color: var(--accent-color);
+    }
+    
+    .clapperboard-bottom span:nth-child(3) {
+      color: var(--primary-color);
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    
+    /* Spotlight effect */
+    .spotlight {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0) 70%
+      );
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+      opacity: 0;
+    }
+    
+    .spotlight.active {
+      opacity: 1;
+    }
+    
+    /* Cinematic text effect */
+    .cinematic-text {
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      font-size: 3rem;
+      font-weight: bold;
+      line-height: 1.2;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--accent-color);
+      text-shadow: 0 0 10px rgba(245, 197, 24, 0.5);
+    }
+    
+    .glitch {
+      position: relative;
+      animation: cinematic-pulse 4s infinite;
+    }
+    
+    @keyframes cinematic-pulse {
+      0%, 100% { 
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(245, 197, 24, 0.5);
+      }
+      50% { 
+        opacity: 0.8;
+        text-shadow: 0 0 20px rgba(245, 197, 24, 0.8), 0 0 30px rgba(245, 197, 24, 0.6);
+      }
+    }
+    
+    /* Terminal effect */
+    .terminal {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1.5rem;
+      border-radius: 10px;
+      border: 1px solid var(--primary-color);
+      box-shadow: 0 0 15px rgba(13, 118, 133, 0.3);
+      margin: 2rem 0;
+      font-family: monospace;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .terminal-header {
+      display: flex;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+    }
+    
+    .terminal-title {
+      margin-left: 1rem;
+      color: var(--primary-color);
+    }
+    
+    .terminal-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .terminal-control {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+    }
+    
+    .terminal-control-red {
+      background-color: #ff5f56;
+    }
+    
+    .terminal-control-yellow {
+      background-color: #ffbd2e;
+    }
+    
+    .terminal-control-green {
+      background-color: #27c93f;
+    }
+    
+    .terminal-content {
+      position: relative;
+      padding-left: 1rem;
+    }
+    
+    .terminal-content p {
+      margin-bottom: 0.7rem;
+      font-family: monospace;
+    }
+    
+    .terminal-content::before {
+      content: '$';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+    }
+    
+    .terminal-blink {
+      animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    
+    .modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .modal-content {
+      width: 80%;
+      max-width: 800px;
+      background: var(--light-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      position: relative;
+      transform: scale(0.8);
+      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    .modal.active .modal-content {
+      transform: scale(1);
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      color: var(--accent-color);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    
+    .modal-close:hover {
+      transform: rotate(90deg);
+    }
+    
     /* Responsive Design */
     @media screen and (max-width: 768px) {
       h2 {
@@ -130,158 +1883,760 @@
         flex-direction: column;
         align-items: center;
       }
-    }
-
-    /* Contact Form Styling */
-    form {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 2rem;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-
-    input[type="text"],
-    input[type="tel"],
-    input[type="email"],
-    textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      transition: border-color 0.3s ease;
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: #0D7685;
-      outline: none;
-    }
-
-    button {
-      display: inline-block;
-      padding: 0.75rem 1.5rem;
-      background: #0D7685;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #2c3e50;
-      transform: scale(1.05);
-    }
-
-    /* Portfolio List Styling */
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
-    }
-
-    strong {
-      color: #0D7685;
+      
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-trail"></div>
+  
+  <!-- Scroll Progress -->
+  <div id="scroll-progress"></div>
+  
+  <!-- Particles Background -->
+  <div id="particles-js"></div>
+  
+  <!-- Video Reel Background -->
+  <div id="video-background">
+    <div class="overlay"></div>
+  </div>
+  
+  <!-- Film Strip Effect -->
+  <div class="film-strip film-strip-top"></div>
+  <div class="film-strip film-strip-bottom"></div>
+  
+  <!-- Preloader -->
+  <div id="preloader">
+    <div id="clapperboard">
+      <div class="clapperboard-top"></div>
+      <div class="clapperboard-bottom">
+        <span>TOTH MOVIE ANIMALS</span>
+        <span>TAKE 1</span>
+        <span>ACTION!</span>
+      </div>
+    </div>
+    <div id="preloader-text">NOW LOADING</div>
+    <div id="preloader-progress">
+      <div id="preloader-progress-bar"></div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal" id="video-modal">
+    <div class="modal-content">
+      <div class="modal-close" id="modal-close">&times;</div>
+      <div id="modal-content-container"></div>
+    </div>
+  </div>
+
   <header>
+    <div class="spotlight" id="spotlight"></div>
     <img class="logo" src="logo.png" alt="Toth Movie Animals Logo">
+    <div class="tagline">BRINGING ANIMAL TALENT TO THE BIG SCREEN</div>
     <nav>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#portfolio" class="nav-link">Portfolio</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-container">
+      <div class="hero-content">
+        <h1 class="cinematic-text">PREMIERE ANIMAL TALENT</h1>
+        <p class="hero-subtitle">AS SEEN IN BLOCKBUSTER FILMS AND HIT TV SHOWS</p>
+        <div class="hero-cta">
+          <a href="#contact" class="hero-button">Book Now</a>
+          <a href="#showreel" class="hero-button hero-button-secondary">Watch Showreel</a>
+        </div>
+      </div>
+    </section>
+  
+    <!-- About Section -->
+    <section class="container" id="about">
+      <h2 class="section-title">The <span class="highlight">Story</span></h2>
+      <div class="content-card">
+        <div class="card-content">
+          <h3 class="card-title">WHERE HOLLYWOOD MEETS ANIMAL EXPERTISE</h3>
+          <p>Based near Los Angeles, Toth Movie Animals is a trusted partner for filmmakers seeking to bring their creative visions to life through animals. With a deep-rooted passion for wildlife and storytelling, we strive to create unforgettable moments while prioritizing the safety and well-being of every animal involved.</p>
+          <p>Founded by Derek Toth—a third-generation animal trainer—our team carries forward a legacy of dedication and care.</p>
+          <div class="stats-container">
+            <div class="stat-item">
+              <span class="stat-number">100+</span>
+              <span class="stat-label">PRODUCTIONS</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">SPECIES</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">15+</span>
+              <span class="stat-label">YEARS</span>
+            </div>
+          </div>
+          <p>While Derek has had the privilege of working on high-profile projects, he remains grounded in his commitment to environmental stewardship and animal advocacy. Whether it's training animals for film or ensuring their comfort on set, Derek approaches every task with humility and respect.</p>
+          <p>When not on set, Derek enjoys hiking, exploring nature, and advocating for animal rights. These passions inspire our mission at Toth Movie Animals: to enrich stories through animals while fostering a culture of kindness and responsibility.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="container" id="services">
+      <h2 class="section-title">Our <span class="highlight">Services</span></h2>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="service-icon">🎬</div>
+          <img src="assets/img/IMG_9722.jpeg" alt="Cat Job for Cat Food Commercial in Los Angeles" class="service-image">
+          <div class="service-content">
+            <h3 class="service-title">Animal Training for Film & TV</h3>
+            <p class="service-description">We specialize in providing expertly trained animals for commercials, TV shows, and feature films. Our trainers ensure that each animal performs safely and effectively under the most demanding conditions.</p>
+          </div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">🐾</div>
+          <img src="/api/placeholder/400/320" alt="Private Pet Training" class="service-image">
+          <div class="service-content">
+            <h3 class="service-title">Private Pet Training</h3>
+            <p class="service-description">In addition to our work in entertainment, we offer personalized private training sessions for pets. Our goal is to help owners unlock their pets' full potential in a nurturing environment.</p>
+          </div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">🛡️</div>
+          <img src="assets/img/IMG_9602.JPG" alt="Derek Poses with Dogpool at Deadpool Premiere in New York" class="service-image">
+          <div class="service-content">
+            <h3 class="service-title">Animal Safety Consulting</h3>
+            <p class="service-description">Collaborating with the Animal Protection Agency (APA), we provide comprehensive oversight to ensure the well-being of animals during film shoots, live events, and press junkets.</p>
+          </div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon">🌄</div>
+          <img src="assets/img/3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Wrangles a Rattlesnake in Santa Clarita, CA" class="service-image">
+          <div class="service-content">
+            <h3 class="service-title">Location & Wildlife Management</h3>
+            <p class="service-description">Our team assists productions in finding ideal filming locations while mitigating risks posed by local wildlife. From rattlesnake abatement to habitat preservation, we create safe environments for both humans and animals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Portfolio/Credits Section -->
+    <section class="container feature-section" id="portfolio">
+      <h2 class="section-title">Featured <span class="highlight">Credits</span></h2>
+      
+      <!-- Marquee Ticker with Film Credits -->
+      <div class="marquee-container">
+        <div class="marquee-content">
+          <span>DEADPOOL AND WOLVERINE</span>
+          <span class="marquee-dot">•</span>
+          <span>BIRDS OF PREY</span>
+          <span class="marquee-dot">•</span>
+          <span>AMERICAN HORROR STORY</span>
+          <span class="marquee-dot">•</span>
+          <span>THE ROOKIE</span>
+          <span class="marquee-dot">•</span>
+          <span>APPLE</span>
+          <span class="marquee-dot">•</span>
+          <span>VERSACE</span>
+        </div>
+      </div>
+      
+      <div class="portfolio-showcase">
+        <div class="portfolio-image-container">
+          <img src="/api/placeholder/600/400" alt="On set with animals" class="portfolio-feature-image">
+          <div class="portfolio-image-overlay">
+            <span class="portfolio-label">FEATURED PRODUCTION</span>
+          </div>
+        </div>
+        
+        <div class="portfolio-details">
+          <h3 class="portfolio-title">BRINGING STORIES TO LIFE</h3>
+          <p class="portfolio-description">Derek Toth has worked with industry-leading directors and production companies to deliver exceptional animal performances for award-winning productions.</p>
+          
+          <div class="credit-tabs">
+            <div class="credit-tab active" data-tab="films">Films</div>
+            <div class="credit-tab" data-tab="tv">TV</div>
+            <div class="credit-tab" data-tab="commercials">Commercials</div>
+          </div>
+          
+          <div class="credit-content active" id="films-content">
+            <ul class="credit-list">
+              <li>Deadpool and Wolverine</li>
+              <li>Birds of Prey</li>
+              <li>Palm Springs</li>
+              <li>White Men Can't Jump</li>
+              <li>About My Father</li>
+            </ul>
+          </div>
+          
+          <div class="credit-content" id="tv-content">
+            <ul class="credit-list">
+              <li>American Horror Story</li>
+              <li>The Rookie</li>
+              <li>911: Lone Star</li>
+              <li>S.W.A.T.</li>
+            </ul>
+          </div>
+          
+          <div class="credit-content" id="commercials-content">
+            <ul class="credit-list">
+              <li>Apple</li>
+              <li>Versace</li>
+              <li>Nationwide Insurance</li>
+              <li>Levi's</li>
+              <li>Brooks Brothers</li>
+              <li>And many more...</li>
+            </ul>
+          </div>
+          
+          <div class="portfolio-cta">
+            <a href="https://www.imdb.com/name/nm14670166/" class="imdb-button">
+              <span class="imdb-icon">IMDb</span>
+              <span>VIEW FULL CREDITS</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="container" id="contact">
+      <h2 class="section-title">Get <span class="highlight">In Touch</span></h2>
+      
+      <div class="contact-container">
+        <div class="contact-info">
+          <h3 class="contact-heading">Ready to Bring Your Vision to Life?</h3>
+          <p class="contact-text">If you're interested in our services or have questions, we'd love to hear from you! At Toth Movie Animals, we understand the unique challenges faced by indie filmmakers and are committed to offering flexible, budget-friendly solutions without compromising quality or authenticity.</p>
+          
+          <div class="contact-method">
+            <div class="contact-icon">📱</div>
+            <span>Los Angeles, California</span>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon">✉️</div>
+            <span>info@tothmovieanimals.com</span>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon">🎬</div>
+            <span>Available for productions worldwide</span>
+          </div>
+        </div>
+        
+        <form action="https://formspree.io/f/xdkngqyo" method="POST" id="contact-form">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Your Email</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" name="phone" class="form-control">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Your Message</label>
+            <textarea name="message" rows="4" class="form-control" required></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn" id="submit-btn">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <img src="logo.png" alt="Toth Movie Animals Logo" class="footer-logo">
+    
+    <nav class="footer-nav">
       <a href="#about">About</a>
       <a href="#services">Services</a>
       <a href="#portfolio">Portfolio</a>
       <a href="#contact">Contact</a>
     </nav>
-  </header>
-
-  <main>
-    <!-- About Section -->
-    <section class="container" id="about">
-      <h2>About Toth Movie Animals</h2>
-      <p>Based near Los Angeles, Toth Movie Animals is a trusted partner for filmmakers seeking to bring their creative visions to life through animals. With a deep-rooted passion for wildlife and storytelling, we strive to create unforgettable moments while prioritizing the safety and well-being of every animal involved.</p>
-      
-      <p>Founded by Derek Toth—a third-generation animal trainer—our team carries forward a legacy of dedication and care. While Derek has had the privilege of working on high-profile projects, he remains grounded in his commitment to environmental stewardship and animal advocacy. Whether it’s training animals for film or ensuring their comfort on set, Derek approaches every task with humility and respect.</p>
-      
-      <p>When not on set, Derek enjoys hiking, exploring nature, and advocating for animal rights. These passions inspire our mission at Toth Movie Animals: to enrich stories through animals while fostering a culture of kindness and responsibility.</p>
-    </section>
-
-    <!-- Services Section -->
-    <section class="container" id="services">
-      <h2>Our Services</h2>
-      
-      <h3>Animal Training for Film & Television</h3>
-      <p>We specialize in providing expertly trained animals for commercials, TV shows, and feature films. Our trainers ensure that each animal performs safely and effectively under the most demanding conditions.</p>
-      <img src="assets/img/IMG_9722.jpeg" alt="Cat Job for Cat Food Commercial in Los Angeles">
-
-      <h3>Private Pet Training</h3>
-      <p>In addition to our work in entertainment, we offer personalized private training sessions for pets. Our goal is to help owners unlock their pets’ full potential in a nurturing environment.</p>
-      
-      <h3>Animal Safety Consulting</h3>
-      <p>Collaborating with the <a href="https://theanimalprotectionagency.org">Animal Protection Agency (APA)</a>, we provide comprehensive oversight to ensure the well-being of animals during film shoots, live events, and press junkets. Safety is always our top priority.</p>
-      <img src="assets/img/IMG_9602.JPG" alt="Derek Poses with Dogpool at Deadpool Premiere in New York">
-      
-      <h3>Location Scouting & Wildlife Abatement</h3>
-      <p>Our team assists productions in finding ideal filming locations while mitigating risks posed by local wildlife. From rattlesnake abatement to habitat preservation, we create safe environments for both humans and animals.</p>
-      <img src="assets/img/3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Wrangles a Rattlesnake in Santa Clarita, CA">
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="container" id="portfolio">
-      <h2>Notable Credits</h2>
-      <p>Derek Toth has worked on high-profile projects spanning commercials, television, and film. Some highlights include:</p>
-      <ul>
-        <li><strong>Commercials:</strong> Apple, Versace, Nationwide Insurance, Levi's, Brooks Brothers, Dockers, Target, Mercy Health, Georgia Electric, Tinder, Skechers, Domino's, Khy by Kylie Jenner, Olipop</li>
-        <li><strong>TV Shows:</strong> American Horror Story, The Rookie, 911: Lone Star, S.W.A.T.</li>
-        <li><strong>Films:</strong> Deadpool and Wolverine, Birds of Prey, Palm Springs, White Men Can't Jump, About My Father</li>
-      </ul>
-      <p>For more details about Derek's career, visit his <a href="https://www.imdb.com/name/nm14670166/" title="Derek Toth IMDb">IMDb page</a>.</p>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="container" id="contact">
-      <h2>Get In Touch</h2>
-      <p>If you’re interested in our services or have questions, we’d love to hear from you! At Toth Movie Animals, we understand the unique challenges faced by indie filmmakers and are committed to offering flexible, budget-friendly solutions without compromising quality or authenticity.</p>
-      
-      <form action="https://formspree.io/f/xdkngqyo" method="POST">
-        <label>
-          Your message:
-          <textarea name="message" rows="4" required></textarea>
-        </label>
-        <label>
-          Your name:
-          <input type="text" name="name" required>
-        </label>
-        <label>
-          Your phone number:
-          <input type="tel" name="phone">
-        </label>
-        <label>
-          Your email:
-          <input type="email" name="email" required>
-        </label>
-        <button type="submit">Send</button>
-      </form>
-    </section>
-  </main>
-
-  <footer>
-    &copy; 2024 Toth Movie Animals. All rights reserved.
+    
+    <div class="social-links">
+      <a href="#" class="social-link">FB</a>
+      <a href="#" class="social-link">IG</a>
+      <a href="#" class="social-link">TW</a>
+      <a href="https://www.imdb.com/name/nm14670166/" class="social-link">IMDb</a>
+    </div>
+    
+    <p class="copyright">&copy; 2024 Toth Movie Animals. All rights reserved.</p>
   </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Preloader
+      const preloader = document.getElementById('preloader');
+      const preloaderProgressBar = document.getElementById('preloader-progress-bar');
+      const main = document.querySelector('main');
+      
+      // Simulate loading progress
+      let progress = 0;
+      const loadingInterval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(loadingInterval);
+          
+          // Hide preloader
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+            main.style.opacity = '1';
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 500);
+          }, 500);
+        }
+        preloaderProgressBar.style.width = `${progress}%`;
+      }, 200);
+      
+      // Custom cursor
+      const cursor = document.getElementById('cursor');
+      const cursorTrail = document.getElementById('cursor-trail');
+      
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+          cursorTrail.style.left = e.clientX + 'px';
+          cursorTrail.style.top = e.clientY + 'px';
+        }, 100);
+      });
+      
+      // Change cursor size on clickable elements
+      const clickables = document.querySelectorAll('a, button, input, textarea, .portfolio-item');
+      
+      clickables.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+          cursor.style.mixBlendMode = 'difference';
+          cursorTrail.style.opacity = '0.2';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursor.style.mixBlendMode = 'difference';
+          cursorTrail.style.opacity = '0.5';
+        });
+      });
+      
+      // Scroll progress indicator
+      const scrollProgress = document.getElementById('scroll-progress');
+      
+      window.addEventListener('scroll', () => {
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollPercentage = (scrollTop / windowHeight) * 100;
+        
+        scrollProgress.style.width = scrollPercentage + '%';
+        
+        // Reveal sections on scroll
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          const sectionTop = section.getBoundingClientRect().top;
+          const sectionHeight = section.offsetHeight;
+          const windowHeight = window.innerHeight;
+          
+          if (sectionTop < windowHeight - sectionHeight / 4) {
+            section.classList.add('visible');
+          }
+        });
+      });
+      
+      // Initialize particles.js
+      if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+          particles: {
+            number: { value: 50, density: { enable: true, value_area: 800 } },
+            color: { value: '#0D7685' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: '#0D7685',
+              opacity: 0.2,
+              width: 1
+            },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: 'none',
+              random: true,
+              straight: false,
+              out_mode: 'out',
+              bounce: false
+            }
+          },
+          interactivity: {
+            detect_on: 'canvas',
+            events: {
+              onhover: { enable: true, mode: 'repulse' },
+              onclick: { enable: true, mode: 'push' },
+              resize: true
+            }
+          },
+          retina_detect: true
+        });
+      }
+      
+      // Initialize Video Background with cinematic effect
+      const initVideoBackground = () => {
+        const videoBackground = document.getElementById('video-background');
+        
+        // Create a virtual showreel of work
+        // (In a real implementation, this would be an actual video showreel)
+        const createVirtualShowreel = () => {
+          // Create a canvas element for dynamic content
+          const canvas = document.createElement('canvas');
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          videoBackground.appendChild(canvas);
+          
+          const ctx = canvas.getContext('2d');
+          
+          // Define frames for our "virtual showreel"
+          const frames = [
+            { color: '#000', text: 'TOTH MOVIE ANIMALS PRESENTS' },
+            { color: '#111', text: 'ANIMAL TALENT THAT STEALS THE SHOW' },
+            { color: '#222', text: 'FEATURED IN MAJOR PRODUCTIONS' },
+            { color: '#111', text: 'TRUSTED BY LEADING DIRECTORS' },
+            { color: '#000', text: 'AWARD-WINNING TRAINING' },
+          ];
+          
+          let currentFrame = 0;
+          
+          // Animation function
+          const animate = () => {
+            const frame = frames[currentFrame];
+            
+            // Create cinematic letterbox effect
+            ctx.fillStyle = frame.color;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add film grain
+            for (let i = 0; i < 5000; i++) {
+              const x = Math.random() * canvas.width;
+              const y = Math.random() * canvas.height;
+              const opacity = Math.random() * 0.05;
+              ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+              ctx.fillRect(x, y, 1, 1);
+            }
+            
+            // Add text
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(frame.text, canvas.width / 2, canvas.height / 2);
+            
+            // Simulate lens flare
+            if (Math.random() > 0.97) {
+              const flareX = Math.random() * canvas.width;
+              const flareY = Math.random() * canvas.height;
+              const gradient = ctx.createRadialGradient(flareX, flareY, 0, flareX, flareY, 100);
+              gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+              gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.2)');
+              gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+              
+              ctx.fillStyle = gradient;
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            // Change frame
+            if (Math.random() > 0.99) {
+              currentFrame = (currentFrame + 1) % frames.length;
+            }
+            
+            requestAnimationFrame(animate);
+          };
+          
+          animate();
+          
+          // Handle window resize
+          window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          });
+        };
+        
+        createVirtualShowreel();
+      };
+      
+      initVideoBackground();
+      
+      // Form input effects
+      const formInputs = document.querySelectorAll('input, textarea');
+      
+      formInputs.forEach(input => {
+        input.addEventListener('focus', () => {
+          input.parentElement.classList.add('active');
+        });
+        
+        input.addEventListener('blur', () => {
+          if (input.value === '') {
+            input.parentElement.classList.remove('active');
+          }
+        });
+      });
+      
+      // Smooth scrolling for navigation
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          const targetId = link.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+          
+          // Update active nav link
+          navLinks.forEach(navLink => navLink.classList.remove('active'));
+          link.classList.add('active');
+        });
+      });
+      
+      // Modal functionality
+      const modal = document.getElementById('video-modal');
+      const modalClose = document.getElementById('modal-close');
+      const modalContent = document.getElementById('modal-content-container');
+      
+      const openModal = (content) => {
+        modalContent.innerHTML = content;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+      
+      const closeModal = () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      };
+      
+      modalClose.addEventListener('click', closeModal);
+      
+      // Close modal when clicking outside content
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+      
+      // Portfolio item click
+      const portfolioItems = document.querySelectorAll('.portfolio-item');
+      
+      portfolioItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const category = item.getAttribute('data-category');
+          const title = item.querySelector('.portfolio-item-title').textContent;
+          const description = item.querySelector('.portfolio-item-back p').textContent;
+          
+          const content = `
+            <h2>${title}</h2>
+            <p>${description}</p>
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="terminal-controls">
+                  <div class="terminal-control terminal-control-red"></div>
+                  <div class="terminal-control terminal-control-yellow"></div>
+                  <div class="terminal-control terminal-control-green"></div>
+                </div>
+                <div class="terminal-title">project-details.json</div>
+              </div>
+              <div class="terminal-content">
+                <pre>{
+  "project": "${title}",
+  "category": "${category}",
+  "lead_trainer": "Derek Toth",
+  "animals_involved": ["Various", "Based on Project Needs"],
+  "location": "Los Angeles Area"
+}</pre>
+              </div>
+            </div>
+          `;
+          
+          openModal(content);
+        });
+      });
+      
+      // Add parallax effect to images
+      const parallaxImages = document.querySelectorAll('.parallax-img');
+      
+      window.addEventListener('scroll', () => {
+        parallaxImages.forEach(image => {
+          const scrollPosition = window.pageYOffset;
+          const imagePosition = image.offsetTop;
+          const windowHeight = window.innerHeight;
+          
+          if (imagePosition < scrollPosition + windowHeight && imagePosition + image.height > scrollPosition) {
+            const distance = (scrollPosition + windowHeight - imagePosition) * 0.1;
+            image.style.transform = `translateY(${distance}px)`;
+          }
+        });
+      });
+      
+      // Form submission with animation
+      const contactForm = document.getElementById('contact-form');
+      const submitBtn = document.getElementById('submit-btn');
+      
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Validate form
+        const formInputs = contactForm.querySelectorAll('input, textarea');
+        let isValid = true;
+        
+        formInputs.forEach(input => {
+          if (input.hasAttribute('required') && !input.value) {
+            isValid = false;
+            input.classList.add('error');
+          } else {
+            input.classList.remove('error');
+          }
+        });
+        
+        if (isValid) {
+          // Show loading animation
+          submitBtn.innerHTML = '<span class="btn-effect"></span>Processing...';
+          submitBtn.disabled = true;
+          
+          // Simulate form submission
+          setTimeout(() => {
+            // Actual form submission here
+            contactForm.submit();
+          }, 1500);
+        }
+      });
+      
+      // Text scramble effect for headings
+      class TextScramble {
+        constructor(el) {
+          this.el = el;
+          this.chars = '!<>-_\\/[]{}—=+*^?#________';
+          this.update = this.update.bind(this);
+        }
+        
+        setText(newText) {
+          const oldText = this.el.innerText;
+          const length = Math.max(oldText.length, newText.length);
+          const promise = new Promise(resolve => this.resolve = resolve);
+          this.queue = [];
+          
+          for (let i = 0; i < length; i++) {
+            const from = oldText[i] || '';
+            const to = newText[i] || '';
+            const start = Math.floor(Math.random() * 40);
+            const end = start + Math.floor(Math.random() * 40);
+            this.queue.push({ from, to, start, end });
+          }
+          
+          cancelAnimationFrame(this.frameRequest);
+          this.frame = 0;
+          this.update();
+          return promise;
+        }
+        
+        update() {
+          let output = '';
+          let complete = 0;
+          
+          for (let i = 0, n = this.queue.length; i < n; i++) {
+            let { from, to, start, end, char } = this.queue[i];
+            
+            if (this.frame >= end) {
+              complete++;
+              output += to;
+            } else if (this.frame >= start) {
+              if (!char || Math.random() < 0.28) {
+                char = this.randomChar();
+                this.queue[i].char = char;
+              }
+              output += `<span class="dud">${char}</span>`;
+            } else {
+              output += from;
+            }
+          }
+          
+          this.el.innerHTML = output;
+          
+          if (complete === this.queue.length) {
+            this.resolve();
+          } else {
+            this.frameRequest = requestAnimationFrame(this.update);
+            this.frame++;
+          }
+        }
+        
+        randomChar() {
+          return this.chars[Math.floor(Math.random() * this.chars.length)];
+        }
+      }
+      
+      // Apply text scramble to all headings
+      const headings = document.querySelectorAll('h2, h3');
+      
+      headings.forEach(heading => {
+        const originalText = heading.textContent;
+        const fx = new TextScramble(heading);
+        
+        // Inview detection
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              fx.setText(originalText);
+              observer.unobserve(heading);
+            }
+          });
+        }, { threshold: 0.5 });
+        
+        observer.observe(heading);
+      });
+      
+      // Sound effects (optional)
+      if (typeof Howl !== 'undefined') {
+        const sounds = {
+          hover: new Howl({ src: ['data:audio/mp3;base64,SUQzAwAAAAAAIlRJVDIAAAAGAAAAaG92ZXJJTkZPAAAABwAAAGhvdmVy'] }),
+          click: new Howl({ src: ['data:audio/mp3;base64,SUQzAwAAAAAAIlRJVDIAAAAGAAAAY2xpY2tJTkZPAAAABwAAAGNsaWNr'] })
+        };
+        
+        const clickables = document.querySelectorAll('a, button');
+        
+        clickables.forEach(element => {
+          element.addEventListener('mouseenter', () => sounds.hover.play());
+          element.addEventListener('click', () => sounds.click.play());
+        });
+      }
+    });
+  </script>
 </body>
 </html>
-  
