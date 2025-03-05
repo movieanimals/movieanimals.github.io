@@ -1,1960 +1,277 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toth Movie Animals - Premier Animal Training & Film Services</title>
-  
-  <!-- Meta tags for SEO -->
-  <meta name="description" content="Professional animal training and handling services for film, television, and commercial productions. Toth Movie Animals delivers expert training and reliable animal actors.">
-  <meta name="keywords" content="animal training, film animals, movie animals, animal actors, professional animal handlers">
-  
-  <!-- Favicon links -->
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  
-  <!-- CDN Libraries - Using newer versions of libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r139/three.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/js/all.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-  
-  <style>
-    :root {
-      /* Modern Professional Color Palette */
-      --primary-color: #101d2c;        /* Deep Navy */
-      --secondary-color: #1e2a3b;      /* Rich Blue */
-      --accent-color: #e63946;         /* Bold Red */
-      --accent-color-hover: #d52b38;   /* Darker Red for hover states */
-      --text-color: #f8f9fa;           /* Clean White */
-      --text-color-dark: #202124;      /* Dark text for light backgrounds */
-      --muted-text: #adb5bd;           /* Subtle Gray */
-      --background: #0d151e;           /* Near Black */
-      --surface-1: #121c26;            /* Darkest Panel */
-      --surface-2: #1a2634;            /* Dark Panel */
-      --surface-3: #233141;            /* Mid Panel */
-      --success: #2ecc71;              /* Success Green */
-      --line-color: rgba(255,255,255,0.07); /* Subtle Line */
-      --card-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Consistent shadow */
-      --transition-standard: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth transitions */
-    }
-
-    /* Modern CSS Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    body {
-      background-color: var(--background);
-      color: var(--text-color);
-      line-height: 1.6;
-      overflow-x: hidden;
-      transition: var(--transition-standard);
-      font-size: 16px;
-    }
-
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      background: var(--background);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--accent-color);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--primary-color);
-    }
-
-    /* Typography System */
-    h1, h2, h3, h4, h5, h6 {
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      letter-spacing: -0.02em;
-    }
-
-    h2 {
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: -0.01em;
-      position: relative;
-      display: inline-block;
-      margin-bottom: 2rem;
-    }
-
-    h2:after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 0;
-      width: 60px;
-      height: 4px;
-      background: var(--accent-color);
-    }
-
-    h3 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      letter-spacing: -0.01em;
-    }
-
-    p {
-      margin-bottom: 1.5rem;
-      color: var(--muted-text);
-      font-size: clamp(1rem, 1.5vw, 1.125rem);
-    }
-
-    a {
-      color: var(--accent-color);
-      text-decoration: none;
-      transition: var(--transition-standard);
-    }
-
-    a:hover {
-      color: var(--accent-color-hover);
-    }
-
-    .text-accent {
-      color: var(--accent-color);
-    }
-
-    .text-muted {
-      color: var(--muted-text);
-    }
-
-    /* Layout System */
-    .container {
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      width: 100%;
-    }
-
-    section {
-      padding: 6rem 0;
-      position: relative;
-    }
-
-    /* Modern Button System */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.875rem 1.75rem;
-      border-radius: 6px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: var(--transition-standard);
-      position: relative;
-      overflow: hidden;
-      border: none;
-      outline: none;
-      text-transform: uppercase;
-      gap: 0.5rem;
-    }
-
-    .btn:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      transition: all 0.6s ease;
-    }
-
-    .btn:hover:before {
-      left: 100%;
-    }
-
-    .btn-primary {
-      background: var(--accent-color);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: var(--accent-color-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(230, 57, 70, 0.3);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--accent-color);
-      color: var(--accent-color);
-    }
-
-    .btn-outline:hover {
-      background: rgba(230, 57, 70, 0.1);
-      transform: translateY(-2px);
-    }
-
-    .btn-icon {
-      margin-left: 0.5rem;
-      font-size: 0.875rem;
-      transition: var(--transition-standard);
-    }
-
-    .btn:hover .btn-icon {
-      transform: translateX(3px);
-    }
-
-    /* Modern Header with Animation */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 100;
-      transition: var(--transition-standard);
-      padding: 1.5rem 0;
-      background: rgba(13, 21, 30, 0.85);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line-color);
-    }
-
-    header.scrolled {
-      padding: 1rem 0;
-      background: rgba(13, 21, 30, 0.95);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .logo {
-      height: 40px;
-      transition: var(--transition-standard);
-    }
-
-    .logo-text {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--text-color);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-    }
-
-    .nav-link {
-      color: var(--text-color);
-      font-weight: 500;
-      position: relative;
-      padding: 0.5rem 0;
-    }
-
-    .nav-link:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--accent-color);
-      transition: width 0.3s ease;
-    }
-
-    .nav-link:hover:after,
-    .nav-link.active:after {
-      width: 100%;
-    }
-
-    .nav-link.active {
-      color: var(--accent-color);
-    }
-
-    .mobile-menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--text-color);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .header-cta {
-      display: flex;
-      align-items: center;
-    }
-
-    /* Hero Section with Parallax and Animation */
-    .hero {
-      height: 100vh;
-      min-height: 700px;
-      display: flex;
-      align-items: center;
-      background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.7)), url('https://images.unsplash.com/photo-1551730459-92db2a308d6a?q=80&w=2000&auto=format&fit=crop');
-      background-size: cover;
-      background-position: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-content {
-      max-width: 800px;
-      position: relative;
-      z-index: 2;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: fadeInUp 1s ease forwards 0.5s;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .hero-title {
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-subtitle {
-      font-size: clamp(1.125rem, 2vw, 1.35rem);
-      max-width: 600px;
-      margin-bottom: 2.5rem;
-      color: var(--muted-text);
-    }
-
-    .hero-cta {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    /* Particles Background with Tech Feel */
-    #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      z-index: 1;
-    }
-
-    /* About Section with Modern Grid */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .about-image {
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: var(--card-shadow);
-      position: relative;
-      height: 100%;
-    }
-
-    .about-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.5s ease;
-    }
-
-    .about-image:hover img {
-      transform: scale(1.05);
-    }
-
-    .about-image::before {
-      content: '';
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      width: 50px;
-      height: 50px;
-      border-top: 3px solid var(--accent-color);
-      border-left: 3px solid var(--accent-color);
-      z-index: 1;
-    }
-
-    .about-image::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      right: -10px;
-      width: 50px;
-      height: 50px;
-      border-bottom: 3px solid var(--accent-color);
-      border-right: 3px solid var(--accent-color);
-      z-index: 1;
-    }
-
-    .about-content h2 {
-      margin-bottom: 1.5rem;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 2.5rem;
-    }
-
-    .stat-item {
-      background: var(--surface-2);
-      padding: 1.75rem;
-      border-radius: 12px;
-      text-align: center;
-      transition: var(--transition-standard);
-      box-shadow: var(--card-shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-item::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 4px;
-      height: 100%;
-      background: var(--accent-color);
-    }
-
-    .stat-item:hover {
-      transform: translateY(-8px);
-      background: var(--surface-3);
-    }
-
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--accent-color);
-      position: relative;
-      display: inline-block;
-    }
-
-    .stat-label {
-      font-size: 0.95rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    /* Services Section with Hover Effects */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-
-    .service-card {
-      background: var(--surface-2);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: var(--transition-standard);
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--card-shadow);
-      height: 100%;
-    }
-
-    .service-card:hover {
-      transform: translateY(-10px);
-      background: var(--surface-3);
-    }
-
-    .service-image-container {
-      position: relative;
-      overflow: hidden;
-      height: 220px;
-    }
-
-    .service-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .service-card:hover .service-image {
-      transform: scale(1.1);
-    }
-
-    .service-content {
-      padding: 1.75rem;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .service-title {
-      font-size: 1.35rem;
-      margin-bottom: 1rem;
-    }
-
-    .service-desc {
-      font-size: 1rem;
-      color: var(--muted-text);
-      margin-bottom: 1.5rem;
-      flex-grow: 1;
-    }
-
-    .service-link {
-      align-self: flex-start;
-      color: var(--accent-color);
-      font-weight: 600;
-      text-transform: uppercase;
-      font-size: 0.875rem;
-      letter-spacing: 0.5px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .service-link-icon {
-      transition: transform 0.3s ease;
-    }
-
-    .service-link:hover .service-link-icon {
-      transform: translateX(5px);
-    }
-
-    /* Portfolio Section with Filtering and Smooth Animations */
-    .portfolio-section {
-      background-color: var(--surface-1);
-    }
-
-    .portfolio-tabs {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 3rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .portfolio-tab {
-      padding: 0.75rem 1.5rem;
-      background: var(--surface-2);
-      border: none;
-      border-radius: 30px;
-      color: var(--text-color);
-      font-weight: 500;
-      cursor: pointer;
-      transition: var(--transition-standard);
-    }
-
-    .portfolio-tab.active, 
-    .portfolio-tab:hover {
-      background: var(--accent-color);
-      color: white;
-    }
-
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 2rem;
-    }
-
-    .portfolio-item {
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      cursor: pointer;
-      box-shadow: var(--card-shadow);
-      height: 280px;
-    }
-
-    .portfolio-img-container {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    .portfolio-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .portfolio-item:hover img {
-      transform: scale(1.1);
-    }
-
-    .portfolio-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(16, 29, 44, 0.85);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      transition: all 0.3s ease;
-    }
-
-    .portfolio-item:hover .portfolio-overlay {
-      opacity: 1;
-    }
-
-    .portfolio-title {
-      color: white;
-      font-size: 1.25rem;
-      margin-bottom: 0.5rem;
-      transform: translateY(20px);
-      transition: all 0.3s ease;
-    }
-
-    .portfolio-category {
-      color: var(--accent-color);
-      font-size: 0.875rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      transform: translateY(20px);
-      transition: all 0.3s ease 0.1s;
-    }
-
-    .portfolio-item:hover .portfolio-title,
-    .portfolio-item:hover .portfolio-category {
-      transform: translateY(0);
-    }
-
-    /* Portfolio Modal with Smooth Transitions */
-    .portfolio-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(10, 10, 10, 0.9);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-    }
-
-    .portfolio-modal.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .modal-content {
-      width: 90%;
-      max-width: 900px;
-      background: var(--surface-2);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-      transform: scale(0.9);
-      opacity: 0;
-      transition: all 0.3s ease 0.1s;
-    }
-
-    .portfolio-modal.active .modal-content {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    .modal-header {
-      position: relative;
-      height: 400px;
-    }
-
-    .modal-header img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: none;
-    }
-
-    .modal-close:hover {
-      background: var(--accent-color);
-    }
-
-    .modal-body {
-      padding: 2.5rem;
-    }
-
-    .modal-title {
-      font-size: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .modal-meta {
-      display: flex;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .meta-item {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .meta-label {
-      font-size: 0.875rem;
-      color: var(--muted-text);
-      margin-bottom: 0.3rem;
-    }
-
-    .meta-value {
-      font-weight: 500;
-    }
-
-    .modal-desc {
-      margin-bottom: 2rem;
-      line-height: 1.8;
-    }
-
-    /* Testimonials Section */
-    .testimonials-section {
-      background-color: var(--surface-1);
-    }
-
-    .testimonials-container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-
-    .testimonial-slider {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .testimonial-slides {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-
-    .testimonial-slide {
-      min-width: 100%;
-      padding: 2rem;
-    }
-
-    .testimonial-card {
-      background: var(--surface-2);
-      border-radius: 12px;
-      padding: 2.5rem;
-      box-shadow: var(--card-shadow);
-      position: relative;
-    }
-
-    .testimonial-card::before {
-      content: '"';
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-size: 6rem;
-      line-height: 1;
-      color: var(--accent-color);
-      opacity: 0.2;
-      font-family: Georgia, serif;
-    }
-
-    .testimonial-content {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      margin-bottom: 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .author-avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--accent-color);
-    }
-
-    .author-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .author-name {
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    .author-position {
-      color: var(--muted-text);
-      font-size: 0.9rem;
-    }
-
-    .testimonial-controls {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .testimonial-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--surface-2);
-      border: none;
-      color: var(--text-color);
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: var(--transition-standard);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .testimonial-btn:hover {
-      background: var(--accent-color);
-      color: white;
-    }
-
-    /* Contact Section with Modern Form */
-    .contact-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .contact-title {
-      font-size: 2.25rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-    }
-
-    .contact-text {
-      color: var(--muted-text);
-      margin-bottom: 2rem;
-      font-size: 1.05rem;
-      line-height: 1.8;
-    }
-
-    .contact-method {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid var(--line-color);
-    }
-
-    .contact-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 12px;
-      background: var(--surface-2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5rem;
-      color: var(--accent-color);
-      transition: var(--transition-standard);
-    }
-
-    .contact-method:hover .contact-icon {
-      background: var(--accent-color);
-      color: white;
-      transform: translateY(-5px);
-    }
-
-    .contact-details {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .contact-label {
-      font-size: 0.9rem;
-      color: var(--muted-text);
-      margin-bottom: 0.3rem;
-      font-weight: 500;
-    }
-
-    .contact-value {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .contact-form {
-      background: var(--surface-2);
-      padding: 2.5rem;
-      border-radius: 12px;
-      box-shadow: var(--card-shadow);
-      position: relative;
-      z-index: 1;
-      overflow: hidden;
-    }
-
-    .contact-form::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 150px;
-      height: 150px;
-      background: var(--accent-color);
-      opacity: 0.05;
-      border-radius: 50%;
-      transform: translate(50%, -50%);
-      z-index: -1;
-    }
-
-    .contact-form::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 200px;
-      height: 200px;
-      background: var(--accent-color);
-      opacity: 0.05;
-      border-radius: 50%;
-      transform: translate(-50%, 50%);
-      z-index: -1;
-    }
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-
-    .form-control {
-      width: 100%;
-      padding: 1rem;
-      background: var(--surface-1);
-      border: 1px solid var(--line-color);
-      border-radius: 8px;
-      color: var(--text-color);
-      font-size: 1rem;
-      transition: var(--transition-standard);
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
-    }
-
-    textarea.form-control {
-      resize: vertical;
-      min-height: 150px;
-    }
-
-    .form-submit {
-      width: 100%;
-      margin-top: 1rem;
-    }
-
-    /* Modern Footer */
-    footer {
-      background: var(--primary-color);
-      padding: 5rem 0 2rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 300px;
-      height: 300px;
-      background: var(--accent-color);
-      opacity: 0.03;
-      border-radius: 50%;
-      transform: translate(50%, -50%);
-    }
-
-    .footer-content {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 3rem;
-    }
-
-    .footer-brand {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .footer-logo-container {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .footer-logo {
-      height: 36px;
-    }
-
-    .footer-logo-text {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--text-color);
-    }
-
-    .footer-text {
-      color: var(--muted-text);
-      font-size: 1rem;
-      line-height: 1.8;
-    }
-
-    .footer-title {
-      font-size: 1.35rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      padding-bottom: 0.75rem;
-    }
-
-    .footer-title:after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 40px;
-      height: 3px;
-      background: var(--accent-color);
-    }
-
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-    }
-
-    .footer-link {
-      color: var(--muted-text);
-      transition: var(--transition-standard);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .footer-link:hover {
-      color: var(--accent-color);
-      transform: translateX(5px);
-    }
-
-    .footer-link-icon {
-      font-size: 0.75rem;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .social-link {
-      width: 42px;
-      height: 42px;
-      border-radius: 8px;
-      background: var(--surface-2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--text-color);
-      transition: var(--transition-standard);
-      font-size: 1.15rem;
-    }
-
-    .social-link:hover {
-      background: var(--accent-color);
-      color: white;
-      transform: translateY(-5px);
-    }
-
-    .footer-bottom {
-      margin-top: 4rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--line-color);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .copyright {
-      color: var(--muted-text);
-      font-size: 0.95rem;
-    }
-
-    /* Booking Modal with Modern Design */
-    .booking-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(10, 10, 10, 0.9);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      z-index: 1000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.3s ease;
-    }
-
-    .booking-modal.active {
-      opacity: 1;
-      pointer-events: all;
-    }
-
-    .booking-content {
-      width: 90%;
-      max-width: 600px;
-      background: var(--surface-2);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-      transform: scale(0.9);
-      opacity: 0;
-      transition: all 0.3s ease 0.1s;
-    }
-
-    .booking-modal.active .booking-content {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    .booking-header {
-      padding: 2rem;
-      background: var(--surface-3);
-      position: relative;
-    }
-
-    .booking-title {
-      font-size: 1.75rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .booking-subtitle {
-      color: var(--muted-text);
-    }
-
-    .booking-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.2);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: none;
-    }
-
-    .booking-close:hover {
-      background: var(--accent-color);
-    }
-
-    .booking-body {
-      padding: 2rem;
-    }
-
-    .booking-form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .booking-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-
-    .booking-input {
-      width: 100%;
-      padding: 1rem;
-      background: var(--surface-1);
-      border: 1px solid var(--line-color);
-      border-radius: 8px;
-      color: var(--text-color);
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-
-    .booking-input:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.2);
-    }
-
-    textarea.booking-input {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .booking-select {
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23adb5bd' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 1rem center;
-      background-size: 1rem;
-    }
-
-    /* Loading Animation */
-    #preloader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--background);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-
-    .preloader-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .preloader-content p {
-      color: var(--muted-text);
-      font-size: 1rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin: 0;
-    }
-
-    /* Scroll Animations */
-    .reveal {
-      position: relative;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.8s ease;
-    }
-
-    .reveal.active {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Responsive Design System */
-    @media (max-width: 1200px) {
-      .footer-content {
-        grid-template-columns: 1.5fr 1fr 1fr;
-        gap: 2.5rem;
-      }
-      
-      .footer-column:last-child {
-        grid-column: span 3;
-      }
-    }
-
-    @media (max-width: 992px) {
-      h1 {
-        font-size: clamp(2.25rem, 5vw, 3rem);
-      }
-
-      h2 {
-        font-size: clamp(1.75rem, 4vw, 2.5rem);
-      }
-
-      section {
-        padding: 5rem 0;
-      }
-
-      .about-grid,
-      .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-
-      .about-image {
-        max-height: 450px;
-      }
-
-      .footer-content {
-        grid-template-columns: 1fr 1fr;
-      }
-      
-      .footer-column:last-child {
-        grid-column: span 2;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 1.5rem;
-      }
-      
-      .header-cta {
-        display: none;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 70%;
-        height: 100vh;
-        background: var(--surface-1);
-        flex-direction: column;
-        padding: 6rem 2rem 2rem;
-        gap: 1.5rem;
-        transition: right 0.3s ease;
-        z-index: 99;
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
-      }
-
-      .nav-links.active {
-        right: 0;
-      }
-
-      .mobile-menu-toggle {
-        display: block;
-        z-index: 100;
-      }
-
-      .hero-cta {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .hero-cta .btn {
-        width: 100%;
-      }
-
-      .portfolio-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      }
-
-      .footer-content {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-      }
-      
-      .footer-column:last-child {
-        grid-column: span 1;
-      }
-
-      .footer-bottom {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-      }
-      
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 576px) {
-      .portfolio-tabs {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .portfolio-tab {
-        width: 100%;
-        text-align: center;
-      }
-      
-      .modal-meta {
-        flex-direction: column;
-        gap: 1rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- Preloader -->
-  <div id="preloader">
-    <div class="preloader-content">
-      <svg width="50" height="50" viewBox="0 0 50 50">
-        <circle cx="25" cy="25" r="20" fill="none" stroke="#e63946" stroke-width="5" stroke-dasharray="31.415, 31.415" stroke-dashoffset="0">
-          <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite"/>
-        </circle>
-      </svg>
-      <p>Loading Toth Movie Animals</p>
-    </div>
-  </div>
-
-  <!-- Header -->
-  <header id="header">
-    <div class="container header-container">
-      <div class="logo-container">
-        <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" class="logo">
-        <span class="logo-text">Toth Animals</span>
-      </div>
-      
-      <nav>
-        <div class="nav-links" id="navLinks">
-          <a href="#home" class="nav-link active">Home</a>
-          <a href="#about" class="nav-link">About</a>
-          <a href="#services" class="nav-link">Services</a>
-          <a href="#portfolio" class="nav-link">Portfolio</a>
-          <a href="#testimonials" class="nav-link">Testimonials</a>
-          <a href="#contact" class="nav-link">Contact</a>
-        </div>
-        
-        <button class="mobile-menu-toggle" id="menuToggle">
-          <i class="fas fa-bars"></i>
-        </button>
-      </nav>
-      
-      <div class="header-cta">
-        <a href="#booking" class="btn btn-primary" id="bookingBtn">Book Now</a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section class="hero" id="home">
-    <div id="particles-js"></div>
-    <div class="container">
-      <div class="hero-content">
-        <h1 class="hero-title">Premier Animal Training <span class="text-accent">&</span> Film Services</h1>
-        <p class="hero-subtitle">Providing professionally trained animals for film, television, and commercial productions with over 25 years of industry experience.</p>
-        <div class="hero-cta">
-          <a href="#services" class="btn btn-primary">Our Services <i class="fas fa-arrow-right btn-icon"></i></a>
-          <a href="#portfolio" class="btn btn-outline">View Our Work</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about">
-    <div class="container">
-      <div class="about-grid">
-        <div class="about-image reveal">
-          <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1624&auto=format&fit=crop" alt="Toth Movie Animals Team">
-        </div>
-        <div class="about-content reveal">
-          <h2>About Toth Movie Animals</h2>
-          <p>Founded in 1998, Toth Movie Animals has been the industry's leading provider of trained animals for entertainment productions. Our expert trainers work with a diverse range of species to deliver reliable, safe, and impressive animal performances.</p>
-          <p>We prioritize animal welfare and ethical treatment above all else, ensuring our animal actors are treated with the utmost care and respect. Every production is approached with meticulous planning and professional execution.</p>
-          <div class="stats-grid reveal">
-            <div class="stat-item">
-              <div class="stat-number">25+</div>
-              <div class="stat-label">Years Experience</div>
+import React, { useEffect, useState } from 'react';
+
+const TothWebsitePreview = () => {
+  const [activeTab, setActiveTab] = useState('all');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading and ensure it stops after a brief period
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Portfolio data
+  const portfolioData = [
+    {
+      id: 1,
+      title: 'Film Project',
+      category: 'film',
+      categoryDisplay: 'Feature Film',
+      client: 'Film Studio',
+      year: '2023',
+      image: 'https://images.unsplash.com/photo-1598839438250-2b2cfb689300?q=80&w=1770&auto=format&fit=crop'
+    },
+    {
+      id: 2,
+      title: 'TV Project',
+      category: 'television',
+      categoryDisplay: 'TV Series',
+      client: 'Production Company',
+      year: '2022',
+      image: 'https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?q=80&w=1674&auto=format&fit=crop'
+    },
+    {
+      id: 3, 
+      title: 'Commercial',
+      category: 'commercial',
+      categoryDisplay: 'Commercial',
+      client: 'Advertising Agency',
+      year: '2024',
+      image: 'https://images.unsplash.com/photo-1443806798002-651c462956ff?q=80&w=1742&auto=format&fit=crop'
+    },
+    {
+      id: 4,
+      title: 'Film Project 2',
+      category: 'film',
+      categoryDisplay: 'Feature Film',
+      client: 'Independent Production',
+      year: '2023',
+      image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1740&auto=format&fit=crop'
+    },
+    {
+      id: 5,
+      title: 'TV Project 2',
+      category: 'television',
+      categoryDisplay: 'TV Series',
+      client: 'Network Television',
+      year: '2024',
+      image: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=1674&auto=format&fit=crop'
+    },
+    {
+      id: 6,
+      title: 'Commercial 2',
+      category: 'commercial',
+      categoryDisplay: 'Commercial',
+      client: 'Brand',
+      year: '2024',
+      image: 'https://images.unsplash.com/photo-1529472119196-cb724127a98e?q=80&w=1742&auto=format&fit=crop'
+    }
+  ];
+
+  const filteredProjects = activeTab === 'all' 
+    ? portfolioData 
+    : portfolioData.filter(project => project.category === activeTab);
+
+  const openModal = (project) => {
+    setSelectedProject(project);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setTimeout(() => setSelectedProject(null), 300);
+  };
+
+  return (
+    <div className="relative bg-gray-900 text-gray-100 min-h-screen overflow-x-hidden font-sans">
+      {/* Preloader - Automatically disappears after fixed time */}
+      {loading && (
+        <div className="fixed inset-0 bg-gray-900 z-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="mb-6">
+              <svg className="w-12 h-12 mx-auto animate-spin" viewBox="0 0 50 50">
+                <circle cx="25" cy="25" r="20" fill="none" stroke="#e63946" strokeWidth="5" strokeDasharray="80" strokeDashoffset="30"></circle>
+              </svg>
             </div>
-            <div class="stat-item">
-              <div class="stat-number">500+</div>
-              <div class="stat-label">Productions</div>
-            </div>
-            <div class="stat-item">
-              <div class="stat-number">50+</div>
-              <div class="stat-label">Animal Species</div>
-            </div>
+            <p className="text-gray-400 tracking-wide uppercase text-sm">Loading Toth Movie Animals</p>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      )}
 
-  <!-- Services Section -->
-  <section id="services">
-    <div class="container">
-      <h2 class="text-center reveal">Our Professional Services</h2>
-      <p class="text-center text-muted reveal" style="max-width: 700px; margin: 0 auto 3rem auto;">We offer comprehensive animal training and handling services tailored to the unique needs of each production.</p>
-      
-      <div class="services-grid">
-        <div class="service-card reveal">
-          <div class="service-image-container">
-            <img src="https://images.unsplash.com/photo-1591824438708-ce405f36ba3d?q=80&w=1674&auto=format&fit=crop" alt="Film Production" class="service-image">
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Film & TV Production</h3>
-            <p class="service-desc">Our animals are extensively trained for the demanding environment of film and television sets. We ensure reliable performances while maintaining the highest standards of safety and animal welfare.</p>
-            <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right service-link-icon"></i></a>
-          </div>
-        </div>
-        
-        <div class="service-card reveal">
-          <div class="service-image-container">
-            <img src="https://images.unsplash.com/photo-1598605272254-16f0c0ecdfa5?q=80&w=1671&auto=format&fit=crop" alt="Commercial Shoots" class="service-image">
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Commercial Shoots</h3>
-            <p class="service-desc">From major advertising campaigns to product photography, our animals are trained to perform specific actions on cue and remain calm in busy commercial shooting environments.</p>
-            <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right service-link-icon"></i></a>
-          </div>
-        </div>
-        
-        <div class="service-card reveal">
-          <div class="service-image-container">
-            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1738&auto=format&fit=crop" alt="Custom Training" class="service-image">
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Custom Training</h3>
-            <p class="service-desc">Our experienced trainers can develop specialized training programs to achieve specific behaviors needed for your production, from basic commands to complex action sequences.</p>
-            <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right service-link-icon"></i></a>
-          </div>
-        </div>
-        
-        <div class="service-card reveal">
-          <div class="service-image-container">
-            <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?q=80&w=1770&auto=format&fit=crop" alt="Animal Consulting" class="service-image">
-          </div>
-          <div class="service-content">
-            <h3 class="service-title">Production Consulting</h3>
-            <p class="service-desc">Our industry experts provide guidance on incorporating animals into your production safely and effectively, from script development to post-production.</p>
-            <a href="#" class="service-link">Learn More <i class="fas fa-arrow-right service-link-icon"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Portfolio Section -->
-  <section id="portfolio" class="portfolio-section">
-    <div class="container">
-      <h2 class="text-center reveal">Our Portfolio</h2>
-      <p class="text-center text-muted reveal" style="max-width: 700px; margin: 0 auto 3rem auto;">Browse our collection of past projects showcasing our animals' performances across different media formats.</p>
-      
-      <div class="portfolio-tabs reveal">
-        <button class="portfolio-tab active" data-filter="all">All Projects</button>
-        <button class="portfolio-tab" data-filter="film">Film</button>
-        <button class="portfolio-tab" data-filter="television">Television</button>
-        <button class="portfolio-tab" data-filter="commercial">Commercial</button>
-      </div>
-      
-      <div class="portfolio-grid">
-        <div class="portfolio-item reveal" data-category="film">
-          <div class="portfolio-img-container">
-            <img src="https://images.unsplash.com/photo-1598839438250-2b2cfb689300?q=80&w=1770&auto=format&fit=crop" alt="Project 1">
-          </div>
-          <div class="portfolio-overlay">
-            <h3 class="portfolio-title">Wilderness Adventure</h3>
-            <span class="portfolio-category">Feature Film</span>
-          </div>
-        </div>
-        
-        <div class="portfolio-item reveal" data-category="television">
-          <div class="portfolio-img-container">
-            <img src="https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?q=80&w=1674&auto=format&fit=crop" alt="Project 2">
-          </div>
-          <div class="portfolio-overlay">
-            <h3 class="portfolio-title">Nature Encounters</h3>
-            <span class="portfolio-category">TV Series</span>
-          </div>
-        </div>
-        
-        <div class="portfolio-item reveal" data-category="commercial">
-          <div class="portfolio-img-container">
-            <img src="https://images.unsplash.com/photo-1443806798002-651c462956ff?q=80&w=1742&auto=format&fit=crop" alt="Project 3">
-          </div>
-          <div class="portfolio-overlay">
-            <h3 class="portfolio-title">Outdoor Brand Campaign</h3>
-            <span class="portfolio-category">Commercial</span>
-          </div>
-        </div>
-        
-        <div class="portfolio-item reveal" data-category="film">
-          <div class="portfolio-img-container">
-            <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1740&auto=format&fit=crop" alt="Project 4">
-          </div>
-          <div class="portfolio-overlay">
-            <h3 class="portfolio-title">Mountain Expedition</h3>
-            <span class="portfolio-category">Feature Film</span>
-          </div>
-        </div>
-        
-        <div class="portfolio-item reveal" data-category="television">
-          <div class="portfolio-img-container">
-            <img src="https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=1674&auto=format&fit=crop" alt="Project 5">
-          </div>
-          <div class="portfolio-overlay">
-            <h3 class="portfolio-title">Wildlife Documentary</h3>
-            <span class="portfolio-category">TV Series</span>
-          </div>
-        </div>
-        
-        <div class="portfolio-item reveal" data-category="commercial">
-          <div class="portfolio-img-container">
-            <img src="https://images.unsplash.com/photo-1529472119196-cb724127a98e?q=80&w=1742&auto=format&fit=crop" alt="Project 6">
-          </div>
-          <div class="portfolio-overlay">
-            <h3 class="portfolio-title">Pet Food Campaign</h3>
-            <span class="portfolio-category">Commercial</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials Section -->
-  <section id="testimonials" class="testimonials-section">
-    <div class="container testimonials-container">
-      <h2 class="text-center reveal">Client Testimonials</h2>
-      <p class="text-center text-muted reveal" style="max-width: 700px; margin: 0 auto 3rem auto;">What our clients say about working with Toth Movie Animals.</p>
-      
-      <div class="testimonial-slider reveal">
-        <div class="testimonial-slides" id="testimonialSlides">
-          <div class="testimonial-slide">
-            <div class="testimonial-card">
-              <p class="testimonial-content">"Working with Toth Movie Animals was an absolute pleasure. Their professionalism and ability to deliver exactly what we needed for our film made all the difference. The animals were incredibly well-trained and the handlers were knowledgeable and accommodating throughout the entire production."</p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1374&auto=format&fit=crop" alt="Author" class="author-avatar">
-                <div class="author-info">
-                  <h4 class="author-name">Michael Roberts</h4>
-                  <span class="author-position">Film Director</span>
-                </div>
-              </div>
-            </div>
+      {/* Header */}
+      <header className="fixed w-full bg-gray-900/85 backdrop-blur-md border-b border-white/5 z-40 py-4">
+        <div className="container mx-auto px-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" className="h-10" />
+            <span className="font-bold text-lg">Toth Animals</span>
           </div>
           
-          <div class="testimonial-slide">
-            <div class="testimonial-card">
-              <p class="testimonial-content">"The team at Toth Movie Animals exceeded all our expectations. They provided exceptional animals for our commercial shoot and were able to execute complex behaviors flawlessly. Their commitment to animal welfare while delivering outstanding results is truly impressive."</p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=1522&auto=format&fit=crop" alt="Author" class="author-avatar">
-                <div class="author-info">
-                  <h4 class="author-name">Sarah Johnson</h4>
-                  <span class="author-position">Production Manager</span>
-                </div>
-              </div>
+          <nav className="hidden md:block">
+            <div className="flex gap-8">
+              <a href="#home" className="text-white font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-red-600">Home</a>
+              <a href="#about" className="text-white font-medium hover:text-red-500 transition-colors">About</a>
+              <a href="#services" className="text-white font-medium hover:text-red-500 transition-colors">Services</a>
+              <a href="#portfolio" className="text-white font-medium hover:text-red-500 transition-colors">Portfolio</a>
+              <a href="#contact" className="text-white font-medium hover:text-red-500 transition-colors">Contact</a>
             </div>
-          </div>
+          </nav>
           
-          <div class="testimonial-slide">
-            <div class="testimonial-card">
-              <p class="testimonial-content">"I've worked with many animal trainers over my 20-year career, and Toth Movie Animals stands out as the most reliable and professional. Their attention to detail and ability to solve problems on set is unmatched. I wouldn't consider working with anyone else for my productions."</p>
-              <div class="testimonial-author">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1374&auto=format&fit=crop" alt="Author" class="author-avatar">
-                <div class="author-info">
-                  <h4 class="author-name">David Wilson</h4>
-                  <span class="author-position">Executive Producer</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <div class="testimonial-controls">
-          <button class="testimonial-btn" id="prevTestimonial">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button class="testimonial-btn" id="nextTestimonial">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact">
-    <div class="container">
-      <div class="contact-grid">
-        <div class="contact-info reveal">
-          <h2 class="contact-title">Get In Touch</h2>
-          <p class="contact-text">Have a project in mind or need more information about our services? Reach out to us and our team will be happy to assist you with your production needs.</p>
-          
-          <div class="contact-method">
-            <div class="contact-icon">
-              <i class="fas fa-map-marker-alt"></i>
-            </div>
-            <div class="contact-details">
-              <span class="contact-label">Our Location</span>
-              <span class="contact-value">1234 Studio Drive, Hollywood, CA 90028</span>
-            </div>
-          </div>
-          
-          <div class="contact-method">
-            <div class="contact-icon">
-              <i class="fas fa-phone-alt"></i>
-            </div>
-            <div class="contact-details">
-              <span class="contact-label">Phone Number</span>
-              <span class="contact-value">+1 (323) 555-1234</span>
-            </div>
-          </div>
-          
-          <div class="contact-method">
-            <div class="contact-icon">
-              <i class="fas fa-envelope"></i>
-            </div>
-            <div class="contact-details">
-              <span class="contact-label">Email Address</span>
-              <span class="contact-value">info@tothanimals.com</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="contact-form-container reveal">
-          <form class="contact-form" id="contactForm">
-            <div class="form-group">
-              <label for="name" class="form-label">Your Name</label>
-              <input type="text" id="name" class="form-control" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="email" class="form-label">Email Address</label>
-              <input type="email" id="email" class="form-control" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="subject" class="form-label">Subject</label>
-              <input type="text" id="subject" class="form-control" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="message" class="form-label">Message</label>
-              <textarea id="message" class="form-control" required></textarea>
-            </div>
-            
-            <button type="submit" class="btn btn-primary form-submit">
-              Send Message <i class="fas fa-paper-plane btn-icon"></i>
+          <div className="hidden md:block">
+            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded shadow transition-all">
+              Book Now
             </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Booking Modal -->
-  <div class="booking-modal" id="bookingModal">
-    <div class="booking-content">
-      <div class="booking-header">
-        <h3 class="booking-title">Book Our Services</h3>
-        <p class="booking-subtitle">Fill out the form below to request our services for your upcoming production.</p>
-        <button class="booking-close" id="closeBooking">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <div class="booking-body">
-        <form id="bookingForm">
-          <div class="booking-form-group">
-            <label for="booking-name" class="booking-label">Full Name</label>
-            <input type="text" id="booking-name" class="booking-input" required>
           </div>
           
-          <div class="booking-form-group">
-            <label for="booking-email" class="booking-label">Email Address</label>
-            <input type="email" id="booking-email" class="booking-input" required>
-          </div>
-          
-          <div class="booking-form-group">
-            <label for="booking-phone" class="booking-label">Phone Number</label>
-            <input type="tel" id="booking-phone" class="booking-input" required>
-          </div>
-          
-          <div class="booking-form-group">
-            <label for="booking-service" class="booking-label">Service Required</label>
-            <select id="booking-service" class="booking-input booking-select" required>
-              <option value="">Select a Service</option>
-              <option value="film">Film Production</option>
-              <option value="tv">TV Production</option>
-              <option value="commercial">Commercial Shoot</option>
-              <option value="custom">Custom Training</option>
-              <option value="consulting">Production Consulting</option>
-            </select>
-          </div>
-          
-          <div class="booking-form-group">
-            <label for="booking-date" class="booking-label">Preferred Date</label>
-            <input type="date" id="booking-date" class="booking-input" required>
-          </div>
-          
-          <div class="booking-form-group">
-            <label for="booking-details" class="booking-label">Project Details</label>
-            <textarea id="booking-details" class="booking-input" required></textarea>
-          </div>
-          
-          <button type="submit" class="btn btn-primary" style="width: 100%;">
-            Submit Request <i class="fas fa-paper-plane btn-icon"></i>
+          <button className="md:hidden text-white text-xl" onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? '✕' : '☰'}
           </button>
-        </form>
-      </div>
-    </div>
-  </div>
+        </div>
+        
+        {/* Mobile menu */}
+        <div className={`md:hidden fixed inset-y-0 right-0 w-4/5 bg-gray-800 shadow-lg z-50 transform transition-transform duration-300 ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="pt-20 px-6 flex flex-col gap-6">
+            <a href="#home" className="text-white font-medium py-2 border-b border-gray-700">Home</a>
+            <a href="#about" className="text-white font-medium py-2 border-b border-gray-700">About</a>
+            <a href="#services" className="text-white font-medium py-2 border-b border-gray-700">Services</a>
+            <a href="#portfolio" className="text-white font-medium py-2 border-b border-gray-700">Portfolio</a>
+            <a href="#contact" className="text-white font-medium py-2 border-b border-gray-700">Contact</a>
+            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded shadow transition-all mt-4">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </header>
 
-  <!-- Portfolio Modal -->
-  <div class="portfolio-modal" id="portfolioModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <img src="" alt="Project" id="modalImage">
-        <button class="modal-close" id="closeModal">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      
-      <div class="modal-body">
-        <h3 class="modal-title" id="modalTitle"></h3>
-        
-        <div class="modal-meta">
-          <div class="meta-item">
-            <span class="meta-label">Category</span>
-            <span class="meta-value" id="modalCategory"></span>
-          </div>
-          
-          <div class="meta-item">
-            <span class="meta-label">Client</span>
-            <span class="meta-value" id="modalClient"></span>
-          </div>
-          
-          <div class="meta-item">
-            <span class="meta-label">Year</span>
-            <span class="meta-value" id="modalYear"></span>
-          </div>
-        </div>
-        
-        <p class="modal-desc" id="modalDesc"></p>
-        
-        <a href="#" class="btn btn-primary" id="modalLink">
-          View Project <i class="fas fa-external-link-alt btn-icon"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-column footer-brand">
-          <div class="footer-logo-container">
-            <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" class="footer-logo">
-            <span class="footer-logo-text">Toth Animals</span>
-          </div>
-          <p class="footer-text">We provide professionally trained animals for all your production needs with the highest standards of animal welfare and performance reliability.</p>
-          <div class="social-links">
-            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
-          </div>
-        </div>
-        
-        <div class="footer-column">
-          <h3 class="footer-title">Services</h3>
-          <div class="footer-links">
-            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Film & TV Production</a>
-            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Commercial Shoots</a>
-            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Custom Training</a>
-            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Production Consulting</a>
-            <a href="#" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Safety Coordination</a>
-          </div>
-        </div>
-        
-        <div class="footer-column">
-          <h3 class="footer-title">Quick Links</h3>
-          <div class="footer-links">
-            <a href="#home" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Home</a>
-            <a href="#about" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> About Us</a>
-            <a href="#portfolio" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Portfolio</a>
-            <a href="#testimonials" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Testimonials</a>
-            <a href="#contact" class="footer-link"><i class="fas fa-chevron-right footer-link-icon"></i> Contact</a>
-          </div>
-        </div>
-        
-        <div class="footer-column">
-          <h3 class="footer-title">Newsletter</h3>
-          <p class="footer-text">Subscribe to our newsletter for updates on our latest projects and industry insights.</p>
-          <form class="footer-form">
-            <div class="form-group">
-              <input type="email" class="form-control" placeholder="Email Address" required>
+      {/* Hero Section */}
+      <section className="pt-24 lg:pt-32 pb-16 relative bg-gray-900" style={{
+        backgroundImage: "linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.7)), url('https://images.unsplash.com/photo-1551730459-92db2a308d6a?q=80&w=2000&auto=format&fit=crop')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "90vh"
+      }}>
+        <div className="container mx-auto px-4 h-full flex items-center">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              Premier Animal Training <span className="text-red-600">&</span> Film Services
+            </h1>
+            <p className="text-lg text-gray-300 mb-8 max-w-2xl">
+              Providing professionally trained animals for film, television, and commercial productions with over 25 years of industry experience.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a href="#services" className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded shadow transition-all text-center">
+                Our Services
+              </a>
+              <a href="#portfolio" className="border-2 border-red-600 text-red-600 hover:bg-red-600/10 font-semibold py-3 px-6 rounded shadow transition-all text-center">
+                View Our Work
+              </a>
             </div>
-            <button type="submit" class="btn btn-primary">Subscribe</button>
-          </form>
-        </div>
-      </div>
-      
-      <div class="footer-bottom">
-        <p class="copyright">© 2025 Toth Movie Animals. All Rights Reserved.</p>
-        <div class="footer-links">
-          <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="footer-content">
-        <div class="footer-column footer-brand">
-          <div class="footer-logo-container">
-            <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" class="footer-logo">
-            <span class="footer-logo-text">Toth Animals</span>
           </div>
-          <p class="footer-text">We provide professionally trained animals for all your production needs with the highest standards of animal welfare and performance reliability.</p>
-          <div class="social-links">
-            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-            <a href="#" class
+        </div>
+      </section>
+
+      {/* Portfolio Section - Working filter tabs */}
+      <section className="py-20 bg-gray-800" id="portfolio">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center relative inline-block after:absolute after:bottom-0 after:left-0 after:w-16 after:h-1 after:bg-red-600 pb-2">
+            Our Portfolio
+          </h2>
+          
+          <div className="flex justify-center flex-wrap gap-4 mb-12">
+            <button 
+              className={`px-6 py-3 rounded ${activeTab === 'all' ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-red-600/20'}`}
+              onClick={() => setActiveTab('all')}
+            >
+              All Projects
+            </button>
+            <button 
+              className={`px-6 py-3 rounded ${activeTab === 'film' ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-red-600/20'}`}
+              onClick={() => setActiveTab('film')}
+            >
+              Film
+            </button>
+            <button 
+              className={`px-6 py-3 rounded ${activeTab === 'television' ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-red-600/20'}`}
+              onClick={() => setActiveTab('television')}
+            >
+              Television
+            </button>
+            <button 
+              className={`px-6 py-3 rounded ${activeTab === 'commercial' ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-red-600/20'}`}
+              onClick={() => setActiveTab('commercial')}
+            >
+              Commercial
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProjects.map(project => (
+              <div 
+                key={project.id} 
+                className="bg-gray-900 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:-translate-y-2 cursor-pointer"
+                onClick={() => openModal(project)}
+              >
+                <div className="h-60 overflow-hidden relative">
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                    <h3 className="text-xl font-bold">{project.title}</h3>
+                    <p className="text-red-500">{project.categoryDisplay}</p>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
+                  <p className="text-gray-400 mb-4">{project.categoryDisplay}</p>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-500">{project.client}</span>
+                    <span className="text-sm text-gray-500">{project.year}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Project Modal */}
+      {modalOpen && selectedProject && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div 
+            className={`bg-gray-800 rounded-xl overflow-hidden max-w-4xl w-full max-h-[90vh] transition-all duration-300 ${modalOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
+          >
+            <div className="relative h-72 md:h-96">
+              <img 
+                src={selectedProject.image} 
+                alt={selectedProject.title} 
+                className="w-full h-full object-cover"
+              />
+              <button 
+                className="absolute top-4 right-4 bg-black/50 hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center text-white transition-colors"
+                onClick={closeModal}
+              >
+                ✕
+              </button>
+            </div>
+            <div className="p-6 md:p-8 overflow-y-auto max-h-[50vh]">
+              <h2 className="text-2xl md:text-3xl font-bold mb-4">{selectedProject.title}</h2>
+              
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div>
+                  <p className="text-gray-400 text-sm">Category</p>
+                  <p className="font-medium">{selectedProject.categoryDisplay}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm">Client</p>
+                  <p className="font-medium">{selectedProject.client}</p>
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm">Year</p>
+                  <p className="font-medium">{selectedProject.year}</p>
+                </div>
