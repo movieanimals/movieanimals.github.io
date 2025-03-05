@@ -1,508 +1,2867 @@
-import React, { useEffect, useState } from 'react';
-
-const TothWebsitePreview = () => {
-  const [activeTab, setActiveTab] = useState('all');
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate loading and ensure it stops after a brief period
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Portfolio data
-  const portfolioData = [
-    {
-      id: 1,
-      title: 'Film Project',
-      category: 'film',
-      categoryDisplay: 'Feature Film',
-      client: 'Film Studio',
-      year: '2023',
-      image: 'https://images.unsplash.com/photo-1598839438250-2b2cfb689300?q=80&w=1770&auto=format&fit=crop'
-    },
-    {
-      id: 2,
-      title: 'TV Project',
-      category: 'television',
-      categoryDisplay: 'TV Series',
-      client: 'Production Company',
-      year: '2022',
-      image: 'https://images.unsplash.com/photo-1541364983171-a8ba01e95cfc?q=80&w=1674&auto=format&fit=crop'
-    },
-    {
-      id: 3, 
-      title: 'Commercial',
-      category: 'commercial',
-      categoryDisplay: 'Commercial',
-      client: 'Advertising Agency',
-      year: '2024',
-      image: 'https://images.unsplash.com/photo-1443806798002-651c462956ff?q=80&w=1742&auto=format&fit=crop'
-    },
-    {
-      id: 4,
-      title: 'Film Project 2',
-      category: 'film',
-      categoryDisplay: 'Feature Film',
-      client: 'Independent Production',
-      year: '2023',
-      image: 'https://images.unsplash.com/photo-1517649763962-0c623066013b?q=80&w=1740&auto=format&fit=crop'
-    },
-    {
-      id: 5,
-      title: 'TV Project 2',
-      category: 'television',
-      categoryDisplay: 'TV Series',
-      client: 'Network Television',
-      year: '2024',
-      image: 'https://images.unsplash.com/photo-1526336024174-e58f5cdd8e13?q=80&w=1674&auto=format&fit=crop'
-    },
-    {
-      id: 6,
-      title: 'Commercial 2',
-      category: 'commercial',
-      categoryDisplay: 'Commercial',
-      client: 'Brand',
-      year: '2024',
-      image: 'https://images.unsplash.com/photo-1529472119196-cb724127a98e?q=80&w=1742&auto=format&fit=crop'
+<script>
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Preloader
+      const preloader = document.getElementById('preloader');
+      const preloaderProgressBar = document.getElementById('preloader-progress-bar');
+      const main = document.querySelector('main');
+      
+      // Simulate loading progress with cinematic effect
+      let progress = 0;
+      const loadingInterval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(loadingInterval);
+          
+          // Hide preloader with fade out effect
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+            main.style.opacity = '1';
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 1000);
+          }, 800);
+        }
+        preloaderProgressBar.style.width = `${progress}%`;
+      }, 200);
+      
+      // Custom cursor
+      const cursor = document.getElementById('cursor');
+      const cursorTrail = document.getElementById('cursor-trail');
+      
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+          cursorTrail.style.left = e.clientX + 'px';
+          cursorTrail.style.top = e.clientY + 'px';
+        }, 100);
+        
+        // Spotlight effect
+        const spotlight = document.getElementById('spotlight');
+        spotlight.style.left = e.clientX + 'px';
+        spotlight.style.top = e.clientY + 'px';
+        
+        // Show spotlight only on header
+        const header = document.querySelector('header');
+        const headerRect = header.getBoundingClientRect();
+        
+        if (
+          e.clientY >= headerRect.top &&
+          e.clientY <= headerRect.bottom &&
+          e.clientX >= headerRect.left &&
+          e.clientX <= headerRect.right
+        ) {
+          spotlight.classList.add('active');
+        } else {
+          spotlight.classList.remove('active');
+        }
+      });
+      
+      // Change cursor size on clickable elements
+      const clickables = document.querySelectorAll('a, button, input, textarea');
+      
+      clickables.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+          cursor.style.backgroundColor = '#ffffff';
+          cursor.style.boxShadow = '0 0 15px rgba(255, 255, 255, 0.8), 0 0 30px rgba(255, 255, 255, 0.4)';
+          cursorTrail.style.opacity = '0.8';
+          cursorTrail.style.borderColor = '#ffffff';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursor.style.backgroundColor = var(--primary-color);
+          cursor.style.boxShadow = '0 0 10px rgba(229, 9, 20, 0.8), 0 0 20px rgba(229, 9, 20, 0.4)';
+          cursorTrail.style.opacity = '0.7';
+          cursorTrail.style.borderColor = var(--primary-color);
+        });
+      });
+      
+      // Scroll progress indicator
+      const scrollProgress = document.getElementById('scroll-progress');
+      
+      window.addEventListener('scroll', () => {
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollPercentage = (scrollTop / windowHeight) * 100;
+        
+        scrollProgress.style.width = scrollPercentage + '%';
+        
+        // Reveal sections on scroll with animation
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          const sectionTop = section.getBoundingClientRect().top;
+          const sectionHeight = section.offsetHeight;
+          const windowHeight = window.innerHeight;
+          
+          if (sectionTop < windowHeight - sectionHeight / 4) {
+            section.classList.add('visible');
+          }
+        });
+      });
+      
+      // Initialize particles.js for background effect
+      if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+          particles: {
+            number: { value: 30, density: { enable: true, value_area: 800 } },
+            color: { value: '#E50914' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.3, random: true },
+            size: { value: 3, random: true },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: '#F5C518',
+              opacity: 0.2,
+              width: 1
+            },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: 'none',
+              random: true,
+              straight: false,
+              out_mode: 'out',
+              bounce: false
+            }
+          },
+          interactivity: {
+            detect_on: 'canvas',
+            events: {
+              onhover: { enable: true, mode: 'repulse' },
+              onclick: { enable: true, mode: 'push' },
+              resize: true
+            }
+          },
+          retina_detect: true
+        });
+      }
+      
+      // Credit tabs functionality
+      const creditTabs = document.querySelectorAll('.credit-tab');
+      const creditContents = document.querySelectorAll('.credit-content');
+      
+      creditTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          // Remove active class from all tabs and contents
+          creditTabs.forEach(t => t.classList.remove('active'));
+          creditContents.forEach(c => c.classList.remove('active'));
+          
+          // Add active class to clicked tab
+          tab.classList.add('active');
+          
+          // Show corresponding content
+          const tabId = tab.getAttribute('data-tab');
+          document.getElementById(`${tabId}-content`).classList.add('active');
+        });
+      });
+      
+      // Image zoom effect
+      const zoomImages = document.querySelectorAll('.service-image, .portfolio-feature-image');
+      
+      zoomImages.forEach(image => {
+        image.addEventListener('mouseenter', () => {
+          image.style.transform = 'scale(1.05)';
+        });
+        
+        image.addEventListener('mouseleave', () => {
+          image.style.transform = 'scale(1)';
+        });
+      });
+      
+      // Smooth scrolling for navigation
+      const navLinks = document.querySelectorAll('nav a, .hero-button');
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          const targetId = link.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+          
+          // Update active nav link
+          document.querySelectorAll('nav a').forEach(navLink => navLink.classList.remove('active'));
+          if (link.classList.contains('nav-link')) {
+            link.classList.add('active');
+          }
+        });
+      });
+      
+      // Form validation with animation
+      const contactForm = document.getElementById('contact-form');
+      const submitBtn = document.getElementById('submit-btn');
+      
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Validate form
+        const formInputs = contactForm.querySelectorAll('input, textarea');
+        let isValid = true;
+        
+        formInputs.forEach(input => {
+          if (input.hasAttribute('required') && !input.value) {
+            isValid = false;
+            input.classList.add('error');
+            input.style.borderColor = '#E50914';
+          } else {
+            input.classList.remove('error');
+            input.style.borderColor = '';
+          }
+        });
+        
+        if (isValid) {
+          // Show loading animation
+          submitBtn.innerHTML = 'Sending...';
+          submitBtn.style.width = '150px';
+          submitBtn.disabled = true;
+          
+          // Simulate form submission with Hollywood-style delay
+          setTimeout(() => {
+            // Actual form submission here
+            contactForm.submit();
+          }, 1500);
+        }
+      });
+      
+      // Check for form submission success (for when user returns after submission)
+      const checkForFormSuccess = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('success') || urlParams.has('thank-you') || urlParams.has('thanks')) {
+          const thanksMessage = document.createElement('div');
+          thanksMessage.className = 'thanks-message';
+          thanksMessage.innerHTML = `
+            <h3>Thank You!</h3>
+            <p>Your message has been sent successfully. We'll be in touch soon!</p>
+          `;
+          document.body.appendChild(thanksMessage);
+          
+          setTimeout(() => {
+            thanksMessage.classList.add('active');
+            
+            setTimeout(() => {
+              thanksMessage.classList.remove('active');
+              setTimeout(() => {
+                thanksMessage.remove();
+              }, 500);
+            }, 3000);
+          }, 500);
+          
+          // Clean up the URL without reloading the page
+          const url = new URL(window.location);
+          url.searchParams.delete('success');
+          url.searchParams.delete('thank-you');
+          url.searchParams.delete('thanks');
+          window.history.replaceState({}, '', url);
+        }
+      };
+      
+      checkForFormSuccess();
+      
+      // Form validation enhancement
+      const enhanceFormValidation = () => {
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+          const inputs = form.querySelectorAll('input, textarea, select');
+          
+          inputs.forEach(input => {
+            // Show validation state on blur
+            input.addEventListener('blur', () => {
+              if (input.hasAttribute('required') && !input.value.trim()) {
+                input.classList.add('error');
+              } else {
+                input.classList.remove('error');
+              }
+            });
+            
+            // Remove error class on input
+            input.addEventListener('input', () => {
+              input.classList.remove('error');
+            });
+          });
+          
+          // Add enhanced validation before submission
+          form.addEventListener('submit', e => {
+            let isValid = true;
+            
+            inputs.forEach(input => {
+              if (input.hasAttribute('required') && !input.value.trim()) {
+                input.classList.add('error');
+                isValid = false;
+                
+                // Scroll to first error
+                if (isValid === false) {
+                  input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  input.focus();
+                  isValid = null; // Prevent multiple scrolls
+                }
+              }
+            });
+            
+            if (isValid === false) {
+              e.preventDefault();
+            }
+          });
+        });
+      };
+      
+      enhanceFormValidation();
+          span.textContent = text[i];
+          span.style.opacity = '0';
+          span.style.animation = `fadeIn 0.1s forwards ${i * 0.05}s`;
+          element.appendChild(span);
+        }
+      };
+      
+      // Apply to hero heading
+      const heroHeading = document.querySelector('.cinematic-text');
+      if (heroHeading) {
+        revealText(heroHeading);
+      }
+      
+      // Initialize video background with cinema effect
+      const initVideoBackground = () => {
+        const videoBackground = document.getElementById('video-background');
+        
+        // Create a virtual showreel of work
+        // (In a real implementation, this would be an actual video showreel)
+        const createVirtualShowreel = () => {
+          // Create a canvas element for dynamic content
+          const canvas = document.createElement('canvas');
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          videoBackground.appendChild(canvas);
+          
+          const ctx = canvas.getContext('2d');
+          
+          // Define frames for our "virtual showreel"
+          const frames = [
+            { color: '#000', text: 'TOTH MOVIE ANIMALS PRESENTS' },
+            { color: '#111', text: 'ANIMAL TALENT THAT STEALS THE SHOW' },
+            { color: '#222', text: 'FEATURED IN MAJOR PRODUCTIONS' },
+            { color: '#111', text: 'TRUSTED BY LEADING DIRECTORS' },
+            { color: '#000', text: 'AWARD-WINNING TRAINING' },
+          ];
+          
+          let currentFrame = 0;
+          
+          // Animation function
+          const animate = () => {
+            const frame = frames[currentFrame];
+            
+            // Create cinematic letterbox effect
+            ctx.fillStyle = frame.color;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add film grain
+            for (let i = 0; i < 5000; i++) {
+              const x = Math.random() * canvas.width;
+              const y = Math.random() * canvas.height;
+              const opacity = Math.random() * 0.05;
+              ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+              ctx.fillRect(x, y, 1, 1);
+            }
+            
+            // Add text
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(frame.text, canvas.width / 2, canvas.height / 2);
+            
+            // Simulate lens flare occasionally
+            if (Math.random() > 0.97) {
+              const flareX = Math.random() * canvas.width;
+              const flareY = Math.random() * canvas.height;
+              const gradient = ctx.createRadialGradient(flareX, flareY, 0, flareX, flareY, 100);
+              gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+              gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.2)');
+              gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+              
+              ctx.fillStyle = gradient;
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            // Change frame
+            if (Math.random() > 0.99) {
+              currentFrame = (currentFrame + 1) % frames.length;
+            }
+            
+            requestAnimationFrame(animate);
+          };
+          
+          animate();
+          
+          // Handle window resize
+          window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          });
+        };
+        
+        createVirtualShowreel();
+      };
+      
+      initVideoBackground();
+      
+      // Marquee animation enhancement
+      const marqueeContent = document.querySelector('.marquee-content');
+      if (marqueeContent) {
+        // Clone the content for seamless looping
+        marqueeContent.innerHTML += marqueeContent.innerHTML;
+      }
+      
+      // Set active navigation based on scroll position
+      const sections = document.querySelectorAll('section');
+      const navItems = document.querySelectorAll('nav a');
+      
+      window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          
+          if (window.pageYOffset >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+        
+        navItems.forEach(navItem => {
+          navItem.classList.remove('active');
+          if (navItem.getAttribute('href') === `#${current}`) {
+            navItem.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toth Movie Animals - Premier Animal Training & Film Services</title>
+  
+  <!-- Favicon links -->
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="android-chrome-512x512.png">
+  
+  <!-- CDN Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  
+  <style>
+    /* Global Styles with Entertainment Industry Appeal */
+    :root {
+      --primary-color: #E50914; /* Netflix-inspired red */
+      --secondary-color: #1DB954; /* Spotify green for accent */
+      --accent-color: #F5C518; /* IMDB yellow */
+      --text-color: #f9f9f9;
+      --dark-bg: #0A0A0A; /* Film noir dark */
+      --light-bg: #141414; /* Streaming platform dark */
+      --glow-color: rgba(229, 9, 20, 0.7); /* Red glow */
+      --shadow-intensity: 0.8;
     }
-  ];
 
-  const filteredProjects = activeTab === 'all' 
-    ? portfolioData 
-    : portfolioData.filter(project => project.category === activeTab);
+    @font-face {
+      font-family: 'Cyber';
+      src: url('https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/fonts/roboto/Roboto-Bold.woff') format('woff');
+      font-weight: bold;
+    }
+    
+    @keyframes borderGlow {
+      0% { box-shadow: 0 0 5px var(--glow-color); }
+      50% { box-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); }
+      100% { box-shadow: 0 0 5px var(--glow-color); }
+    }
+    
+    @keyframes textGlow {
+      0% { text-shadow: 0 0 5px var(--glow-color); }
+      50% { text-shadow: 0 0 10px var(--glow-color), 0 0 15px var(--glow-color); }
+      100% { text-shadow: 0 0 5px var(--glow-color); }
+    }
+    
+    @keyframes floatAnimation {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes rotate3D {
+      0% { transform: perspective(1000px) rotateY(0deg); }
+      100% { transform: perspective(1000px) rotateY(360deg); }
+    }
 
-  const openModal = (project) => {
-    setSelectedProject(project);
-    setModalOpen(true);
-  };
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      scroll-behavior: smooth;
+    }
+    
+    /* Cursor enhancement for better visibility */
+    * {
+      cursor: none !important;
+    }
+    
+    /* Add extra glow and visibility for cursor across the entire page */
+    #cursor, #cursor-trail {
+      will-change: transform;
+    }
+    
+    #cursor {
+      filter: drop-shadow(0 0 8px rgba(229, 9, 20, 1)); 
+    }
+    
+    /* Ensure cursor is visible across all z-index layers */
+    body {
+      position: relative;
+      z-index: 0;
+    }
+    
+    section, footer, header, .container, .hero-container, #particles-js {
+      position: relative;
+      z-index: 1;
+    }
+    
+    #cursor, #cursor-trail {
+      z-index: 10000;
+    }
+    
+    @media (max-width: 768px) {
+      * {
+        cursor: auto !important;
+      }
+      
+      #cursor, #cursor-trail {
+        display: none;
+      }
+    }
 
-  const closeModal = () => {
-    setModalOpen(false);
-    setTimeout(() => setSelectedProject(null), 300);
-  };
+    body {
+      font-family: 'Cyber', 'Arial', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--dark-bg);
+      overflow-x: hidden;
+      perspective: 1000px;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, rgba(13, 118, 133, 0.15) 0%, rgba(18, 18, 18, 0.9) 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
 
-  return (
-    <div className="relative bg-gray-900 text-gray-100 min-h-screen overflow-x-hidden font-sans">
-      {/* Preloader - Automatically disappears after fixed time */}
-      {loading && (
-        <div className="fixed inset-0 bg-gray-900 z-50 flex items-center justify-center">
-          <div className="text-center">
-            <div className="mb-6">
-              <svg className="w-12 h-12 mx-auto animate-spin" viewBox="0 0 50 50">
-                <circle cx="25" cy="25" r="20" fill="none" stroke="#e63946" strokeWidth="5" strokeDasharray="80" strokeDashoffset="30"></circle>
-              </svg>
-            </div>
-            <p className="text-gray-400 tracking-wide uppercase text-sm">Loading Toth Movie Animals</p>
-          </div>
+    #cursor {
+      position: fixed;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      box-shadow: 0 0 10px rgba(229, 9, 20, 0.8), 0 0 20px rgba(229, 9, 20, 0.4);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+    }
+
+    #cursor-trail {
+      position: fixed;
+      width: 50px;
+      height: 50px;
+      border: 2px solid var(--primary-color);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease, opacity 0.5s ease;
+      opacity: 0.7;
+      z-index: 9998;
+      box-shadow: 0 0 15px rgba(229, 9, 20, 0.4);
+    }
+    
+    #scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      z-index: 9999;
+    }
+    
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+
+    #three-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.4;
+    }
+    
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--dark-bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+    
+    #preloader-logo {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 3px solid var(--primary-color);
+      animation: borderGlow 2s infinite, rotate3D 6s infinite linear;
+      margin-bottom: 20px;
+    }
+    
+    #preloader-text {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+      animation: textGlow 2s infinite;
+    }
+    
+    #preloader-progress {
+      width: 200px;
+      height: 5px;
+      background-color: var(--light-bg);
+      margin-top: 20px;
+      overflow: hidden;
+      border-radius: 5px;
+    }
+    
+    #preloader-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      transition: width 0.3s ease;
+    }
+
+    header {
+      background: transparent;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(13, 118, 133, 0.7), rgba(44, 62, 80, 0.7));
+      backdrop-filter: blur(10px);
+      z-index: -1;
+    }
+
+    .logo {
+      max-width: 150px;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 0 10px var(--glow-color));
+      animation: floatAnimation 4s ease-in-out infinite;
+      transition: transform 0.3s ease;
+    }
+    
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      z-index: 10;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s ease;
+    }
+    
+    nav a:hover::before {
+      left: 100%;
+    }
+
+    nav a:hover {
+      background-color: rgba(13, 118, 133, 0.5);
+      transform: scale(1.1) translateY(-3px);
+      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3);
+    }
+    
+    nav a.active {
+      background-color: var(--primary-color);
+      transform: scale(1.05);
+    }
+
+    main {
+      padding: 2rem;
+      opacity: 0;
+      transition: opacity 1s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+    
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      animation: textGlow 4s infinite;
+    }
+
+    h2::after {
+      content: '';
+      display: block;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+      margin: 0.7rem auto;
+      animation: borderGlow 4s infinite;
+    }
+
+    h3 {
+      font-size: 1.8rem;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+    
+    h3::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+    }
+
+    p {
+      margin-bottom: 1.2rem;
+      text-align: justify;
+      line-height: 1.8;
+      position: relative;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    p a {
+      color: var(--accent-color);
+      text-decoration: none;
+      position: relative;
+      padding: 0 5px;
+      transition: all 0.3s ease;
+    }
+    
+    p a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--accent-color);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.3s ease;
+    }
+    
+    p a:hover::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 2rem auto;
+      display: block;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      filter: saturate(1.2) brightness(1.1);
+      transform-style: preserve-3d;
+    }
+
+    img:hover {
+      transform: scale(1.03) translateY(-5px) rotateX(5deg);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      filter: saturate(1.4) brightness(1.15);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem;
+      background: var(--light-bg);
+      border-radius: 15px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary-color), transparent);
+    }
+    
+    .container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, var(--primary-color));
+    }
+
+    footer {
+      background: transparent;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      position: relative;
+    }
+    
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(13, 118, 133, 0.7), rgba(44, 62, 80, 0.7));
+      backdrop-filter: blur(10px);
+      z-index: -1;
+    }
+    
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+    
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background: var(--primary-color);
+      transform: translateY(-5px);
+    }
+
+    /* Contact Form Styling */
+    form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(13, 118, 133, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    form::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(13, 118, 133, 0.05) 10px,
+        rgba(13, 118, 133, 0.05) 20px
+      );
+      animation: borderGlow 10s linear infinite;
+      z-index: -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: var(--accent-color);
+      position: relative;
+      padding-left: 1.2rem;
+    }
+    
+    label::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(13, 118, 133, 0.5);
+      border-radius: 5px;
+      color: var(--text-color);
+      font-family: 'Cyber', 'Arial', sans-serif;
+      resize: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 15px rgba(13, 118, 133, 0.3);
+      background: rgba(13, 118, 133, 0.1);
+    }
+
+    button {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-family: 'Cyber', 'Arial', sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 1;
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.7s ease;
+    }
+    
+    button:hover::before {
+      left: 100%;
+    }
+
+    button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-5px);
+      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.3), 0 0 15px rgba(13, 118, 133, 0.5);
+    }
+    
+    button:active {
+      transform: translateY(2px);
+    }
+
+    /* Portfolio List Styling */
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 2rem 0;
+    }
+
+    li {
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+      position: relative;
+      padding-left: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+    
+    li::before {
+      content: '>';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+    }
+    
+    li:hover {
+      transform: translateX(5px);
+    }
+
+    strong {
+      color: var(--accent-color);
+      font-weight: bold;
+    }
+    
+    /* Hero Section */
+    .hero-container {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      min-height: 500px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 4rem;
+      overflow: hidden;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1533071581733-072d6a2b8369?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .hero-content {
+      text-align: center;
+      padding: 2rem;
+      z-index: 2;
+      max-width: 1000px;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      opacity: 0.8;
+      letter-spacing: 2px;
+    }
+    
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .hero-button {
+      padding: 0.75rem 2rem;
+      background: var(--primary-color);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 30px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      border: 2px solid var(--primary-color);
+    }
+    
+    .hero-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+    }
+    
+    .hero-button-secondary {
+      background: transparent;
+      border: 2px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+    
+    .hero-button-secondary:hover {
+      background: var(--accent-color);
+      color: #000;
+      box-shadow: 0 10px 20px rgba(245, 197, 24, 0.3);
+    }
+    
+    /* Section Titles */
+    .section-title {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: var(--primary-color);
+    }
+    
+    .highlight {
+      color: var(--accent-color);
+    }
+    
+    /* Content Card */
+    .content-card {
+      background: rgba(20, 20, 20, 0.7);
+      border-radius: 8px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .card-title {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-color);
+      letter-spacing: 1px;
+    }
+    
+    /* Stats Container */
+    .stats-container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+    }
+    
+    .stat-number {
+      font-size: 3rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: var(--text-color);
+      opacity: 0.7;
+    }
+    
+    /* Services Section */
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .service-card {
+      background: rgba(20, 20, 20, 0.5);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    
+    .service-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 3px solid var(--primary-color);
+    }
+    
+    .service-content {
+      padding: 1.5rem;
+    }
+    
+    .service-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent-color);
+    }
+    
+    .service-description {
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    
+    .service-icon {
+      position: absolute;
+      top: -15px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 22px;
+      box-shadow: 0 5px 15px rgba(229, 9, 20, 0.5);
+      overflow: visible;
+      line-height: 1;
+      padding: 0;
+      z-index: 10;
+    }
+    
+    .service-icon span {
+      display: block;
+      transform: translateY(1px);
+    }
+    
+    /* Portfolio/Credits Section */
+    .feature-section {
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+    }
+    
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      background: rgba(20, 20, 20, 0.3);
+      margin-bottom: 3rem;
+      padding: 1rem 0;
+      border-top: 1px solid rgba(245, 197, 24, 0.3);
+      border-bottom: 1px solid rgba(245, 197, 24, 0.3);
+    }
+    
+    .marquee-content {
+      display: flex;
+      animation: marquee 30s linear infinite;
+      white-space: nowrap;
+      padding: 0 2rem;
+    }
+    
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    
+    .marquee-content span {
+      display: inline-block;
+      padding: 0 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+    
+    .marquee-dot {
+      color: var(--primary-color);
+    }
+    
+    .portfolio-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    
+    .portfolio-image-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+    
+    .portfolio-feature-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .portfolio-image-container:hover .portfolio-feature-image {
+      transform: scale(1.05);
+    }
+    
+    .portfolio-image-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    }
+    
+    .portfolio-label {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--primary-color);
+      color: white;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      border-radius: 4px;
+    }
+    
+    .portfolio-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-color);
+      letter-spacing: 1px;
+    }
+    
+    .portfolio-description {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+    
+    .credit-tabs {
+      display: flex;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .credit-tab {
+      padding: 0.75rem 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-bottom: 3px solid transparent;
+    }
+    
+    .credit-tab.active {
+      color: var(--accent-color);
+      border-bottom: 3px solid var(--accent-color);
+    }
+    
+    .credit-content {
+      display: none;
+    }
+    
+    .credit-content.active {
+      display: block;
+    }
+    
+    .credit-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .credit-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed rgba(255,255,255,0.1);
+      font-size: 1.1rem;
+    }
+    
+    .credit-list li:last-child {
+      border-bottom: none;
+    }
+    
+    .imdb-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent-color);
+      color: #000;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 4px;
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .imdb-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(245, 197, 24, 0.3);
+    }
+    
+    .imdb-icon {
+      font-weight: bold;
+      margin-right: 0.75rem;
+    }
+    
+    /* Contact Form Styling */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-top: 3rem;
+    }
+    
+    .contact-info {
+      padding: 2rem;
+      background: rgba(20, 20, 20, 0.5);
+      border-radius: 8px;
+      border-left: 4px solid var(--accent-color);
+    }
+    
+    .contact-heading {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent-color);
+    }
+    
+    .contact-text {
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    .contact-method {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(229, 9, 20, 0.2);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 1rem;
+      color: var(--primary-color);
+      font-size: 20px;
+      line-height: 1;
+      overflow: visible;
+    }
+    
+    .contact-icon span {
+      display: block;
+      transform: translateY(1px);
+    }
+    
+    form {
+      max-width: none;
+      width: 100%;
+      padding: 2.5rem;
+      background: rgba(20, 20, 20, 0.5);
+      border-radius: 8px;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.75rem;
+      font-weight: bold;
+      color: var(--accent-color);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: var(--text-color);
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 10px rgba(229, 9, 20, 0.3);
+    }
+    
+    .submit-btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .submit-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+    }
+    
+    /* Footer */
+    footer {
+      margin-top: 4rem;
+      background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('https://images.unsplash.com/photo-1618935396080-2b6e6f8836d4?q=80&w=2000&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      color: var(--text-color);
+      text-align: center;
+      padding: 4rem 2rem 2rem;
+    }
+    
+    .footer-logo {
+      max-width: 120px;
+      margin-bottom: 2rem;
+    }
+    
+    .footer-nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .footer-nav a {
+      color: var(--text-color);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer-nav a:hover {
+      color: var(--accent-color);
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .social-link {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      color: var(--text-color);
+      text-decoration: none;
+    }
+    
+    .social-link:hover {
+      background: var(--primary-color);
+      transform: translateY(-5px);
+    }
+    
+    .copyright {
+      font-size: 0.9rem;
+      opacity: 0.7;
+      margin-top: 2rem;
+    }
+    
+    /* Video Background */
+    #video-background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 40%, rgba(0, 0, 0, 0.8) 100%);
+    }
+    
+    /* Tagline */
+    .tagline {
+      margin: 1rem 0 2rem;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      color: var(--accent-color);
+      opacity: 0.8;
+    }
+    
+    /* Responsive */
+    @media screen and (max-width: 992px) {
+      .portfolio-showcase,
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero-container {
+        height: 60vh;
+      }
+      
+      .cinematic-text {
+        font-size: 2.5rem;
+      }
+    }
+    
+    @media screen and (max-width: 768px) {
+      .section-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-content {
+        padding: 1rem;
+      }
+      
+      .cinematic-text {
+        font-size: 2rem;
+      }
+      
+      .hero-subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .hero-cta {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .service-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .credit-tabs {
+        flex-direction: column;
+      }
+      
+      .credit-tab {
+        width: 100%;
+        text-align: center;
+      }
+    }
+    
+    /* Glitch effect */
+    /* Film Strip Effect */
+    .film-strip {
+      position: fixed;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background-image: 
+        linear-gradient(to right,
+          #000 0%, #000 10%,
+          transparent 10%, transparent 12%,
+          #000 12%, #000 22%,
+          transparent 22%, transparent 24%,
+          #000 24%, #000 34%,
+          transparent 34%, transparent 36%,
+          #000 36%, #000 46%,
+          transparent 46%, transparent 48%,
+          #000 48%, #000 58%,
+          transparent 58%, transparent 60%,
+          #000 60%, #000 70%,
+          transparent 70%, transparent 72%,
+          #000 72%, #000 82%,
+          transparent 82%, transparent 84%,
+          #000 84%, #000 94%,
+          transparent 94%, transparent 96%,
+          #000 96%, #000 100%
+        );
+      z-index: 100;
+    }
+    
+    .film-strip-top {
+      top: 0;
+    }
+    
+    .film-strip-bottom {
+      bottom: 0;
+    }
+    
+    /* Film Studio Clapperboard Preloader */
+    #clapperboard {
+      position: relative;
+      width: 200px;
+      height: 180px;
+      background: #222;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    
+    .clapperboard-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: repeating-linear-gradient(
+        to right,
+        #000,
+        #000 20px,
+        #fff 20px,
+        #fff 40px
+      );
+      transform-origin: bottom center;
+      animation: clap 3s infinite;
+      z-index: 2;
+    }
+    
+    @keyframes clap {
+      0% { transform: rotate(0deg); }
+      5% { transform: rotate(-40deg); }
+      10% { transform: rotate(0deg); }
+      100% { transform: rotate(0deg); }
+    }
+    
+    .clapperboard-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      padding: 10px;
+    }
+    
+    .clapperboard-bottom span {
+      margin: 5px 0;
+      font-family: monospace;
+    }
+    
+    .clapperboard-bottom span:nth-child(2) {
+      color: var(--accent-color);
+    }
+    
+    .clapperboard-bottom span:nth-child(3) {
+      color: var(--primary-color);
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    
+    /* Spotlight effect */
+    .spotlight {
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0) 70%
+      );
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+      opacity: 0;
+    }
+    
+    .spotlight.active {
+      opacity: 1;
+    }
+    
+    /* Cinematic text effect */
+    .cinematic-text {
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      font-size: 3rem;
+      font-weight: bold;
+      line-height: 1.2;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--accent-color);
+      text-shadow: 0 0 10px rgba(245, 197, 24, 0.5);
+    }
+    
+    .glitch {
+      position: relative;
+      animation: cinematic-pulse 4s infinite;
+    }
+    
+    @keyframes cinematic-pulse {
+      0%, 100% { 
+        opacity: 1;
+        text-shadow: 0 0 10px rgba(245, 197, 24, 0.5);
+      }
+      50% { 
+        opacity: 0.8;
+        text-shadow: 0 0 20px rgba(245, 197, 24, 0.8), 0 0 30px rgba(245, 197, 24, 0.6);
+      }
+    }
+    
+    /* Terminal effect */
+    .terminal {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1.5rem;
+      border-radius: 10px;
+      border: 1px solid var(--primary-color);
+      box-shadow: 0 0 15px rgba(13, 118, 133, 0.3);
+      margin: 2rem 0;
+      font-family: monospace;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .terminal-header {
+      display: flex;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--primary-color);
+      padding-bottom: 0.5rem;
+    }
+    
+    .terminal-title {
+      margin-left: 1rem;
+      color: var(--primary-color);
+    }
+    
+    .terminal-controls {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .terminal-control {
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+    }
+    
+    .terminal-control-red {
+      background-color: #ff5f56;
+    }
+    
+    .terminal-control-yellow {
+      background-color: #ffbd2e;
+    }
+    
+    .terminal-control-green {
+      background-color: #27c93f;
+    }
+    
+    .terminal-content {
+      position: relative;
+      padding-left: 1rem;
+    }
+    
+    .terminal-content p {
+      margin-bottom: 0.7rem;
+      font-family: monospace;
+    }
+    
+    .terminal-content::before {
+      content: '$';
+      position: absolute;
+      left: 0;
+      color: var(--primary-color);
+    }
+    
+    .terminal-blink {
+      animation: blink 1s infinite;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    
+    /* Modal Styling Enhancement */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+    
+    .modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    .modal-content {
+      width: 90%;
+      max-width: 600px;
+      background: linear-gradient(145deg, #1a1a1a, #0a0a0a);
+      border: 1px solid var(--primary-color);
+      box-shadow: 0 0 30px rgba(229, 9, 20, 0.3);
+      padding: 2.5rem;
+      border-radius: 10px;
+      position: relative;
+      transform: scale(0.8) translateY(50px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .modal.active .modal-content {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 30px;
+      height: 30px;
+      background: rgba(229, 9, 20, 0.2);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--primary-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+    
+    .modal-close:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: rotate(90deg);
+    }
+    
+    .modal h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+      color: var(--primary-color);
+      text-align: center;
+    }
+    
+    /* Form control enhancements */
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23E50914' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+      padding-right: 2.5rem;
+    }
+    
+    input[type="date"].form-control {
+      color-scheme: dark;
+    }
+    
+    /* Responsive Design */
+    @media screen and (max-width: 768px) {
+      h2 {
+        font-size: 1.75rem;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .portfolio-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Custom Cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-trail"></div>
+  
+  <!-- Scroll Progress -->
+  <div id="scroll-progress"></div>
+  
+  <!-- Particles Background -->
+  <div id="particles-js"></div>
+  
+  <!-- Video Reel Background -->
+  <div id="video-background">
+    <div class="overlay"></div>
+  </div>
+  
+  <!-- Film Strip Effect -->
+  <div class="film-strip film-strip-top"></div>
+  <div class="film-strip film-strip-bottom"></div>
+  
+  <!-- Preloader -->
+  <div id="preloader">
+    <div id="clapperboard">
+      <div class="clapperboard-top"></div>
+      <div class="clapperboard-bottom">
+        <span>TOTH MOVIE ANIMALS</span>
+        <span>TAKE 1</span>
+        <span>ACTION!</span>
+      </div>
+    </div>
+    <div id="preloader-text">NOW LOADING</div>
+    <div id="preloader-progress">
+      <div id="preloader-progress-bar"></div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal" id="video-modal">
+    <div class="modal-content">
+      <div class="modal-close" id="modal-close">&times;</div>
+      <div id="modal-content-container"></div>
+    </div>
+  </div>
+
+  <header>
+    <div class="spotlight" id="spotlight"></div>
+    <img class="logo" src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals Logo">
+    <div class="tagline">BRINGING ANIMAL TALENT TO THE BIG SCREEN</div>
+    <nav>
+      <a href="#about" class="nav-link">About</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#portfolio" class="nav-link">Portfolio</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-container">
+      <div class="hero-content">
+        <h1 class="cinematic-text">PREMIERE ANIMAL TALENT</h1>
+        <p class="hero-subtitle">AS SEEN IN BLOCKBUSTER FILMS AND HIT TV SHOWS</p>
+        <div class="hero-cta">
+          <a href="#" class="hero-button" id="book-now-btn">Book Now</a>
+          <a href="#portfolio" class="hero-button hero-button-secondary">Watch Showreel</a>
         </div>
-      )}
-
-      {/* Header */}
-      <header className="fixed w-full bg-gray-900/85 backdrop-blur-md border-b border-white/5 z-40 py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" className="h-10" />
-            <span className="font-bold text-lg">Toth Animals</span>
-          </div>
-          
-          <nav className="hidden md:block">
-            <div className="flex gap-8">
-              <a href="#home" className="text-white font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-red-600">Home</a>
-              <a href="#about" className="text-white font-medium hover:text-red-500 transition-colors">About</a>
-              <a href="#services" className="text-white font-medium hover:text-red-500 transition-colors">Services</a>
-              <a href="#portfolio" className="text-white font-medium hover:text-red-500 transition-colors">Portfolio</a>
-              <a href="#contact" className="text-white font-medium hover:text-red-500 transition-colors">Contact</a>
+      </div>
+      
+      <!-- Hidden Booking Modal -->
+      <div class="modal" id="booking-modal">
+        <div class="modal-content">
+          <div class="modal-close" id="booking-modal-close">&times;</div>
+          <h2>Quick Booking Request</h2>
+          <form id="booking-form" action="https://formsubmit.co/your-email-here" method="POST">
+            <!-- Hidden email field (not visible to users) -->
+            <input type="hidden" name="_next" value="https://yourwebsite.com/thanks.html">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_subject" value="New Booking Request from Website">
+            <input type="hidden" name="email" value="ishityounotdude1@protonmail.com">
+            
+            <div class="form-group">
+              <label class="form-label">Your Name</label>
+              <input type="text" name="name" class="form-control" required>
             </div>
-          </nav>
-          
-          <div className="hidden md:block">
-            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded shadow transition-all">
-              Book Now
-            </button>
+            
+            <div class="form-group">
+              <label class="form-label">Your Email</label>
+              <input type="email" name="client_email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Project Type</label>
+              <select name="project_type" class="form-control" required>
+                <option value="">Select Project Type</option>
+                <option value="feature_film">Feature Film</option>
+                <option value="tv_show">TV Show</option>
+                <option value="commercial">Commercial</option>
+                <option value="photo_shoot">Photo Shoot</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Project Start Date</label>
+              <input type="date" name="start_date" class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Brief Description</label>
+              <textarea name="description" rows="3" class="form-control" required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Send Booking Request</button>
+          </form>
+        </div>
+      </div>
+    </section>
+  
+    <!-- About Section -->
+    <section class="container" id="about">
+      <h2 class="section-title">The <span class="highlight">Story</span></h2>
+      <div class="content-card">
+        <div class="card-content">
+          <h3 class="card-title">WHERE HOLLYWOOD MEETS ANIMAL EXPERTISE</h3>
+          <p>Based near Los Angeles, Toth Movie Animals is a trusted partner for filmmakers seeking to bring their creative visions to life through animals. With a deep-rooted passion for wildlife and storytelling, we strive to create unforgettable moments while prioritizing the safety and well-being of every animal involved.</p>
+          <p>Founded by Derek Toth—a third-generation animal trainer—our team carries forward a legacy of dedication and care.</p>
+          <div class="stats-container">
+            <div class="stat-item">
+              <span class="stat-number">100+</span>
+              <span class="stat-label">PRODUCTIONS</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">SPECIES</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">15+</span>
+              <span class="stat-label">YEARS</span>
+            </div>
           </div>
-          
-          <button className="md:hidden text-white text-xl" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? '✕' : '☰'}
-          </button>
+          <p>While Derek has had the privilege of working on high-profile projects, he remains grounded in his commitment to environmental stewardship and animal advocacy. Whether it's training animals for film or ensuring their comfort on set, Derek approaches every task with humility and respect.</p>
+          <p>When not on set, Derek enjoys hiking, exploring nature, and advocating for animal rights. These passions inspire our mission at Toth Movie Animals: to enrich stories through animals while fostering a culture of kindness and responsibility.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="container" id="services">
+      <h2 class="section-title">Our <span class="highlight">Services</span></h2>
+      
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="service-icon"><span>🎬</span></div>
+          <img src="https://images.unsplash.com/photo-1536816579748-4ecb3f03d72a?q=80&w=600&auto=format&fit=crop" alt="Cat Job for Cat Food Commercial in Los Angeles" class="service-image">
+          <div class="service-content">
+            <h3 class="service-title">Animal Training for Film & TV</h3>
+            <p class="service-description">We specialize in providing expertly trained animals for commercials, TV shows, and feature films. Our trainers ensure that each animal performs safely and effectively under the most demanding conditions.</p>
+          </div>
         </div>
         
-        {/* Mobile menu */}
-        <div className={`md:hidden fixed inset-y-0 right-0 w-4/5 bg-gray-800 shadow-lg z-50 transform transition-transform duration-300 ${menuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="pt-20 px-6 flex flex-col gap-6">
-            <a href="#home" className="text-white font-medium py-2 border-b border-gray-700">Home</a>
-            <a href="#about" className="text-white font-medium py-2 border-b border-gray-700">About</a>
-            <a href="#services" className="text-white font-medium py-2 border-b border-gray-700">Services</a>
-            <a href="#portfolio" className="text-white font-medium py-2 border-b border-gray-700">Portfolio</a>
-            <a href="#contact" className="text-white font-medium py-2 border-b border-gray-700">Contact</a>
-            <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded shadow transition-all mt-4">
-              Book Now
-            </button>
+        <div class="service-card">
+        <div class="service-card">
+          <div class="service-icon"><span>🐾</span></div>
+          <img src="https://images.unsplash.com/photo-1551730459-92db2a308d6a?q=80&w=600&auto=format&fit=crop" alt="Private Pet Training" class="service-image">
+          <div class="service-content">
+            <h3 class="service-title">Private Pet Training</h3>
+            <p class="service-description">In addition to our work in entertainment, we offer personalized private training sessions for pets. Our goal is to help owners unlock their pets' full potential in a nurturing environment.</p>
           </div>
         </div>
-      </header>
-
-      {/* Hero Section */}
-      <section className="pt-24 lg:pt-32 pb-16 relative bg-gray-900" style={{
-        backgroundImage: "linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.7)), url('https://images.unsplash.com/photo-1551730459-92db2a308d6a?q=80&w=2000&auto=format&fit=crop')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        minHeight: "90vh"
-      }}>
-        <div className="container mx-auto px-4 h-full flex items-center">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              Premier Animal Training <span className="text-red-600">&</span> Film Services
-            </h1>
-            <p className="text-lg text-gray-300 mb-8 max-w-2xl">
-              Providing professionally trained animals for film, television, and commercial productions with over 25 years of industry experience.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#services" className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded shadow transition-all text-center">
-                Our Services
-              </a>
-              <a href="#portfolio" className="border-2 border-red-600 text-red-600 hover:bg-red-600/10 font-semibold py-3 px-6 rounded shadow transition-all text-center">
-                View Our Work
-              </a>
-            </div>
+        </div>
+        
+        <div class="service-card">
+          <div class="service-icon"><span>🛡️</span></div>
+          <img src="https://images.unsplash.com/photo-1626888126181-e39983e1d044?q=80&w=600&auto=format&fit=crop" alt="Animal Safety on Film Set" class="service-image">
+          <div class="service-content">
+            <h3 class="service-title">Animal Safety Consulting</h3>
+            <p class="service-description">Collaborating with the Animal Protection Agency (APA), we provide comprehensive oversight to ensure the well-being of animals during film shoots, live events, and press junkets.</p>
           </div>
         </div>
-      </section>
+        
+        <div class="service-card">
+          <div class="service-icon"><span>🌄</span></div>
+          <img src="https://images.unsplash.com/photo-1525785967371-87ba44b3e6da?q=80&w=600&auto=format&fit=crop" alt="Location Wildlife Management" class="service-image">
+          <div class="service-content">
+            <h3 class="service-title">Location & Wildlife Management</h3>
+            <p class="service-description">Our team assists productions in finding ideal filming locations while mitigating risks posed by local wildlife. From rattlesnake abatement to habitat preservation, we create safe environments for both humans and animals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      {/* Portfolio Section - Working filter tabs */}
-      <section className="py-20 bg-gray-800" id="portfolio">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center relative inline-block after:absolute after:bottom-0 after:left-0 after:w-16 after:h-1 after:bg-red-600 pb-2">
-            Our Portfolio
-          </h2>
+    <!-- Portfolio/Credits Section -->
+    <section class="container feature-section" id="portfolio">
+      <h2 class="section-title">Featured <span class="highlight">Credits</span></h2>
+      
+      <!-- Marquee Ticker with Film Credits -->
+      <div class="marquee-container">
+        <div class="marquee-content">
+          <span>DEADPOOL AND WOLVERINE</span>
+          <span class="marquee-dot">•</span>
+          <span>BIRDS OF PREY</span>
+          <span class="marquee-dot">•</span>
+          <span>AMERICAN HORROR STORY</span>
+          <span class="marquee-dot">•</span>
+          <span>THE ROOKIE</span>
+          <span class="marquee-dot">•</span>
+          <span>APPLE</span>
+          <span class="marquee-dot">•</span>
+          <span>VERSACE</span>
+        </div>
+      </div>
+      
+      <!-- Showreel Section -->
+      <div class="showreel-container">
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1" title="Toth Movie Animals Showreel" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      
+      <div class="portfolio-showcase">
+        <div class="portfolio-image-container">
+          <img src="https://images.unsplash.com/photo-1696435542994-56a8efd8c88e?q=80&w=800&auto=format&fit=crop" alt="On set with animals" class="portfolio-feature-image">
+          <div class="portfolio-image-overlay">
+            <span class="portfolio-label">FEATURED PRODUCTION</span>
+          </div>
+        </div>
+        
+        <div class="portfolio-details">
+          <h3 class="portfolio-title">BRINGING STORIES TO LIFE</h3>
+          <p class="portfolio-description">Derek Toth has worked with industry-leading directors and production companies to deliver exceptional animal performances for award-winning productions.</p>
           
-          <div className="flex justify-center flex-wrap gap-4 mb-12">
-            <button 
-              className={`px-6 py-3 rounded ${activeTab === 'all' ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-red-600/20'}`}
-              onClick={() => setActiveTab('all')}
-            >
-              All Projects
-            </button>
-            <button 
-              className={`px-6 py-3 rounded ${activeTab === 'film' ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-red-600/20'}`}
-              onClick={() => setActiveTab('film')}
-            >
-              Film
-            </button>
-            <button 
-              className={`px-6 py-3 rounded ${activeTab === 'television' ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-red-600/20'}`}
-              onClick={() => setActiveTab('television')}
-            >
-              Television
-            </button>
-            <button 
-              className={`px-6 py-3 rounded ${activeTab === 'commercial' ? 'bg-red-600 text-white' : 'bg-gray-700 hover:bg-red-600/20'}`}
-              onClick={() => setActiveTab('commercial')}
-            >
-              Commercial
-            </button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map(project => (
-              <div 
-                key={project.id} 
-                className="bg-gray-900 rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:-translate-y-2 cursor-pointer"
-                onClick={() => openModal(project)}
-              >
-                <div className="h-60 overflow-hidden relative">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                    <h3 className="text-xl font-bold">{project.title}</h3>
-                    <p className="text-red-500">{project.categoryDisplay}</p>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{project.title}</h3>
-                  <p className="text-gray-400 mb-4">{project.categoryDisplay}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">{project.client}</span>
-                    <span className="text-sm text-gray-500">{project.year}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Project Modal */}
-      {modalOpen && selectedProject && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div 
-            className={`bg-gray-800 rounded-xl overflow-hidden max-w-4xl w-full max-h-[90vh] transition-all duration-300 ${modalOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}
-          >
-            <div className="relative h-72 md:h-96">
-              <img 
-                src={selectedProject.image} 
-                alt={selectedProject.title} 
-                className="w-full h-full object-cover"
-              />
-              <button 
-                className="absolute top-4 right-4 bg-black/50 hover:bg-red-600 w-10 h-10 rounded-full flex items-center justify-center text-white transition-colors"
-                onClick={closeModal}
-              >
-                ✕
-              </button>
-            </div>
-            <div className="p-6 md:p-8 overflow-y-auto max-h-[50vh]">
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">{selectedProject.title}</h2>
-              
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div>
-                  <p className="text-gray-400 text-sm">Category</p>
-                  <p className="font-medium">{selectedProject.categoryDisplay}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Client</p>
-                  <p className="font-medium">{selectedProject.client}</p>
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Year</p>
-                  <p className="font-medium">{selectedProject.year}</p>
-                </div>
-              </div>
-              
-              <p className="text-gray-300 mb-6">
-                Professional animal training services for {selectedProject.categoryDisplay.toLowerCase()} production. Our animals performed according to the specific requirements of the project while maintaining the highest standards of animal welfare.
-              </p>
-              
-              <button 
-                className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded transition-all"
-              >
-                View Project Details
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* About Section Preview */}
-      <section className="py-20" id="about">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <div className="rounded-xl overflow-hidden shadow-2xl relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1552053831-71594a27632d?q=80&w=1624&auto=format&fit=crop" 
-                  alt="About Toth Movie Animals" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute -top-3 -left-3 w-12 h-12 border-t-2 border-l-2 border-red-600"></div>
-              <div className="absolute -bottom-3 -right-3 w-12 h-12 border-b-2 border-r-2 border-red-600"></div>
-            </div>
-            
-            <div>
-              <h2 className="text-3xl font-bold mb-6 relative inline-block after:absolute after:bottom-0 after:left-0 after:w-16 after:h-1 after:bg-red-600 pb-2">
-                About Toth Movie Animals
-              </h2>
-              <p className="text-gray-300 mb-6">
-                Founded in 1998, Toth Movie Animals has been the industry's leading provider of trained animals for entertainment productions. Our expert trainers work with a diverse range of species to deliver reliable, safe, and impressive animal performances.
-              </p>
-              <p className="text-gray-300 mb-8">
-                We prioritize animal welfare and ethical treatment above all else, ensuring our animal actors are treated with the utmost care and respect. Every production is approached with meticulous planning and professional execution.
-              </p>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                <div className="bg-gray-800 p-6 rounded-xl border-l-4 border-red-600 shadow-lg">
-                  <h3 className="text-red-500 text-3xl font-bold mb-2">25+</h3>
-                  <p className="text-gray-400 uppercase text-sm font-semibold tracking-wider">Years Experience</p>
-                </div>
-                <div className="bg-gray-800 p-6 rounded-xl border-l-4 border-red-600 shadow-lg">
-                  <h3 className="text-red-500 text-3xl font-bold mb-2">500+</h3>
-                  <p className="text-gray-400 uppercase text-sm font-semibold tracking-wider">Productions</p>
-                </div>
-                <div className="bg-gray-800 p-6 rounded-xl border-l-4 border-red-600 shadow-lg">
-                  <h3 className="text-red-500 text-3xl font-bold mb-2">50+</h3>
-                  <p className="text-gray-400 uppercase text-sm font-semibold tracking-wider">Animal Species</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer Preview */}
-      <footer className="pt-20 pb-10 bg-gray-900 border-t border-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals" className="h-9" />
-                <span className="font-bold text-lg">Toth Animals</span>
-              </div>
-              <p className="text-gray-400 mb-6">
-                We provide professionally trained animals for all your production needs with the highest standards of animal welfare and performance reliability.
-              </p>
-              <div className="flex gap-4">
-                <a href="#" className="bg-gray-800 hover:bg-red-600 w-10 h-10 rounded flex items-center justify-center text-gray-300 hover:text-white transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
-                  </svg>
-                </a>
-                <a href="#" className="bg-gray-800 hover:bg-red-600 w-10 h-10 rounded flex items-center justify-center text-gray-300 hover:text-white transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clipRule="evenodd" />
-                  </svg>
-                </a>
-                <a href="#" className="bg-gray-800 hover:bg-red-600 w-10 h-10 rounded flex items-center justify-center text-gray-300 hover:text-white transition-colors">
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-bold mb-6 relative pl-4 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-red-600">
-                Services
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Production Consulting
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Safety Coordination
-                  </a>
-                </li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-bold mb-6 relative pl-4 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-red-600">
-                Quick Links
-              </h3>
-              <ul className="space-y-3">
-                <li>
-                  <a href="#home" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Home
-                  </a>
-                </li>
-                <li>
-                  <a href="#about" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#services" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Services
-                  </a>
-                </li>
-                <li>
-                  <a href="#portfolio" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Portfolio
-                  </a>
-                </li>
-                <li>
-                  <a href="#contact" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-bold mb-6 relative pl-4 before:absolute before:left-0 before:top-0 before:h-full before:w-1 before:bg-red-600">
-                Newsletter
-              </h3>
-              <p className="text-gray-400 mb-4">
-                Subscribe to our newsletter for updates on our latest projects and industry insights.
-              </p>
-              <form className="space-y-4">
-                <div>
-                  <input 
-                    type="email" 
-                    placeholder="Email Address" 
-                    className="w-full p-3 bg-gray-700 rounded border border-gray-600 text-white focus:border-red-500 focus:ring-2 focus:ring-red-500/30 outline-none transition"
-                  />
-                </div>
-                <button 
-                  type="submit"
-                  className="bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-6 rounded shadow transition-all w-full"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
+          <div class="credit-tabs">
+            <div class="credit-tab active" data-tab="films">Films</div>
+            <div class="credit-tab" data-tab="tv">TV</div>
+            <div class="credit-tab" data-tab="commercials">Commercials</div>
           </div>
           
-          <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm">
-              © 2025 Toth Movie Animals. All Rights Reserved.
-            </p>
-            <div className="mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-red-500 text-sm">Privacy Policy</a>
-              <span className="text-gray-600 mx-2">|</span>
-              <a href="#" className="text-gray-400 hover:text-red-500 text-sm">Terms of Service</a>
-            </div>
+          <div class="credit-content active" id="films-content">
+            <ul class="credit-list">
+              <li>Deadpool and Wolverine</li>
+              <li>Birds of Prey</li>
+              <li>Palm Springs</li>
+              <li>White Men Can't Jump</li>
+              <li>About My Father</li>
+            </ul>
+          </div>
+          
+          <div class="credit-content" id="tv-content">
+            <ul class="credit-list">
+              <li>American Horror Story</li>
+              <li>The Rookie</li>
+              <li>911: Lone Star</li>
+              <li>S.W.A.T.</li>
+            </ul>
+          </div>
+          
+          <div class="credit-content" id="commercials-content">
+            <ul class="credit-list">
+              <li>Apple</li>
+              <li>Versace</li>
+              <li>Nationwide Insurance</li>
+              <li>Levi's</li>
+              <li>Brooks Brothers</li>
+              <li>And many more...</li>
+            </ul>
+          </div>
+          
+          <div class="portfolio-cta">
+            <a href="https://www.imdb.com/name/nm14670166/" class="imdb-button">
+              <span class="imdb-icon">IMDb</span>
+              <span>VIEW FULL CREDITS</span>
+            </a>
           </div>
         </div>
-      </footer>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="container" id="contact">
+      <h2 class="section-title">Get <span class="highlight">In Touch</span></h2>
+      
+      <div class="contact-container">
+        <div class="contact-info">
+          <h3 class="contact-heading">Ready to Bring Your Vision to Life?</h3>
+          <p class="contact-text">If you're interested in our services or have questions, we'd love to hear from you! At Toth Movie Animals, we understand the unique challenges faced by indie filmmakers and are committed to offering flexible, budget-friendly solutions without compromising quality or authenticity.</p>
+          
+          <div class="contact-method">
+            <div class="contact-icon"><span>📱</span></div>
+            <span>Los Angeles, California</span>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon"><span>✉️</span></div>
+            <span>info@tothmovieanimals.com</span>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon"><span>🎬</span></div>
+            <span>Available for productions worldwide</span>
+          </div>
+        </div>
+        
+        <form action="https://formspree.io/f/xdkngqyo" method="POST" id="contact-form">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Your Email</label>
+            <input type="email" name="email" class="form-control" required>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" name="phone" class="form-control">
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Your Message</label>
+            <textarea name="message" rows="4" class="form-control" required></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn" id="submit-btn">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <img src="https://cdn-icons-png.flaticon.com/512/6195/6195412.png" alt="Toth Movie Animals Logo" class="footer-logo">
+    
+    <nav class="footer-nav">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#portfolio">Portfolio</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    
+    <div class="social-links">
+      <a href="#" class="social-link">FB</a>
+      <a href="#" class="social-link">IG</a>
+      <a href="#" class="social-link">TW</a>
+      <a href="https://www.imdb.com/name/nm14670166/" class="social-link">IMDb</a>
     </div>
-  );
-};
+    
+    <p class="copyright">&copy; 2024 Toth Movie Animals. All rights reserved.</p>
+  </footer>
 
-export default TothWebsitePreview;="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Film & TV Production
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Commercial Shoots
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                    Custom Training
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="text-gray-400 hover:text-red-500 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 mr-2" fill="none" viewBox
+  <!-- JavaScript -->
+  <script>
+    // Wait for DOM to be fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Preloader
+      const preloader = document.getElementById('preloader');
+      const preloaderProgressBar = document.getElementById('preloader-progress-bar');
+      const main = document.querySelector('main');
+      
+      // Simulate loading progress
+      let progress = 0;
+      const loadingInterval = setInterval(() => {
+        progress += Math.random() * 10;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(loadingInterval);
+          
+          // Hide preloader
+          setTimeout(() => {
+            preloader.style.opacity = '0';
+            main.style.opacity = '1';
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 500);
+          }, 500);
+        }
+        preloaderProgressBar.style.width = `${progress}%`;
+      }, 200);
+      
+      // Custom cursor
+      const cursor = document.getElementById('cursor');
+      const cursorTrail = document.getElementById('cursor-trail');
+      
+      document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+        
+        setTimeout(() => {
+          cursorTrail.style.left = e.clientX + 'px';
+          cursorTrail.style.top = e.clientY + 'px';
+        }, 100);
+      });
+      
+      // Change cursor size on clickable elements
+      const clickables = document.querySelectorAll('a, button, input, textarea, .portfolio-item');
+      
+      clickables.forEach(element => {
+        element.addEventListener('mouseenter', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+          cursor.style.mixBlendMode = 'difference';
+          cursorTrail.style.opacity = '0.2';
+        });
+        
+        element.addEventListener('mouseleave', () => {
+          cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursor.style.mixBlendMode = 'difference';
+          cursorTrail.style.opacity = '0.5';
+        });
+      });
+      
+      // Scroll progress indicator
+      const scrollProgress = document.getElementById('scroll-progress');
+      
+      window.addEventListener('scroll', () => {
+        const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollPercentage = (scrollTop / windowHeight) * 100;
+        
+        scrollProgress.style.width = scrollPercentage + '%';
+        
+        // Reveal sections on scroll
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          const sectionTop = section.getBoundingClientRect().top;
+          const sectionHeight = section.offsetHeight;
+          const windowHeight = window.innerHeight;
+          
+          if (sectionTop < windowHeight - sectionHeight / 4) {
+            section.classList.add('visible');
+          }
+        });
+      });
+      
+      // Initialize particles.js
+      if (typeof particlesJS !== 'undefined') {
+        particlesJS('particles-js', {
+          particles: {
+            number: { value: 50, density: { enable: true, value_area: 800 } },
+            color: { value: '#0D7685' },
+            shape: { type: 'circle' },
+            opacity: { value: 0.5, random: true },
+            size: { value: 3, random: true },
+            line_linked: {
+              enable: true,
+              distance: 150,
+              color: '#0D7685',
+              opacity: 0.2,
+              width: 1
+            },
+            move: {
+              enable: true,
+              speed: 1,
+              direction: 'none',
+              random: true,
+              straight: false,
+              out_mode: 'out',
+              bounce: false
+            }
+          },
+          interactivity: {
+            detect_on: 'canvas',
+            events: {
+              onhover: { enable: true, mode: 'repulse' },
+              onclick: { enable: true, mode: 'push' },
+              resize: true
+            }
+          },
+          retina_detect: true
+        });
+      }
+      
+      // Initialize Video Background with cinematic effect
+      const initVideoBackground = () => {
+        const videoBackground = document.getElementById('video-background');
+        
+        // Create a virtual showreel of work
+        // (In a real implementation, this would be an actual video showreel)
+        const createVirtualShowreel = () => {
+          // Create a canvas element for dynamic content
+          const canvas = document.createElement('canvas');
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          videoBackground.appendChild(canvas);
+          
+          const ctx = canvas.getContext('2d');
+          
+          // Define frames for our "virtual showreel"
+          const frames = [
+            { color: '#000', text: 'TOTH MOVIE ANIMALS PRESENTS' },
+            { color: '#111', text: 'ANIMAL TALENT THAT STEALS THE SHOW' },
+            { color: '#222', text: 'FEATURED IN MAJOR PRODUCTIONS' },
+            { color: '#111', text: 'TRUSTED BY LEADING DIRECTORS' },
+            { color: '#000', text: 'AWARD-WINNING TRAINING' },
+          ];
+          
+          let currentFrame = 0;
+          
+          // Animation function
+          const animate = () => {
+            const frame = frames[currentFrame];
+            
+            // Create cinematic letterbox effect
+            ctx.fillStyle = frame.color;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Add film grain
+            for (let i = 0; i < 5000; i++) {
+              const x = Math.random() * canvas.width;
+              const y = Math.random() * canvas.height;
+              const opacity = Math.random() * 0.05;
+              ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+              ctx.fillRect(x, y, 1, 1);
+            }
+            
+            // Add text
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 32px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(frame.text, canvas.width / 2, canvas.height / 2);
+            
+            // Simulate lens flare
+            if (Math.random() > 0.97) {
+              const flareX = Math.random() * canvas.width;
+              const flareY = Math.random() * canvas.height;
+              const gradient = ctx.createRadialGradient(flareX, flareY, 0, flareX, flareY, 100);
+              gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+              gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.2)');
+              gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+              
+              ctx.fillStyle = gradient;
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            // Change frame
+            if (Math.random() > 0.99) {
+              currentFrame = (currentFrame + 1) % frames.length;
+            }
+            
+            requestAnimationFrame(animate);
+          };
+          
+          animate();
+          
+          // Handle window resize
+          window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+          });
+        };
+        
+        createVirtualShowreel();
+      };
+      
+      initVideoBackground();
+      
+      // Form input effects
+      const formInputs = document.querySelectorAll('input, textarea');
+      
+      formInputs.forEach(input => {
+        input.addEventListener('focus', () => {
+          input.parentElement.classList.add('active');
+        });
+        
+        input.addEventListener('blur', () => {
+          if (input.value === '') {
+            input.parentElement.classList.remove('active');
+          }
+        });
+      });
+      
+      // Smooth scrolling for navigation
+      const navLinks = document.querySelectorAll('.nav-link');
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          
+          const targetId = link.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          window.scrollTo({
+            top: targetElement.offsetTop - 100,
+            behavior: 'smooth'
+          });
+          
+          // Update active nav link
+          navLinks.forEach(navLink => navLink.classList.remove('active'));
+          link.classList.add('active');
+        });
+      });
+      
+      // Modal functionality
+      const modal = document.getElementById('video-modal');
+      const modalClose = document.getElementById('modal-close');
+      const modalContent = document.getElementById('modal-content-container');
+      
+      const openModal = (content) => {
+        modalContent.innerHTML = content;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+      
+      const closeModal = () => {
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+      };
+      
+      modalClose.addEventListener('click', closeModal);
+      
+      // Close modal when clicking outside content
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+      
+      // Portfolio item click
+      const portfolioItems = document.querySelectorAll('.portfolio-item');
+      
+      portfolioItems.forEach(item => {
+        item.addEventListener('click', () => {
+          const category = item.getAttribute('data-category');
+          const title = item.querySelector('.portfolio-item-title').textContent;
+          const description = item.querySelector('.portfolio-item-back p').textContent;
+          
+          const content = `
+            <h2>${title}</h2>
+            <p>${description}</p>
+            <div class="terminal">
+              <div class="terminal-header">
+                <div class="terminal-controls">
+                  <div class="terminal-control terminal-control-red"></div>
+                  <div class="terminal-control terminal-control-yellow"></div>
+                  <div class="terminal-control terminal-control-green"></div>
+                </div>
+                <div class="terminal-title">project-details.json</div>
+              </div>
+              <div class="terminal-content">
+                <pre>{
+  "project": "${title}",
+  "category": "${category}",
+  "lead_trainer": "Derek Toth",
+  "animals_involved": ["Various", "Based on Project Needs"],
+  "location": "Los Angeles Area"
+}</pre>
+              </div>
+            </div>
+          `;
+          
+          openModal(content);
+        });
+      });
+      
+      // Add parallax effect to images
+      const parallaxImages = document.querySelectorAll('.parallax-img');
+      
+      window.addEventListener('scroll', () => {
+        parallaxImages.forEach(image => {
+          const scrollPosition = window.pageYOffset;
+          const imagePosition = image.offsetTop;
+          const windowHeight = window.innerHeight;
+          
+          if (imagePosition < scrollPosition + windowHeight && imagePosition + image.height > scrollPosition) {
+            const distance = (scrollPosition + windowHeight - imagePosition) * 0.1;
+            image.style.transform = `translateY(${distance}px)`;
+          }
+        });
+      });
+      
+      // Form submission with animation
+      const contactForm = document.getElementById('contact-form');
+      const submitBtn = document.getElementById('submit-btn');
+      
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        // Validate form
+        const formInputs = contactForm.querySelectorAll('input, textarea');
+        let isValid = true;
+        
+        formInputs.forEach(input => {
+          if (input.hasAttribute('required') && !input.value) {
+            isValid = false;
+            input.classList.add('error');
+          } else {
+            input.classList.remove('error');
+          }
+        });
+        
+        if (isValid) {
+          // Show loading animation
+          submitBtn.innerHTML = '<span class="btn-effect"></span>Processing...';
+          submitBtn.disabled = true;
+          
+          // Simulate form submission
+          setTimeout(() => {
+            // Actual form submission here
+            contactForm.submit();
+          }, 1500);
+        }
+      });
+      
+      // Text scramble effect for headings
+      class TextScramble {
+        constructor(el) {
+          this.el = el;
+          this.chars = '!<>-_\\/[]{}—=+*^?#________';
+          this.update = this.update.bind(this);
+        }
+        
+        setText(newText) {
+          const oldText = this.el.innerText;
+          const length = Math.max(oldText.length, newText.length);
+          const promise = new Promise(resolve => this.resolve = resolve);
+          this.queue = [];
+          
+          for (let i = 0; i < length; i++) {
+            const from = oldText[i] || '';
+            const to = newText[i] || '';
+            const start = Math.floor(Math.random() * 40);
+            const end = start + Math.floor(Math.random() * 40);
+            this.queue.push({ from, to, start, end });
+          }
+          
+          cancelAnimationFrame(this.frameRequest);
+          this.frame = 0;
+          this.update();
+          return promise;
+        }
+        
+        update() {
+          let output = '';
+          let complete = 0;
+          
+          for (let i = 0, n = this.queue.length; i < n; i++) {
+            let { from, to, start, end, char } = this.queue[i];
+            
+            if (this.frame >= end) {
+              complete++;
+              output += to;
+            } else if (this.frame >= start) {
+              if (!char || Math.random() < 0.28) {
+                char = this.randomChar();
+                this.queue[i].char = char;
+              }
+              output += `<span class="dud">${char}</span>`;
+            } else {
+              output += from;
+            }
+          }
+          
+          this.el.innerHTML = output;
+          
+          if (complete === this.queue.length) {
+            this.resolve();
+          } else {
+            this.frameRequest = requestAnimationFrame(this.update);
+            this.frame++;
+          }
+        }
+        
+        randomChar() {
+          return this.chars[Math.floor(Math.random() * this.chars.length)];
+        }
+      }
+      
+      // Apply text scramble to all headings
+      const headings = document.querySelectorAll('h2, h3');
+      
+      headings.forEach(heading => {
+        const originalText = heading.textContent;
+        const fx = new TextScramble(heading);
+        
+        // Inview detection
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              fx.setText(originalText);
+              observer.unobserve(heading);
+            }
+          });
+        }, { threshold: 0.5 });
+        
+        observer.observe(heading);
+      });
+      
+      // Sound effects (optional)
+      if (typeof Howl !== 'undefined') {
+        const sounds = {
+          hover: new Howl({ src: ['data:audio/mp3;base64,SUQzAwAAAAAAIlRJVDIAAAAGAAAAaG92ZXJJTkZPAAAABwAAAGhvdmVy'] }),
+          click: new Howl({ src: ['data:audio/mp3;base64,SUQzAwAAAAAAIlRJVDIAAAAGAAAAY2xpY2tJTkZPAAAABwAAAGNsaWNr'] })
+        };
+        
+        const clickables = document.querySelectorAll('a, button');
+        
+        clickables.forEach(element => {
+          element.addEventListener('mouseenter', () => sounds.hover.play());
+          element.addEventListener('click', () => sounds.click.play());
+        });
+      }
+    });
+  </script>
+</body>
+</html>
