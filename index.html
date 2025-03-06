@@ -300,6 +300,99 @@
       opacity: 0.7;
     }
     
+    /* Contact form styles */
+    .contact-form {
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 1.5rem;
+      background-color: rgba(107, 112, 92, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(169, 132, 103, 0.3);
+    }
+    
+    .form-title {
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent-color);
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--light-text);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid rgba(169, 132, 103, 0.3);
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.3);
+      color: var(--light-text);
+      font-family: 'Montserrat', sans-serif;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 2px rgba(203, 153, 126, 0.2);
+    }
+    
+    textarea.form-control {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .submit-btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background-color: var(--secondary-color);
+      color: var(--light-text);
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 0.5rem;
+    }
+    
+    .submit-btn:hover {
+      background-color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+    
+    .form-message {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      display: none;
+    }
+    
+    .form-message.success {
+      background-color: rgba(76, 175, 80, 0.2);
+      color: #4CAF50;
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      display: block;
+    }
+    
+    .form-message.error {
+      background-color: rgba(255, 87, 34, 0.2);
+      color: #FF5722;
+      border: 1px solid rgba(255, 87, 34, 0.3);
+      display: block;
+    }
+    
     /* Responsive styles */
     @media (max-width: 768px) {
       .container {
@@ -325,6 +418,10 @@
       
       .content {
         padding: 1.5rem;
+      }
+      
+      .contact-form {
+        padding: 1rem;
       }
     }
     
@@ -353,6 +450,10 @@
       p {
         font-size: 1rem;
       }
+      
+      .form-title {
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
@@ -378,11 +479,29 @@
           <span>📍</span> Los Angeles, California
         </div>
         <div class="contact-method">
-          <span>✉️</span> <a href="mailto:info@movieanimals.net">info@movieanimals.net</a>
-        </div>
-        <div class="contact-method">
           <span>🎬</span> Available for productions worldwide
         </div>
+      </div>
+      
+      <!-- New Contact Form -->
+      <div class="contact-form">
+        <div class="form-title">Send us a message</div>
+        <form id="contactForm" action="https://formspree.io/f/derek.toth1@gmail.com" method="POST">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" class="form-control" required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send Message</button>
+          <div id="formMessage" class="form-message"></div>
+        </form>
       </div>
       
       <div class="social-links">
@@ -399,5 +518,49 @@
       &copy; 2025 Toth Movie Animals. All rights reserved.
     </div>
   </div>
+  
+  <!-- Contact form script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('contactForm');
+      const formMessage = document.getElementById('formMessage');
+      
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const formAction = form.getAttribute('action');
+        
+        fetch(formAction, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            formMessage.className = 'form-message success';
+            formMessage.textContent = 'Your message has been sent successfully! We\'ll be in touch soon.';
+            form.reset();
+          } else {
+            response.json().then(data => {
+              if (Object.hasOwnProperty.call(data, 'errors')) {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = data.errors.map(error => error.message).join(', ');
+              } else {
+                formMessage.className = 'form-message error';
+                formMessage.textContent = 'Oops! There was a problem sending your message. Please try again.';
+              }
+            });
+          }
+        })
+        .catch(error => {
+          formMessage.className = 'form-message error';
+          formMessage.textContent = 'Oops! There was a problem sending your message. Please try again.';
+        });
+      });
+    });
+  </script>
 </body>
 </html>
