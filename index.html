@@ -12,8 +12,8 @@
       --primary-color: #6B705C; /* Earthy olive */
       --secondary-color: #A98467; /* Warm brown */
       --accent-color: #CB997E; /* Terracotta */
-      --dark-bg: #24292E; /* Deep charcoal */
-      --light-text: #EDDCD2; /* Warm cream */
+      --dark-bg: #343e48; /* Medium-light blue-gray */
+      --light-text: #F5F5F5; /* Brighter white */
       --transition: all 0.3s ease;
     }
     
@@ -25,7 +25,7 @@
     
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: var(--dark-bg);
+      background-color: #343e48;
       color: var(--light-text);
       line-height: 1.6;
       overflow-x: hidden;
@@ -44,35 +44,46 @@
       justify-content: center;
     }
     
-    /* Gradient background effect */
+    /* Futuristic light background with particles */
     .bg-gradient {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: radial-gradient(circle at 20% 20%, rgba(169, 132, 103, 0.2) 0%, rgba(36, 41, 46, 0.95) 70%);
+      background-color: #343e48;
+      background: linear-gradient(135deg, #343e48 0%, #525f6c 100%);
       z-index: -1;
     }
     
-    /* Subtle animated pattern */
+    /* Particles background */
     .bg-pattern {
+      display: block;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: 
-        linear-gradient(rgba(169, 132, 103, 0.1) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(169, 132, 103, 0.1) 1px, transparent 1px);
-      background-size: 30px 30px;
       z-index: -2;
-      animation: patternMove 150s linear infinite;
+      overflow: hidden;
     }
     
-    @keyframes patternMove {
-      0% { background-position: 0 0; }
-      100% { background-position: 1000px 1000px; }
+    /* Removed pattern animation */
+    @keyframes particle {
+      0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(-1000px) translateX(100px);
+        opacity: 0;
+      }
     }
     
     .logo-container {
@@ -145,11 +156,11 @@
       max-width: 700px;
       margin: 0 auto;
       padding: 2rem;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(52, 62, 72, 0.7);
       border-radius: 10px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(5px);
-      border: 1px solid rgba(169, 132, 103, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       transform: translateY(20px);
       opacity: 0;
       animation: slideUp 1s ease-out 0.7s forwards;
@@ -308,9 +319,11 @@
       margin-left: auto;
       margin-right: auto;
       padding: 1.5rem;
-      background-color: rgba(107, 112, 92, 0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       border-radius: 8px;
-      border: 1px solid rgba(169, 132, 103, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px);
     }
     
     .form-title {
@@ -334,9 +347,9 @@
     .form-control {
       width: 100%;
       padding: 0.8rem;
-      border: 1px solid rgba(169, 132, 103, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 4px;
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: rgba(255, 255, 255, 0.05);
       color: var(--light-text);
       font-family: 'Montserrat', sans-serif;
       transition: var(--transition);
@@ -459,7 +472,53 @@
 </head>
 <body>
   <div class="bg-gradient"></div>
-  <div class="bg-pattern"></div>
+  <div class="bg-pattern" id="particles"></div>
+  
+  <script>
+    // Create futuristic particle animation
+    document.addEventListener('DOMContentLoaded', function() {
+      const particlesContainer = document.getElementById('particles');
+      
+      function createParticle() {
+        const particle = document.createElement('div');
+        
+        // Random size between 1-3px
+        const size = Math.random() * 2 + 1;
+        
+        // Style the particle
+        particle.style.position = 'absolute';
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.background = 'rgba(255, 255, 255, 0.7)';
+        particle.style.borderRadius = '50%';
+        particle.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.5)';
+        
+        // Random starting position
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100 + 100}%`;
+        
+        // Random animation duration between 10-25s
+        const duration = Math.random() * 15 + 10;
+        particle.style.animation = `particle ${duration}s linear infinite`;
+        
+        // Add to container
+        particlesContainer.appendChild(particle);
+        
+        // Remove after animation to avoid memory issues
+        setTimeout(() => {
+          particle.remove();
+        }, duration * 1000);
+      }
+      
+      // Create initial batch of particles
+      for (let i = 0; i < 50; i++) {
+        createParticle();
+      }
+      
+      // Continue creating particles
+      setInterval(createParticle, 300);
+    });
+  </script>
   
   <div class="container">
     <div class="logo-container">
@@ -486,7 +545,7 @@
       <!-- New Contact Form -->
       <div class="contact-form">
         <div class="form-title">Send us a message</div>
-        <form id="contactForm" action="https://formspree.io/f/derek.toth1@gmail.com" method="POST">
+        <form id="contactForm" action="https://formspree.io/f/xjkybrew" method="POST">
           <div class="form-group">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" class="form-control" required>
