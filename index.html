@@ -208,6 +208,33 @@
       color: var(--accent-color);
     }
     
+    .highlight-link {
+      color: var(--secondary-color);
+      font-weight: 600;
+      text-decoration: none;
+      position: relative;
+      transition: var(--transition);
+    }
+    
+    .highlight-link:hover {
+      color: var(--accent-color);
+    }
+    
+    .highlight-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 0;
+      background-color: var(--accent-color);
+      transition: var(--transition);
+    }
+    
+    .highlight-link:hover::after {
+      width: 100%;
+    }
+    
     .contact {
       margin-top: 2rem;
       display: flex;
@@ -228,7 +255,7 @@
     }
     
     .contact-method span {
-      margin-right: 10px;
+      margin-right: 5px;
       font-size: 1.2rem;
     }
     
@@ -281,7 +308,14 @@
     
     .tiktok-link span {
       margin-right: 8px;
-      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+    }
+    
+    .tiktok-icon svg {
+      width: 16px;
+      height: 16px;
+      margin-right: 2px;
     }
     
     .imdb-link {
@@ -530,19 +564,23 @@
     
     <div class="content">
       <h1>Toth Movie Animals</h1>
-      <p><span class="highlight">Professional animal talent</span> featured in blockbuster films, hit TV shows, and major commercials. Our expertly trained animals bring authentic performances to productions of all sizes.</p>
-      <p>From <span class="accent">training</span> to <span class="accent">on-set handling</span>, we ensure the safety and well-being of every animal while helping directors achieve their creative vision.</p>
+      <p><span class="highlight">Animal training and safety services</span> for film, television, and commercial productions. Derek Toth brings expertise to sets across the entertainment industry.</p>
+      <p>Specializing in <span class="accent">animal handling</span>, <span class="accent">on-set safety protocols</span>, and <span class="accent">wildlife management</span> including rattlesnake abatement.</p>
+      <p>Safety consultant for <a href="https://theanimalprotectionagency.org/derek-toth-2/" target="_blank" class="highlight-link">The Animal Protection Agency</a>.</p>
       
       <div class="contact">
         <div class="contact-method">
           <span>📍</span> Los Angeles, California
         </div>
         <div class="contact-method">
-          <span>🎬</span> Available for productions worldwide
+          <span>🎬</span>Available for productions worldwide
+        </div>
+        <div class="contact-method">
+          <span>🐍</span>Rattlesnake abatement & wildlife safety expertise
         </div>
       </div>
       
-      <!-- New Contact Form -->
+      <!-- Contact Form -->
       <div class="contact-form">
         <div class="form-title">Send us a message</div>
         <form id="contactForm" action="https://formspree.io/f/xjkybrew" method="POST">
