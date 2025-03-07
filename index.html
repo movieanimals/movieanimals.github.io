@@ -6,677 +6,148 @@
   <title>Toth Movie Animals</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-color: #6B705C; /* Earthy olive */
-      --secondary-color: #A98467; /* Warm brown */
-      --accent-color: #CB997E; /* Terracotta */
-      --dark-bg: #343e48; /* Medium-light blue-gray */
-      --light-text: #F5F5F5; /* Brighter white */
-      --transition: all 0.3s ease;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background-color: #343e48;
-      color: var(--light-text);
-      line-height: 1.6;
-      overflow-x: hidden;
-      position: relative;
-      min-height: 100vh;
-    }
-    
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      justify-content: center;
-    }
-    
-    /* Futuristic light background with particles */
-    .bg-gradient {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #343e48;
-      background: linear-gradient(135deg, #343e48 0%, #525f6c 100%);
-      z-index: -1;
-    }
-    
-    /* Particles background */
-    .bg-pattern {
-      display: block;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      overflow: hidden;
-    }
-    
-    /* Removed pattern animation */
-    @keyframes particle {
-      0% {
-        transform: translateY(0) translateX(0);
-        opacity: 0;
-      }
-      15% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.5;
-      }
-      100% {
-        transform: translateY(-1000px) translateX(100px);
-        opacity: 0;
-      }
-    }
-    
-    .logo-container {
-      text-align: center;
-      margin-bottom: 3rem;
-      position: relative;
-    }
-    
-    .logo {
-      width: 180px;
-      height: 180px;
-      background-color: var(--dark-bg);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      box-shadow: 0 0 30px rgba(169, 132, 103, 0.3);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .logo img {
-      max-width: 100%;
-      height: auto;
-      object-fit: contain;
-      border-radius: 50%;
-    }
-    
-    /* Animation for logo */
-    .logo::after {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        transparent,
-        transparent,
-        transparent,
-        rgba(169, 132, 103, 0.3),
-        rgba(169, 132, 103, 0.5),
-        rgba(169, 132, 103, 0.3),
-        transparent,
-        transparent,
-        transparent
-      );
-      transform: rotate(45deg);
-      animation: shine 5s ease-in-out infinite;
-    }
-    
-    @keyframes shine {
-      0% { transform: translateX(-100%) rotate(45deg); }
-      50% { transform: translateX(100%) rotate(45deg); }
-      100% { transform: translateX(-100%) rotate(45deg); }
-    }
-    
-    .tagline {
-      font-size: 1.5rem;
-      text-align: center;
-      margin-top: 1.5rem;
-      color: var(--accent-color);
-      opacity: 0;
-      animation: fadeIn 1s ease-out 0.5s forwards;
-    }
-    
-    .content {
-      text-align: center;
-      max-width: 700px;
-      margin: 0 auto;
-      padding: 2rem;
-      background-color: rgba(52, 62, 72, 0.7);
-      border-radius: 10px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      transform: translateY(20px);
-      opacity: 0;
-      animation: slideUp 1s ease-out 0.7s forwards;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-    
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1.5rem;
-      position: relative;
-      display: inline-block;
-    }
-    
-    h1::after {
-      content: '';
-      position: absolute;
-      width: 60%;
-      height: 3px;
-      background-color: var(--secondary-color);
-      bottom: -10px;
-      left: 20%;
-    }
-    
-    p {
-      margin-bottom: 1.5rem;
-      font-size: 1.1rem;
-      line-height: 1.8;
-    }
-    
-    .highlight {
-      color: var(--secondary-color);
-      font-weight: 600;
-    }
-    
-    .accent {
-      color: var(--accent-color);
-    }
-    
-    .highlight-link {
-      color: var(--secondary-color);
-      font-weight: 600;
-      text-decoration: none;
-      position: relative;
-      transition: var(--transition);
-    }
-    
-    .highlight-link:hover {
-      color: var(--accent-color);
-    }
-    
-    .highlight-link::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -2px;
-      left: 0;
-      background-color: var(--accent-color);
-      transition: var(--transition);
-    }
-    
-    .highlight-link:hover::after {
-      width: 100%;
-    }
-    
-    .apa-logo {
-      width: 24px;
-      height: 24px;
-      vertical-align: middle;
-      margin-left: 5px;
-      margin-right: 1px;
-      display: inline-block;
-    }
-    
-    .contact {
-      margin-top: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    .contact-method {
-      margin: 0.7rem 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-    }
-    
-    .contact-method:hover {
-      transform: translateY(-3px);
-    }
-    
-    .contact-method span {
-      margin-right: 5px;
-      font-size: 1.2rem;
-    }
-    
-    .contact-method a {
-      color: var(--accent-color);
-      text-decoration: none;
-      transition: var(--transition);
-      position: relative;
-    }
-    
-    .contact-method a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -3px;
-      left: 0;
-      background-color: var(--accent-color);
-      transition: var(--transition);
-    }
-    
-    .contact-method a:hover::after {
-      width: 100%;
-    }
-    
-    .social-links {
-      display: flex;
-      justify-content: center;
-      margin-top: 2rem;
-      gap: 1.5rem;
-    }
-    
-    .tiktok-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: var(--light-text);
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      transition: var(--transition);
-      font-weight: 600;
-    }
-    
-    .tiktok-link:hover {
-      background-color: var(--accent-color);
-      transform: translateY(-5px);
-    }
-    
-    .tiktok-link span {
-      margin-right: 8px;
-      display: flex;
-      align-items: center;
-    }
-    
-    .tiktok-icon svg {
-      width: 16px;
-      height: 16px;
-      margin-right: 2px;
-    }
-    
-    .imdb-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      background-color: #F5C518;
-      color: #000000;
-      font-weight: 700;
-      text-decoration: none;
-      transition: var(--transition);
-      letter-spacing: -1px;
-    }
-    
-    .imdb-link:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 5px 15px rgba(245, 197, 24, 0.4);
-    }
-    
-    .footer {
-      text-align: center;
-      margin-top: auto;
-      padding: 2rem 0 1rem;
-      font-size: 0.9rem;
-      opacity: 0.7;
-    }
-    
-    /* Contact form styles */
-    .contact-form {
-      margin-top: 2rem;
-      width: 100%;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-      padding: 1.5rem;
-      background-color: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(5px);
-    }
-    
-    .form-title {
-      font-size: 1.2rem;
-      margin-bottom: 1.2rem;
-      color: var(--accent-color);
-    }
-    
-    .form-group {
-      margin-bottom: 1rem;
-      text-align: left;
-    }
-    
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--light-text);
-    }
-    
-    .form-control {
-      width: 100%;
-      padding: 0.8rem;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-      background-color: rgba(255, 255, 255, 0.05);
-      color: var(--light-text);
-      font-family: 'Montserrat', sans-serif;
-      transition: var(--transition);
-    }
-    
-    .form-control:focus {
-      outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px rgba(203, 153, 126, 0.2);
-    }
-    
-    textarea.form-control {
-      min-height: 100px;
-      resize: vertical;
-    }
-    
-    .submit-btn {
-      display: inline-block;
-      padding: 0.8rem 1.5rem;
-      background-color: var(--secondary-color);
-      color: var(--light-text);
-      border: none;
-      border-radius: 4px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-top: 0.5rem;
-    }
-    
-    .submit-btn:hover {
-      background-color: var(--accent-color);
-      transform: translateY(-3px);
-    }
-    
-    .form-message {
-      margin-top: 1rem;
-      padding: 0.8rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      display: none;
-    }
-    
-    .form-message.success {
-      background-color: rgba(76, 175, 80, 0.2);
-      color: #4CAF50;
-      border: 1px solid rgba(76, 175, 80, 0.3);
-      display: block;
-    }
-    
-    .form-message.error {
-      background-color: rgba(255, 87, 34, 0.2);
-      color: #FF5722;
-      border: 1px solid rgba(255, 87, 34, 0.3);
-      display: block;
-    }
-    
-    /* Responsive styles */
-    @media (max-width: 768px) {
-      .container {
-        padding: 1rem 0;
-      }
-      
-      h1 {
-        font-size: 2rem;
-      }
-      
-      .tagline {
-        font-size: 1.2rem;
-      }
-      
-      .logo {
-        width: 150px;
-        height: 150px;
-      }
-      
-      .logo-placeholder {
-        font-size: 2rem;
-      }
-      
-      .content {
-        padding: 1.5rem;
-      }
-      
-      .contact-form {
-        padding: 1rem;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .logo {
-        width: 120px;
-        height: 120px;
-      }
-      
-      .logo-placeholder {
-        font-size: 1.6rem;
-      }
-      
-      h1 {
-        font-size: 1.8rem;
-      }
-      
-      .tagline {
-        font-size: 1rem;
-      }
-      
-      .content {
-        padding: 1rem;
-      }
-      
-      p {
-        font-size: 1rem;
-      }
-      
-      .form-title {
-        font-size: 1.1rem;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="bg-gradient"></div>
-  <div class="bg-pattern" id="particles"></div>
-  
-  <script>
-    // Create futuristic particle animation
-    document.addEventListener('DOMContentLoaded', function() {
-      const particlesContainer = document.getElementById('particles');
-      
-      function createParticle() {
-        const particle = document.createElement('div');
-        
-        // Random size between 1-3px
-        const size = Math.random() * 2 + 1;
-        
-        // Style the particle
-        particle.style.position = 'absolute';
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.background = 'rgba(255, 255, 255, 0.7)';
-        particle.style.borderRadius = '50%';
-        particle.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.5)';
-        
-        // Random starting position
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100 + 100}%`;
-        
-        // Random animation duration between 10-25s
-        const duration = Math.random() * 15 + 10;
-        particle.style.animation = `particle ${duration}s linear infinite`;
-        
-        // Add to container
-        particlesContainer.appendChild(particle);
-        
-        // Remove after animation to avoid memory issues
-        setTimeout(() => {
-          particle.remove();
-        }, duration * 1000);
-      }
-      
-      // Create initial batch of particles
-      for (let i = 0; i < 50; i++) {
-        createParticle();
-      }
-      
-      // Continue creating particles
-      setInterval(createParticle, 300);
-    });
-  </script>
-  
   <div class="container">
-    <div class="logo-container">
-      <div class="logo">
-        <img src="paw.png" alt="Toth Movie Animals Logo" width="150" height="150">
+    <header class="header">
+      <div class="logo-container">
+        <div class="logo">
+          <img src="paw.png" alt="Toth Movie Animals Logo" width="150" height="150">
+          <div class="logo-shine"></div>
+        </div>
+        <h2 class="tagline">Bringing Animal Talent to the Big Screen</h2>
       </div>
-      <div class="tagline">Bringing Animal Talent to the Big Screen</div>
-    </div>
-    
-    <div class="content">
-      <h1>Toth Movie Animals</h1>
+    </header>
+
+    <main class="content">
+      <h1 class="title">Toth Movie Animals</h1>
       
-      <!-- Snake wrangling photo moved above the animal training section -->
-      <div class="snake-photo" style="margin: 2rem 0; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);">
-        <img src="3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Toth wrangling a snake" style="width: 100%; height: auto; display: block;">
+      <div class="image-container parallax" data-speed="0.05">
+        <img src="3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Toth wrangling a snake" class="feature-image">
       </div>
-      
-      <p><span class="highlight">Animal training and safety services</span> featured in blockbuster films, hit TV shows, and major commercials. Derek Toth brings expertise to productions of all sizes.</p>
-      
-      <p>Specializing in <span class="accent">animal handling</span>, <span class="accent">on-set safety protocols</span>, and <span class="accent">wildlife management</span> including rattlesnake abatement.</p>
-      
-      <!-- Added new image above the proud to offer paragraph -->
-      <div class="additional-photo" style="margin: 2rem 0; border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);">
-        <img src="assets/img/IMG_9602.JPG" alt="Derek Toth with animal" style="width: 100%; height: auto; display: block;">
+
+      <p class="description">
+        <span class="highlight">Animal training and safety services</span> featured in blockbuster films, hit TV shows, and major commercials. Derek Toth brings expertise to productions of all sizes.
+      </p>
+
+      <div class="services">
+        <div class="service-card" data-aos="fade-up">
+          <div class="service-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3c0 1.6.8 3 2 4l.5.5a3 3 0 1 1-4 4 3 3 0 0 1 4-4l.5.5c1 1 2.4 1.8 4 1.8a3 3 0 1 0 0-6 3 3 0 0 0-4 4l-.5.5a3 3 0 1 1-4-4 3 3 0 0 1 4 4l.5.5c1 1 2.4 1.8 4 1.8a3 3 0 1 0 0-6Z"></path>
+            </svg>
+          </div>
+          <h3 class="service-title">Animal Handling</h3>
+          <p class="service-description">Expert handling of various animal species for film and television productions.</p>
+        </div>
+        
+        <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="service-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
+            </svg>
+          </div>
+          <h3 class="service-title">On-Set Safety</h3>
+          <p class="service-description">Comprehensive safety protocols to ensure welfare of animals and crew.</p>
+        </div>
+        
+        <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="service-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 7h-7l1.31-1.7a1 1 0 0 0-1.27-1.55L8 8.41V7a1 1 0 0 0-2 0v9a1 1 0 1 0 2 0v-1.41l5.04 4.66a1 1 0 0 0 1.69-.74V14h5a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"></path>
+              <path d="M2 14h6"></path>
+              <path d="M2 10h6"></path>
+            </svg>
+          </div>
+          <h3 class="service-title">Wildlife Management</h3>
+          <p class="service-description">Specialized services including rattlesnake abatement for production locations.</p>
+        </div>
       </div>
-      
-      <p>Proud to offer certified safety services in partnership with <a href="https://theanimalprotectionagency.org/derek-toth-2/" target="_blank" class="highlight-link">The Animal Protection Agency</a> <img src="https://i0.wp.com/theanimalprotectionagency.org/wp-content/uploads/2021/01/APA-LOGO-2021-Tiny.png?fit=32%2C32&ssl=1" alt="APA Logo" class="apa-logo"></p>
-      
-      <div class="contact">
-        <div class="contact-method">
+
+      <div class="image-container parallax" data-speed="0.08">
+        <img src="assets/img/IMG_9602.JPG" alt="Derek Toth with animal" class="feature-image">
+      </div>
+
+      <p class="partnership">
+        Proud to offer certified safety services in partnership with
+        <a href="https://theanimalprotectionagency.org/derek-toth-2/" target="_blank" rel="noopener noreferrer" class="highlight-link">
+          The Animal Protection Agency
+        </a>
+        <img src="https://i0.wp.com/theanimalprotectionagency.org/wp-content/uploads/2021/01/APA-LOGO-2021-Tiny.png?fit=32%2C32&ssl=1" alt="APA Logo" class="apa-logo">
+      </p>
+
+      <div class="location">
+        <div class="location-item">
           <span>📍</span> Los Angeles, California
         </div>
-        <div class="contact-method">
-          <span>🎬</span>Available for productions worldwide
+        <div class="location-item">
+          <span>🎬</span> Available for productions worldwide
         </div>
       </div>
-      
-      <!-- Contact Form -->
-      <div class="contact-form">
-        <div class="form-title">Send us a message</div>
-        <form id="contactForm" action="https://formspree.io/f/xjkybrew" method="POST">
+
+      <div class="gallery" id="gallery">
+        <h3 class="gallery-title">Gallery</h3>
+        <div class="gallery-grid">
+          <div class="gallery-item" data-aos="zoom-in">
+            <img src="3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Toth wrangling a snake" onclick="openLightbox(0)">
+          </div>
+          <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+            <img src="assets/img/IMG_9602.JPG" alt="Derek Toth with animal" onclick="openLightbox(1)">
+          </div>
+          <!-- Add more gallery items as needed -->
+        </div>
+      </div>
+
+      <div class="contact-form-container" data-aos="fade-up">
+        <h3 class="form-title">Send us a message</h3>
+        <form id="contactForm" action="https://formspree.io/f/xjkybrew" method="POST" class="contact-form">
           <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control" required>
+            <input type="text" id="name" name="name" required>
           </div>
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control" required>
+            <input type="email" id="email" name="email" required>
           </div>
           <div class="form-group">
             <label for="message">Message</label>
-            <textarea id="message" name="message" class="form-control" required></textarea>
+            <textarea id="message" name="message" required></textarea>
           </div>
           <button type="submit" class="submit-btn">Send Message</button>
           <div id="formMessage" class="form-message"></div>
         </form>
       </div>
-      
+
       <div class="social-links">
-        <a href="https://www.tiktok.com/@behindthebeasts" class="tiktok-link" target="_blank">
-          <span class="tiktok-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="16" height="16" fill="currentColor"><path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg></span> @behindthebeasts
+        <a href="https://www.tiktok.com/@behindthebeasts" class="tiktok-link" target="_blank" rel="noopener noreferrer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor">
+            <path d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/>
+          </svg>
+          <span>@behindthebeasts</span>
         </a>
-        <a href="https://www.imdb.com/name/nm14670166/" class="imdb-link" target="_blank">
-          IMDb
+        <a href="https://www.imdb.com/name/nm14670166/" class="imdb-link" target="_blank" rel="noopener noreferrer">
+          <span>IMDb</span>
         </a>
       </div>
-    </div>
-    
-    <div class="footer">
-      &copy; 2025 Toth Movie Animals. All rights reserved.
+    </main>
+
+    <footer class="footer">
+      &copy; <span id="current-year"></span> Toth Movie Animals. All rights reserved.
+    </footer>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+    <span class="lightbox-nav prev" onclick="navigateImage('prev')">&#10094;</span>
+    <span class="lightbox-nav next" onclick="navigateImage('next')">&#10095;</span>
+    <div class="lightbox-content">
+      <img id="lightbox-image" src="/placeholder.svg" alt="Lightbox image">
     </div>
   </div>
-  
-  <!-- Contact form script -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const form = document.getElementById('contactForm');
-      const formMessage = document.getElementById('formMessage');
-      
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(form);
-        const formAction = form.getAttribute('action');
-        
-        fetch(formAction, {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Accept': 'application/json'
-          }
-        })
-        .then(response => {
-          if (response.ok) {
-            formMessage.className = 'form-message success';
-            formMessage.textContent = 'Your message has been sent successfully! We\'ll be in touch soon.';
-            form.reset();
-          } else {
-            response.json().then(data => {
-              if (Object.hasOwnProperty.call(data, 'errors')) {
-                formMessage.className = 'form-message error';
-                formMessage.textContent = data.errors.map(error => error.message).join(', ');
-              } else {
-                formMessage.className = 'form-message error';
-                formMessage.textContent = 'Oops! There was a problem sending your message. Please try again.';
-              }
-            });
-          }
-        })
-        .catch(error => {
-          formMessage.className = 'form-message error';
-          formMessage.textContent = 'Oops! There was a problem sending your message. Please try again.';
-        });
-      });
-    });
-  </script>
+
+  <script src="script.js"></script>
 </body>
 </html>
