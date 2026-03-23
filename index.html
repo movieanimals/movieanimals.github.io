@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
+      --primary-color: #6B705C;
       --secondary-color: #A98467;
       --accent-color: #CB997E;
       --dark-bg: #343e48;
@@ -95,16 +96,52 @@
     }
 
     .logo {
-      width: 200px;
+      width: 180px;
+      height: 180px;
+      background-color: var(--dark-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: 0 auto;
+      box-shadow: 0 0 30px rgba(169, 132, 103, 0.3);
       position: relative;
+      overflow: hidden;
     }
 
     .logo img {
-      width: 100%;
+      max-width: 100%;
       height: auto;
-      display: block;
-      filter: brightness(0) invert(1) opacity(0.9);
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .logo::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        transparent,
+        transparent,
+        transparent,
+        rgba(169, 132, 103, 0.3),
+        rgba(169, 132, 103, 0.5),
+        rgba(169, 132, 103, 0.3),
+        transparent,
+        transparent,
+        transparent
+      );
+      transform: rotate(45deg);
+      animation: shine 5s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%) rotate(45deg); }
+      50% { transform: translateX(100%) rotate(45deg); }
+      100% { transform: translateX(-100%) rotate(45deg); }
     }
 
     .tagline {
@@ -217,13 +254,11 @@
       border-radius: 8px;
       overflow: hidden;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-      max-height: 400px;
     }
 
     .photo img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
       display: block;
     }
 
@@ -425,7 +460,8 @@
       }
 
       .logo {
-        width: 160px;
+        width: 150px;
+        height: 150px;
       }
 
       .content {
@@ -439,7 +475,8 @@
 
     @media (max-width: 480px) {
       .logo {
-        width: 130px;
+        width: 120px;
+        height: 120px;
       }
 
       h1 {
@@ -523,7 +560,7 @@
   <div class="container">
     <header class="logo-container">
       <div class="logo">
-        <img src="assets/img/SDG_logo.png" alt="Toth Movie Animals Logo">
+        <img src="paw.png" alt="Toth Movie Animals Logo" width="150" height="150">
       </div>
       <div class="tagline">Bringing Animal Talent to the Big Screen</div>
     </header>
@@ -532,19 +569,15 @@
       <h1>Toth Movie Animals</h1>
 
       <div class="photo">
-        <img src="assets/img/3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Toth wrangling a rattlesnake during wildlife abatement" loading="lazy">
+        <img src="3FD90C07-10D7-4CE7-9323-A910257A1E19_1_201_a.jpeg" alt="Derek Toth wrangling a snake on a film set" loading="lazy">
       </div>
 
       <p><span class="highlight">Animal training and safety services</span> featured in blockbuster films, hit TV shows, and major commercials. Derek Toth brings expertise to productions of all sizes.</p>
 
-      <div class="photo">
-        <img src="assets/img/IMG_9722.jpeg" alt="Cat performing on a green screen set with film crew" loading="lazy">
-      </div>
-
       <p>Specializing in <span class="accent">animal handling</span>, <span class="accent">on-set safety protocols</span>, and <span class="accent">wildlife management</span> including rattlesnake abatement.</p>
 
       <div class="photo">
-        <img src="assets/img/IMG_9602.JPG" alt="Derek Toth with Dogpool at the Deadpool and Wolverine World Premiere" loading="lazy">
+        <img src="assets/img/IMG_9602.JPG" alt="Derek Toth handling an animal on set" loading="lazy">
       </div>
 
       <p>Proud to offer certified safety services in partnership with <a href="https://theanimalprotectionagency.org/derek-toth-2/" target="_blank" rel="noopener noreferrer" class="highlight-link">The Animal Protection Agency</a> <img src="https://i0.wp.com/theanimalprotectionagency.org/wp-content/uploads/2021/01/APA-LOGO-2021-Tiny.png?fit=32%2C32&ssl=1" alt="APA Logo" class="apa-logo"></p>
