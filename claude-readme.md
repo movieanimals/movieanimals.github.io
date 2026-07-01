@@ -11,14 +11,16 @@ This is a website for "Toth Movie Animals," providing animal training services f
 ```
 ├── index.html              # Main website (all CSS/JS embedded inline)
 ├── site.webmanifest        # PWA manifest
+├── robots.txt              # Crawler rules
+├── sitemap.xml             # Sitemap for search engines
 ├── .gitignore              # Git ignore rules
-├── paw.png                 # Logo image
-├── 3FD90C07-...jpeg        # Snake wrangling photo (referenced in index.html)
+├── paw.png                 # Logo image (512x512, optimized)
+├── snake-wrangling.jpeg    # Snake wrangling photo (referenced in index.html)
+├── snake-wrangling.webp    # WebP version served via <picture>
 ├── assets/
 │   └── img/
 │       ├── IMG_9602.JPG    # Additional photo (referenced in index.html)
-│       ├── IMG_9722.jpeg   # Photo asset
-│       ├── SDG_logo.png    # SDG logo
+│       ├── IMG_9602.webp   # WebP version served via <picture>
 │       └── favicons/       # Favicon files for all platforms
 ├── readme.md               # Project README
 └── claude-readme.md        # This file
