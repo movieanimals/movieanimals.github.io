@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://movieanimals.github.io/sitemap.xml
+Sitemap: https://movieanimals.net/sitemap.xml
