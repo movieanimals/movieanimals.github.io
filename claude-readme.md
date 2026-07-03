@@ -42,12 +42,15 @@ This is a website for "Toth Movie Animals," providing animal training services f
 
 ### Design System
 
-CSS variables defined in `:root`:
-- `--primary-color: #6B705C` (earthy olive)
-- `--secondary-color: #A98467` (warm brown)
-- `--accent-color: #CB997E` (terracotta)
-- `--dark-bg: #343e48` (blue-gray background)
-- `--light-text: #F5F5F5` (white text)
+CSS variables defined in `:root` (light theme):
+- `--primary-color: #5F6650` (deep olive — headings, buttons)
+- `--secondary-color: #8A6A4F` (warm brown — highlights)
+- `--accent-color: #A65E3F` (terracotta/sienna — links, accents)
+- `--page-bg: #F7F3ED` (warm cream background)
+- `--card-bg: #FFFFFF` (card background)
+- `--text-color: #37332D` (dark body text)
+- `--muted-text: #6E675D` (secondary text)
+- `--light-text: #FFFFFF` (text on colored buttons)
 
 Font: Montserrat (Google Fonts) - weights 400, 600, 700
 

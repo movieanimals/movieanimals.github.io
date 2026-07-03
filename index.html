@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <meta name="description" content="Toth Movie Animals provides professional animal training, on-set safety, and wildlife management — including rattlesnake abatement — for film, TV, and commercial productions. Based in Los Angeles, available worldwide.">
   <meta name="robots" content="index, follow">
-  <meta name="theme-color" content="#343e48">
+  <meta name="theme-color" content="#F7F3ED">
   <link rel="canonical" href="https://movieanimals.net/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Toth Movie Animals">
@@ -62,11 +62,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-color: #6B705C;
-      --secondary-color: #A98467;
-      --accent-color: #CB997E;
-      --dark-bg: #343e48;
-      --light-text: #F5F5F5;
+      --primary-color: #5F6650;
+      --secondary-color: #8A6A4F;
+      --accent-color: #A65E3F;
+      --page-bg: #F7F3ED;
+      --card-bg: #FFFFFF;
+      --text-color: #37332D;
+      --muted-text: #6E675D;
+      --light-text: #FFFFFF;
+      --border-soft: rgba(95, 102, 80, 0.16);
       --transition: all 0.3s ease;
     }
 
@@ -78,8 +82,8 @@
 
     body {
       font-family: 'Montserrat', sans-serif;
-      background-color: var(--dark-bg);
-      color: var(--light-text);
+      background-color: var(--page-bg);
+      color: var(--text-color);
       line-height: 1.6;
       overflow-x: hidden;
       position: relative;
@@ -93,7 +97,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #343e48 0%, #525f6c 100%);
+      background: linear-gradient(135deg, #FAF7F1 0%, #EFE5D6 100%);
       z-index: -2;
     }
 
@@ -146,13 +150,13 @@
     .logo {
       width: 180px;
       height: 180px;
-      background-color: var(--dark-bg);
+      background-color: #FFFFFF;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       margin: 0 auto;
-      box-shadow: 0 0 30px rgba(169, 132, 103, 0.3);
+      box-shadow: 0 12px 35px rgba(95, 102, 80, 0.25);
       position: relative;
       overflow: hidden;
     }
@@ -175,9 +179,9 @@
         transparent,
         transparent,
         transparent,
-        rgba(169, 132, 103, 0.3),
-        rgba(169, 132, 103, 0.5),
-        rgba(169, 132, 103, 0.3),
+        rgba(166, 94, 60, 0.12),
+        rgba(166, 94, 60, 0.22),
+        rgba(166, 94, 60, 0.12),
         transparent,
         transparent,
         transparent
@@ -207,14 +211,26 @@
       max-width: 700px;
       margin: 0 auto;
       padding: 2.5rem;
-      background-color: rgba(52, 62, 72, 0.7);
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      background-color: rgba(255, 255, 255, 0.88);
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(95, 102, 80, 0.14);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-soft);
       transform: translateY(20px);
       opacity: 0;
       animation: slideUp 1s ease-out 0.7s forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--secondary-color));
     }
 
     @keyframes fadeIn {
@@ -233,6 +249,17 @@
       margin-bottom: 1.5rem;
       position: relative;
       display: inline-block;
+      color: var(--text-color);
+    }
+
+    @supports (-webkit-background-clip: text) or (background-clip: text) {
+      h1 {
+        background: linear-gradient(120deg, var(--primary-color), var(--accent-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: var(--primary-color);
+      }
     }
 
     h1::after {
@@ -248,7 +275,7 @@
     h2 {
       font-size: 1.4rem;
       margin: 2.5rem 0 1.2rem;
-      color: var(--accent-color);
+      color: var(--primary-color);
       letter-spacing: 0.5px;
       text-transform: uppercase;
       position: relative;
@@ -279,16 +306,17 @@
 
     .service-card {
       padding: 1.3rem 1rem;
-      background-color: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 8px;
+      background-color: rgba(95, 102, 80, 0.05);
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
       transition: var(--transition);
     }
 
     .service-card:hover {
       transform: translateY(-4px);
-      border-color: rgba(203, 153, 126, 0.4);
-      background-color: rgba(255, 255, 255, 0.08);
+      border-color: rgba(166, 94, 60, 0.4);
+      background-color: rgba(166, 94, 60, 0.05);
+      box-shadow: 0 10px 25px rgba(95, 102, 80, 0.15);
     }
 
     .service-icon {
@@ -301,14 +329,14 @@
     .service-card h3 {
       font-size: 1rem;
       margin-bottom: 0.5rem;
-      color: var(--light-text);
+      color: var(--text-color);
     }
 
     .service-card p {
       font-size: 0.9rem;
       line-height: 1.5;
       margin-bottom: 0;
-      opacity: 0.85;
+      color: var(--muted-text);
     }
 
     .highlight {
@@ -359,9 +387,15 @@
     /* Photo sections */
     .photo {
       margin: 2rem 0;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 12px 30px rgba(95, 102, 80, 0.2);
+      transition: var(--transition);
+    }
+
+    .photo:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 38px rgba(95, 102, 80, 0.28);
     }
 
     .photo img {
@@ -456,17 +490,17 @@
       margin-left: auto;
       margin-right: auto;
       padding: 1.5rem;
-      background-color: rgba(255, 255, 255, 0.06);
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(5px);
+      background-color: rgba(95, 102, 80, 0.05);
+      border-radius: 10px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 8px 20px rgba(95, 102, 80, 0.1);
     }
 
     .form-title {
       font-size: 1.2rem;
       margin-bottom: 1.2rem;
-      color: var(--accent-color);
+      color: var(--primary-color);
+      font-weight: 600;
     }
 
     .form-group {
@@ -478,16 +512,16 @@
       display: block;
       margin-bottom: 0.5rem;
       font-size: 0.9rem;
-      color: var(--light-text);
+      color: var(--muted-text);
     }
 
     .form-control {
       width: 100%;
       padding: 0.8rem;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 4px;
-      background-color: rgba(255, 255, 255, 0.05);
-      color: var(--light-text);
+      border: 1px solid #DCD4C4;
+      border-radius: 6px;
+      background-color: #FFFFFF;
+      color: var(--text-color);
       font-family: 'Montserrat', sans-serif;
       transition: var(--transition);
     }
@@ -495,7 +529,7 @@
     .form-control:focus {
       outline: none;
       border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px rgba(203, 153, 126, 0.2);
+      box-shadow: 0 0 0 3px rgba(166, 94, 60, 0.15);
     }
 
     textarea.form-control {
@@ -505,11 +539,11 @@
 
     .submit-btn {
       display: inline-block;
-      padding: 0.8rem 1.5rem;
-      background-color: var(--secondary-color);
+      padding: 0.8rem 1.8rem;
+      background-color: var(--primary-color);
       color: var(--light-text);
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 600;
       cursor: pointer;
@@ -520,6 +554,7 @@
     .submit-btn:hover {
       background-color: var(--accent-color);
       transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(166, 94, 60, 0.3);
     }
 
     .submit-btn:disabled {
@@ -537,16 +572,16 @@
     }
 
     .form-message.success {
-      background-color: rgba(76, 175, 80, 0.2);
-      color: #4CAF50;
-      border: 1px solid rgba(76, 175, 80, 0.3);
+      background-color: rgba(46, 125, 50, 0.1);
+      color: #2E7D32;
+      border: 1px solid rgba(46, 125, 50, 0.3);
       display: block;
     }
 
     .form-message.error {
-      background-color: rgba(255, 87, 34, 0.2);
-      color: #FF5722;
-      border: 1px solid rgba(255, 87, 34, 0.3);
+      background-color: rgba(198, 40, 40, 0.08);
+      color: #C62828;
+      border: 1px solid rgba(198, 40, 40, 0.3);
       display: block;
     }
 
@@ -556,7 +591,7 @@
       margin-top: auto;
       padding: 2rem 0 1rem;
       font-size: 0.9rem;
-      opacity: 0.7;
+      color: var(--muted-text);
     }
 
     /* Responsive */
@@ -601,7 +636,7 @@
       top: -100%;
       left: 50%;
       transform: translateX(-50%);
-      background-color: var(--secondary-color);
+      background-color: var(--primary-color);
       color: var(--light-text);
       padding: 0.5rem 1rem;
       border-radius: 0 0 4px 4px;
@@ -627,7 +662,7 @@
     .form-control:focus-visible {
       outline: none;
       border-color: var(--accent-color);
-      box-shadow: 0 0 0 2px rgba(203, 153, 126, 0.3);
+      box-shadow: 0 0 0 3px rgba(166, 94, 60, 0.2);
     }
 
     /* Reduced motion */
@@ -693,16 +728,19 @@
       const spawnInterval = isMobile ? 500 : 300;
       let intervalId;
 
+      const particleColors = ['166, 94, 60', '95, 102, 80', '138, 106, 79'];
+
       const createParticle = () => {
         const particle = document.createElement('div');
-        const size = Math.random() * 2 + 1;
+        const size = Math.random() * 3 + 2;
+        const color = particleColors[Math.floor(Math.random() * particleColors.length)];
 
         particle.style.position = 'absolute';
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        particle.style.background = 'rgba(255, 255, 255, 0.7)';
+        particle.style.background = `rgba(${color}, 0.4)`;
         particle.style.borderRadius = '50%';
-        particle.style.boxShadow = '0 0 10px rgba(255, 255, 255, 0.5)';
+        particle.style.boxShadow = `0 0 8px rgba(${color}, 0.3)`;
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100 + 100}%`;
 
