@@ -11,14 +11,16 @@ This is a website for "Toth Movie Animals," providing animal training services f
 ```
 ├── index.html              # Main website (all CSS/JS embedded inline)
 ├── site.webmanifest        # PWA manifest
+├── robots.txt              # Crawler rules
+├── sitemap.xml             # Sitemap for search engines
 ├── .gitignore              # Git ignore rules
-├── paw.png                 # Logo image
-├── 3FD90C07-...jpeg        # Snake wrangling photo (referenced in index.html)
+├── paw.png                 # Logo image (512x512, optimized)
+├── snake-wrangling.jpeg    # Snake wrangling photo (referenced in index.html)
+├── snake-wrangling.webp    # WebP version served via <picture>
 ├── assets/
 │   └── img/
 │       ├── IMG_9602.JPG    # Additional photo (referenced in index.html)
-│       ├── IMG_9722.jpeg   # Photo asset
-│       ├── SDG_logo.png    # SDG logo
+│       ├── IMG_9602.webp   # WebP version served via <picture>
 │       └── favicons/       # Favicon files for all platforms
 ├── readme.md               # Project README
 └── claude-readme.md        # This file
@@ -40,12 +42,15 @@ This is a website for "Toth Movie Animals," providing animal training services f
 
 ### Design System
 
-CSS variables defined in `:root`:
-- `--primary-color: #6B705C` (earthy olive)
-- `--secondary-color: #A98467` (warm brown)
-- `--accent-color: #CB997E` (terracotta)
-- `--dark-bg: #343e48` (blue-gray background)
-- `--light-text: #F5F5F5` (white text)
+CSS variables defined in `:root` (light theme):
+- `--primary-color: #5F6650` (deep olive — headings, buttons)
+- `--secondary-color: #8A6A4F` (warm brown — highlights)
+- `--accent-color: #A65E3F` (terracotta/sienna — links, accents)
+- `--page-bg: #F7F3ED` (warm cream background)
+- `--card-bg: #FFFFFF` (card background)
+- `--text-color: #37332D` (dark body text)
+- `--muted-text: #6E675D` (secondary text)
+- `--light-text: #FFFFFF` (text on colored buttons)
 
 Font: Montserrat (Google Fonts) - weights 400, 600, 700
 
