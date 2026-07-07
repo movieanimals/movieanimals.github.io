@@ -42,17 +42,22 @@ This is a website for "Toth Movie Animals," providing animal training services f
 
 ### Design System
 
-CSS variables defined in `:root` (light theme):
-- `--primary-color: #5F6650` (deep olive — headings, buttons)
-- `--secondary-color: #8A6A4F` (warm brown — highlights)
-- `--accent-color: #A65E3F` (terracotta/sienna — links, accents)
-- `--page-bg: #F7F3ED` (warm cream background)
-- `--card-bg: #FFFFFF` (card background)
-- `--text-color: #37332D` (dark body text)
-- `--muted-text: #6E675D` (secondary text)
-- `--light-text: #FFFFFF` (text on colored buttons)
+CSS variables defined in `:root` (light editorial theme):
+- `--ink: #201D18` (near-black text)
+- `--muted: #6B655B` (secondary text)
+- `--page-bg: #FBF9F5` (warm off-white background)
+- `--card-bg: #FFFFFF` (cards)
+- `--olive: #5F6650` / `--olive-deep: #2F332A` (brand olive; deep version for primary buttons)
+- `--brown: #8A6A4F` (warm brown)
+- `--terracotta: #A65E3F` (accent — eyebrows, icons, links)
+- `--hairline: rgba(32, 29, 24, 0.1)` (borders)
 
-Font: Montserrat (Google Fonts) - weights 400, 600, 700
+Fonts (Google Fonts): Fraunces (display serif — headings, brand) + Inter (body)
+
+Layout: top nav bar with CTA, left-aligned hero with trust badges, services grid,
+about/certified two-column, contact two-column (info + form), hairline footer.
+Scroll-reveal animations via IntersectionObserver (`.reveal` elements), ambient
+gradient glow blobs in the background (`.bg-glow`).
 
 ### Common Tasks
 
