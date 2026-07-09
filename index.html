@@ -128,6 +128,42 @@
       to { transform: translate(40px, 30px) scale(1.08); }
     }
 
+    /* Hero background video */
+    .hero-backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: min(100vh, 880px);
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+    }
+
+    .hero-backdrop::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, var(--page-bg) 0%, rgba(251, 249, 245, 0.95) 36%, rgba(251, 249, 245, 0.55) 62%, rgba(251, 249, 245, 0.18) 100%),
+        linear-gradient(180deg, rgba(251, 249, 245, 0.85) 0%, rgba(251, 249, 245, 0.15) 22%, rgba(251, 249, 245, 0.1) 55%, var(--page-bg) 97%);
+    }
+
+    @media (max-width: 900px) {
+      .hero-backdrop {
+        display: none;
+      }
+    }
+
     .page {
       width: min(92%, 1060px);
       margin: 0 auto;
@@ -232,12 +268,30 @@
     .btn-primary {
       background-color: var(--olive-deep);
       color: #FFFFFF;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -80%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
     }
 
     .btn-primary:hover {
       background-color: var(--terracotta);
       transform: translateY(-2px);
       box-shadow: 0 12px 24px -8px rgba(166, 94, 60, 0.5);
+    }
+
+    .btn-primary:hover::after {
+      left: 120%;
     }
 
     .btn-ghost {
@@ -249,6 +303,15 @@
     .btn-ghost:hover {
       border-color: var(--ink);
       transform: translateY(-2px);
+    }
+
+    .btn-arrow {
+      display: inline-block;
+      transition: transform 0.25s ease;
+    }
+
+    .btn-ghost:hover .btn-arrow {
+      transform: translate(3px, -3px);
     }
 
     .btn-sm {
@@ -266,6 +329,15 @@
     .js .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* Staggered reveal inside grids */
+    .services-grid .reveal:nth-child(2) {
+      transition-delay: 0.12s;
+    }
+
+    .services-grid .reveal:nth-child(3) {
+      transition-delay: 0.24s;
     }
 
     /* Hero */
@@ -444,6 +516,12 @@
       border-radius: 12px;
       background-color: rgba(166, 94, 60, 0.1);
       margin-bottom: 1.1rem;
+      transition: var(--transition);
+    }
+
+    .service-card:hover .icon-chip {
+      transform: rotate(-6deg) scale(1.08);
+      background-color: rgba(166, 94, 60, 0.18);
     }
 
     .service-icon {
@@ -476,6 +554,67 @@
 
     .about-copy {
       max-width: 480px;
+    }
+
+    /* Cinematic band */
+    .band {
+      position: relative;
+      margin: 4.5rem calc(50% - 50vw) 0;
+      height: min(58vh, 520px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+
+    .band-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      z-index: -1;
+    }
+
+    .band::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at center, rgba(32, 29, 24, 0.5), rgba(32, 29, 24, 0.12) 70%, transparent 100%),
+        linear-gradient(180deg, var(--page-bg) 0%, transparent 18%, transparent 84%, var(--page-bg) 100%);
+    }
+
+    .band-eyebrow,
+    .band-line {
+      position: relative;
+      z-index: 1;
+    }
+
+    .band-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #EBCDB8;
+      margin-bottom: 0.9rem;
+    }
+
+    .band-line {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(1.7rem, 4.2vw, 2.7rem);
+      line-height: 1.2;
+      color: #FDFBF7;
+      text-shadow: 0 2px 24px rgba(32, 29, 24, 0.45);
+      max-width: 640px;
+      margin-bottom: 0;
     }
 
     /* Contact */
@@ -689,6 +828,9 @@
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
   <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
+  <div class="hero-backdrop" aria-hidden="true">
+    <video class="hero-video bg-video" data-src="assets/video/set-tour.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/video/set-tour-poster.jpg" width="1344" height="768"></video>
+  </div>
 
   <div class="page">
     <header class="topbar">
@@ -710,7 +852,7 @@
         <p class="lede reveal"><strong>Professional animal training and safety services</strong> featured in blockbuster films, hit TV shows, and major commercials. Derek Toth brings calm, certified expertise to productions of all sizes.</p>
         <div class="cta-row reveal">
           <a href="#contact" class="btn btn-primary">Start a conversation</a>
-          <a href="https://www.imdb.com/name/nm14670166/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">View IMDb &nearr;</a>
+          <a href="https://www.imdb.com/name/nm14670166/" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">View IMDb <span class="btn-arrow" aria-hidden="true">&nearr;</span></a>
         </div>
         <ul class="trust-row reveal">
           <li>
@@ -777,6 +919,12 @@
         </div>
       </section>
 
+      <div class="band" aria-label="Available for productions worldwide">
+        <video class="band-video bg-video" data-src="assets/video/studio-band.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/video/studio-band-poster.jpg" width="1344" height="768" aria-hidden="true"></video>
+        <p class="band-eyebrow reveal">Toth Movie Animals</p>
+        <p class="band-line reveal">Available for productions worldwide.</p>
+      </div>
+
       <section id="contact" class="section contact-section">
         <div class="contact-info">
           <p class="eyebrow reveal">Get in touch</p>
@@ -838,11 +986,53 @@
           if (entry.isIntersecting) {
             entry.target.classList.add('visible');
             observer.unobserve(entry.target);
+            // Release reveal styles after the animation so hover
+            // transforms are no longer overridden by .reveal.visible
+            setTimeout(() => {
+              entry.target.classList.remove('reveal', 'visible');
+            }, 1400);
           }
         });
       }, { threshold: 0.05, rootMargin: '0px 0px 10% 0px' });
 
       revealEls.forEach((el) => observer.observe(el));
+    });
+
+    // Background videos: load only on desktop, without reduced-motion
+    // or data-saver, and pause when offscreen or the tab is hidden
+    document.addEventListener('DOMContentLoaded', () => {
+      const videos = document.querySelectorAll('.bg-video[data-src]');
+      if (!videos.length) return;
+
+      const connection = navigator.connection || {};
+      const wantsVideo = window.matchMedia('(min-width: 900px)').matches &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+        !connection.saveData;
+
+      if (!wantsVideo) return;
+
+      videos.forEach((video) => {
+        const source = document.createElement('source');
+        source.src = video.dataset.src;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+        video.load();
+
+        const tryPlay = () => video.play().catch(() => {});
+        tryPlay();
+
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) { tryPlay(); } else { video.pause(); }
+            });
+          }).observe(video.parentElement);
+        }
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) { video.pause(); } else { tryPlay(); }
+        });
+      });
     });
   </script>
 
