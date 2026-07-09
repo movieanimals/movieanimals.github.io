@@ -556,6 +556,67 @@
       max-width: 480px;
     }
 
+    /* Cinematic band */
+    .band {
+      position: relative;
+      margin: 4.5rem calc(50% - 50vw) 0;
+      height: min(58vh, 520px);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+
+    .band-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      z-index: -1;
+    }
+
+    .band::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at center, rgba(32, 29, 24, 0.5), rgba(32, 29, 24, 0.12) 70%, transparent 100%),
+        linear-gradient(180deg, var(--page-bg) 0%, transparent 18%, transparent 84%, var(--page-bg) 100%);
+    }
+
+    .band-eyebrow,
+    .band-line {
+      position: relative;
+      z-index: 1;
+    }
+
+    .band-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #EBCDB8;
+      margin-bottom: 0.9rem;
+    }
+
+    .band-line {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(1.7rem, 4.2vw, 2.7rem);
+      line-height: 1.2;
+      color: #FDFBF7;
+      text-shadow: 0 2px 24px rgba(32, 29, 24, 0.45);
+      max-width: 640px;
+      margin-bottom: 0;
+    }
+
     /* Contact */
     .contact-section {
       display: grid;
@@ -768,7 +829,7 @@
   <div class="bg-glow bg-glow-1" aria-hidden="true"></div>
   <div class="bg-glow bg-glow-2" aria-hidden="true"></div>
   <div class="hero-backdrop" aria-hidden="true">
-    <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/video/set-tour-poster.jpg" width="1344" height="768"></video>
+    <video class="hero-video bg-video" data-src="assets/video/set-tour.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/video/set-tour-poster.jpg" width="1344" height="768"></video>
   </div>
 
   <div class="page">
@@ -858,6 +919,12 @@
         </div>
       </section>
 
+      <div class="band" aria-label="Available for productions worldwide">
+        <video class="band-video bg-video" data-src="assets/video/studio-band.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/video/studio-band-poster.jpg" width="1344" height="768" aria-hidden="true"></video>
+        <p class="band-eyebrow reveal">Toth Movie Animals</p>
+        <p class="band-line reveal">Available for productions worldwide.</p>
+      </div>
+
       <section id="contact" class="section contact-section">
         <div class="contact-info">
           <p class="eyebrow reveal">Get in touch</p>
@@ -931,11 +998,11 @@
       revealEls.forEach((el) => observer.observe(el));
     });
 
-    // Hero background video: load only on desktop, without reduced-motion
+    // Background videos: load only on desktop, without reduced-motion
     // or data-saver, and pause when offscreen or the tab is hidden
     document.addEventListener('DOMContentLoaded', () => {
-      const video = document.querySelector('.hero-video');
-      if (!video) return;
+      const videos = document.querySelectorAll('.bg-video[data-src]');
+      if (!videos.length) return;
 
       const connection = navigator.connection || {};
       const wantsVideo = window.matchMedia('(min-width: 900px)').matches &&
@@ -944,25 +1011,27 @@
 
       if (!wantsVideo) return;
 
-      const source = document.createElement('source');
-      source.src = 'assets/video/set-tour.mp4';
-      source.type = 'video/mp4';
-      video.appendChild(source);
-      video.load();
+      videos.forEach((video) => {
+        const source = document.createElement('source');
+        source.src = video.dataset.src;
+        source.type = 'video/mp4';
+        video.appendChild(source);
+        video.load();
 
-      const tryPlay = () => video.play().catch(() => {});
-      tryPlay();
+        const tryPlay = () => video.play().catch(() => {});
+        tryPlay();
 
-      if ('IntersectionObserver' in window) {
-        new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) { tryPlay(); } else { video.pause(); }
-          });
-        }).observe(video.parentElement);
-      }
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) { tryPlay(); } else { video.pause(); }
+            });
+          }).observe(video.parentElement);
+        }
 
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) { video.pause(); } else { tryPlay(); }
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) { video.pause(); } else { tryPlay(); }
+        });
       });
     });
   </script>
