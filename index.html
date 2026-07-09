@@ -70,6 +70,7 @@
       --olive-deep: #2F332A;
       --brown: #8A6A4F;
       --terracotta: #A65E3F;
+      --teal: #035256;
       --hairline: rgba(32, 29, 24, 0.1);
       --shadow-soft: 0 24px 60px -24px rgba(32, 29, 24, 0.25);
       --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
@@ -119,7 +120,7 @@
       height: 540px;
       bottom: -180px;
       left: -160px;
-      background: rgba(95, 102, 80, 0.13);
+      background: rgba(3, 82, 86, 0.12);
       animation: drift 32s ease-in-out infinite alternate-reverse;
     }
 
@@ -266,7 +267,7 @@
     }
 
     .btn-primary {
-      background-color: var(--olive-deep);
+      background-color: var(--teal);
       color: #FFFFFF;
       position: relative;
       overflow: hidden;
@@ -366,7 +367,7 @@
 
     h1 em {
       font-style: italic;
-      color: var(--terracotta);
+      color: var(--teal);
     }
 
     .lede {
@@ -556,39 +557,45 @@
       max-width: 480px;
     }
 
-    /* Cinematic band */
+    /* Statement band */
     .band {
       position: relative;
       margin: 4.5rem calc(50% - 50vw) 0;
-      height: min(58vh, 520px);
       overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 0 1.5rem;
+      padding: 5.5rem 1.5rem;
+      background: linear-gradient(135deg, #023E42 0%, var(--teal) 55%, #0A6A6E 100%);
     }
 
-    .band-video {
+    .band .bubble {
       position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 40%;
-      z-index: -1;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 30%, rgba(253, 251, 247, 0.28), rgba(253, 251, 247, 0.06) 62%, transparent 75%);
+      border: 1px solid rgba(253, 251, 247, 0.14);
+      animation: bubble-float 14s ease-in-out infinite alternate, bubble-fade 9s ease-in-out infinite alternate;
+      pointer-events: none;
     }
 
-    .band::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      background:
-        radial-gradient(ellipse 70% 60% at center, rgba(32, 29, 24, 0.5), rgba(32, 29, 24, 0.12) 70%, transparent 100%),
-        linear-gradient(180deg, var(--page-bg) 0%, transparent 18%, transparent 84%, var(--page-bg) 100%);
+    @keyframes bubble-float {
+      from { transform: translateY(14px) translateX(0) scale(1); }
+      to { transform: translateY(-22px) translateX(14px) scale(1.06); }
     }
+
+    @keyframes bubble-fade {
+      from { opacity: 0.35; }
+      to { opacity: 0.9; }
+    }
+
+    .bubble-1 { width: 150px; height: 150px; top: -35px; left: 7%; animation-duration: 16s, 8s; }
+    .bubble-2 { width: 55px; height: 55px; top: 58%; left: 17%; animation-duration: 12s, 7s; animation-delay: -4s, -2s; }
+    .bubble-3 { width: 95px; height: 95px; bottom: -20px; left: 32%; animation-duration: 18s, 10s; animation-delay: -8s, -5s; }
+    .bubble-4 { width: 38px; height: 38px; top: 16%; right: 34%; animation-duration: 10s, 6s; animation-delay: -3s, -1s; }
+    .bubble-5 { width: 120px; height: 120px; top: 8%; right: 9%; animation-duration: 15s, 9s; animation-delay: -6s, -4s; }
+    .bubble-6 { width: 65px; height: 65px; bottom: 12%; right: 20%; animation-duration: 13s, 8s; animation-delay: -10s, -6s; }
 
     .band-eyebrow,
     .band-line {
@@ -601,7 +608,7 @@
       font-weight: 600;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: #EBCDB8;
+      color: #9FD3D4;
       margin-bottom: 0.9rem;
     }
 
@@ -612,7 +619,6 @@
       font-size: clamp(1.7rem, 4.2vw, 2.7rem);
       line-height: 1.2;
       color: #FDFBF7;
-      text-shadow: 0 2px 24px rgba(32, 29, 24, 0.45);
       max-width: 640px;
       margin-bottom: 0;
     }
@@ -919,8 +925,13 @@
         </div>
       </section>
 
-      <div class="band" aria-label="Available for productions worldwide">
-        <video class="band-video bg-video" data-src="assets/video/studio-band.mp4" autoplay muted loop playsinline preload="metadata" poster="assets/video/studio-band-poster.jpg" width="1344" height="768" aria-hidden="true"></video>
+      <div class="band">
+        <span class="bubble bubble-1" aria-hidden="true"></span>
+        <span class="bubble bubble-2" aria-hidden="true"></span>
+        <span class="bubble bubble-3" aria-hidden="true"></span>
+        <span class="bubble bubble-4" aria-hidden="true"></span>
+        <span class="bubble bubble-5" aria-hidden="true"></span>
+        <span class="bubble bubble-6" aria-hidden="true"></span>
         <p class="band-eyebrow reveal">Toth Movie Animals</p>
         <p class="band-line reveal">Available for productions worldwide.</p>
       </div>
