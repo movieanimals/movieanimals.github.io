@@ -571,32 +571,6 @@
       background: linear-gradient(135deg, #023E42 0%, var(--teal) 55%, #0A6A6E 100%);
     }
 
-    .band .bubble {
-      position: absolute;
-      border-radius: 50%;
-      background: radial-gradient(circle at 32% 30%, rgba(253, 251, 247, 0.28), rgba(253, 251, 247, 0.06) 62%, transparent 75%);
-      border: 1px solid rgba(253, 251, 247, 0.14);
-      animation: bubble-float 14s ease-in-out infinite alternate, bubble-fade 9s ease-in-out infinite alternate;
-      pointer-events: none;
-    }
-
-    @keyframes bubble-float {
-      from { transform: translateY(14px) translateX(0) scale(1); }
-      to { transform: translateY(-22px) translateX(14px) scale(1.06); }
-    }
-
-    @keyframes bubble-fade {
-      from { opacity: 0.35; }
-      to { opacity: 0.9; }
-    }
-
-    .bubble-1 { width: 150px; height: 150px; top: -35px; left: 7%; animation-duration: 16s, 8s; }
-    .bubble-2 { width: 55px; height: 55px; top: 58%; left: 17%; animation-duration: 12s, 7s; animation-delay: -4s, -2s; }
-    .bubble-3 { width: 95px; height: 95px; bottom: -20px; left: 32%; animation-duration: 18s, 10s; animation-delay: -8s, -5s; }
-    .bubble-4 { width: 38px; height: 38px; top: 16%; right: 34%; animation-duration: 10s, 6s; animation-delay: -3s, -1s; }
-    .bubble-5 { width: 120px; height: 120px; top: 8%; right: 9%; animation-duration: 15s, 9s; animation-delay: -6s, -4s; }
-    .bubble-6 { width: 65px; height: 65px; bottom: 12%; right: 20%; animation-duration: 13s, 8s; animation-delay: -10s, -6s; }
-
     .band-eyebrow,
     .band-line {
       position: relative;
@@ -621,6 +595,33 @@
       color: #FDFBF7;
       max-width: 640px;
       margin-bottom: 0;
+    }
+
+    .band-chips {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-top: 2rem;
+      padding: 0;
+    }
+
+    .band-chips li {
+      padding: 0.6rem 1.3rem;
+      border-radius: 999px;
+      background-color: rgba(253, 251, 247, 0.1);
+      border: 1px solid rgba(253, 251, 247, 0.28);
+      color: #FDFBF7;
+      font-size: 0.92rem;
+      font-weight: 500;
+      backdrop-filter: blur(4px);
+      transition: var(--transition);
+    }
+
+    .band-chips li:hover {
+      background-color: rgba(253, 251, 247, 0.22);
+      transform: translateY(-3px);
     }
 
     /* Contact */
@@ -926,14 +927,14 @@
       </section>
 
       <div class="band">
-        <span class="bubble bubble-1" aria-hidden="true"></span>
-        <span class="bubble bubble-2" aria-hidden="true"></span>
-        <span class="bubble bubble-3" aria-hidden="true"></span>
-        <span class="bubble bubble-4" aria-hidden="true"></span>
-        <span class="bubble bubble-5" aria-hidden="true"></span>
-        <span class="bubble bubble-6" aria-hidden="true"></span>
         <p class="band-eyebrow reveal">Toth Movie Animals</p>
         <p class="band-line reveal">Available for productions worldwide.</p>
+        <ul class="band-chips reveal">
+          <li>Animal Training</li>
+          <li>On-Set Safety</li>
+          <li>Wildlife Management</li>
+          <li>Rattlesnake Abatement</li>
+        </ul>
       </div>
 
       <section id="contact" class="section contact-section">
