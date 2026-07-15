@@ -467,18 +467,20 @@
       line-height: 1.6;
     }
 
-    /* Gallery (masonry, no crop) */
+    /* Gallery (justified equal-height row, no crop) */
     .gallery {
-      column-count: 2;
-      column-gap: 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.2rem;
     }
 
     .gallery figure {
       position: relative;
+      height: clamp(300px, 32vw, 470px);
       border-radius: var(--radius);
       overflow: hidden;
-      margin: 0 0 1.2rem;
-      break-inside: avoid;
+      margin: 0;
       box-shadow: var(--shadow);
       transition: var(--transition);
     }
@@ -489,8 +491,9 @@
     }
 
     .gallery img {
-      width: 100%;
-      height: auto;
+      height: 100%;
+      width: auto;
+      max-width: 100%;
       display: block;
       transition: transform 0.6s ease;
     }
@@ -543,9 +546,21 @@
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 760px) {
       .gallery {
-        column-count: 1;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .gallery figure {
+        height: auto;
+        width: 100%;
+        max-width: 460px;
+      }
+
+      .gallery img {
+        width: 100%;
+        height: auto;
       }
     }
 
@@ -877,22 +892,12 @@
           <!-- To add a photo: drop the file (plus a .webp twin) in assets/img/ and copy a figure block -->
           <figure class="reveal">
             <picture>
-              <source srcset="assets/img/gopher-snake-relocation.webp" type="image/webp">
-              <img src="assets/img/gopher-snake-relocation.jpg" alt="Derek Toth holding a juvenile gopher snake on set before relocating it" width="665" height="1182" loading="lazy" decoding="async">
+              <source srcset="assets/img/IMG_9602.webp" type="image/webp">
+              <img src="assets/img/IMG_9602.JPG" alt="Derek Toth with an animal actor at the Deadpool &amp; Wolverine world premiere" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
             <figcaption>
-              <span class="cap-title">Juvenile Gopher Snake</span>
-              <span class="cap-detail">Safely captured on set and released to habitat well clear of the production.</span>
-            </figcaption>
-          </figure>
-          <figure class="reveal">
-            <picture>
-              <source srcset="snake-wrangling.webp" type="image/webp">
-              <img src="snake-wrangling.jpeg" alt="Derek Toth removing a snake from a filming location with a snake hook" width="621" height="466" loading="lazy" decoding="async">
-            </picture>
-            <figcaption>
-              <span class="cap-title">On-location snake removal</span>
-              <span class="cap-detail">Clearing wildlife from a live shooting location before the crew moved in.</span>
+              <span class="cap-title">Deadpool &amp; Wolverine world premiere</span>
+              <span class="cap-detail">Walking the red carpet with a four-legged companion.</span>
             </figcaption>
           </figure>
           <figure class="reveal">
@@ -907,12 +912,12 @@
           </figure>
           <figure class="reveal">
             <picture>
-              <source srcset="assets/img/IMG_9602.webp" type="image/webp">
-              <img src="assets/img/IMG_9602.JPG" alt="Derek Toth with an animal actor at the Deadpool &amp; Wolverine world premiere" width="1000" height="1250" loading="lazy" decoding="async">
+              <source srcset="assets/img/gopher-snake-relocation.webp" type="image/webp">
+              <img src="assets/img/gopher-snake-relocation.jpg" alt="Derek Toth holding a juvenile gopher snake on set before relocating it" width="665" height="1182" loading="lazy" decoding="async">
             </picture>
             <figcaption>
-              <span class="cap-title">Deadpool &amp; Wolverine world premiere</span>
-              <span class="cap-detail">Walking the red carpet with a four-legged companion.</span>
+              <span class="cap-title">Juvenile Gopher Snake</span>
+              <span class="cap-detail">Safely captured on set and released to habitat well clear of the production.</span>
             </figcaption>
           </figure>
         </div>
