@@ -278,6 +278,8 @@
     .cards .reveal:nth-child(2) { transition-delay: 0.08s; }
     .cards .reveal:nth-child(3) { transition-delay: 0.16s; }
     .gallery .reveal:nth-child(2) { transition-delay: 0.08s; }
+    .gallery .reveal:nth-child(3) { transition-delay: 0.16s; }
+    .gallery .reveal:nth-child(4) { transition-delay: 0.24s; }
 
     /* Hero */
     .hero {
@@ -465,40 +467,36 @@
       line-height: 1.6;
     }
 
-    /* Gallery */
+    /* Gallery (masonry, no crop) */
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.2rem;
+      column-count: 2;
+      column-gap: 1.2rem;
     }
 
     .gallery figure {
       position: relative;
       border-radius: var(--radius);
       overflow: hidden;
-      aspect-ratio: 4 / 3;
+      margin: 0 0 1.2rem;
+      break-inside: avoid;
       box-shadow: var(--shadow);
       transition: var(--transition);
     }
 
     .gallery figure:hover {
       transform: translateY(-4px);
+      box-shadow: 0 18px 40px -14px rgba(18, 26, 25, 0.28);
     }
 
     .gallery img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: auto;
       display: block;
-      transition: transform 0.5s ease;
+      transition: transform 0.6s ease;
     }
 
     .gallery figure:hover img {
-      transform: scale(1.03);
-    }
-
-    .gallery img.crop-low {
-      object-position: center bottom;
+      transform: scale(1.04);
     }
 
     .gallery figcaption {
@@ -506,11 +504,49 @@
       left: 0;
       right: 0;
       bottom: 0;
-      padding: 2.2rem 1.2rem 1rem;
-      background: linear-gradient(180deg, transparent, rgba(18, 26, 25, 0.72));
+      padding: 2.6rem 1.3rem 1.2rem;
+      background: linear-gradient(180deg, transparent, rgba(18, 26, 25, 0.4) 40%, rgba(18, 26, 25, 0.88));
       color: #FFFFFF;
-      font-size: 0.9rem;
-      font-weight: 500;
+    }
+
+    .gallery .cap-title {
+      display: block;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .gallery .cap-detail {
+      display: block;
+      font-size: 0.87rem;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.82);
+      max-height: 0;
+      opacity: 0;
+      margin-top: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, opacity 0.4s ease, margin-top 0.4s ease;
+    }
+
+    .gallery figure:hover .cap-detail,
+    .gallery figure:focus-within .cap-detail {
+      max-height: 6rem;
+      opacity: 1;
+      margin-top: 0.35rem;
+    }
+
+    @media (hover: none) {
+      .gallery .cap-detail {
+        max-height: 6rem;
+        opacity: 1;
+        margin-top: 0.35rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery {
+        column-count: 1;
+      }
     }
 
     /* About */
@@ -836,21 +872,48 @@
       <div class="container">
         <span class="kicker reveal">On Set</span>
         <h2 class="reveal">Recent work</h2>
+        <p class="section-sub reveal">From trained animal talent on camera to safely relocating wildlife that turns up on location.</p>
         <div class="gallery">
-          <!-- To add a photo: drop the file in assets/img/ and copy this figure block -->
+          <!-- To add a photo: drop the file (plus a .webp twin) in assets/img/ and copy a figure block -->
+          <figure class="reveal">
+            <picture>
+              <source srcset="assets/img/gopher-snake-relocation.webp" type="image/webp">
+              <img src="assets/img/gopher-snake-relocation.jpg" alt="Derek Toth holding a juvenile gopher snake on set before relocating it" width="665" height="1182" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>
+              <span class="cap-title">Juvenile gopher snake</span>
+              <span class="cap-detail">Safely captured on set and released to habitat well clear of the production.</span>
+            </figcaption>
+          </figure>
           <figure class="reveal">
             <picture>
               <source srcset="snake-wrangling.webp" type="image/webp">
-              <img src="snake-wrangling.jpeg" alt="Derek Toth wrangling a snake on a film set" width="621" height="466" loading="lazy" decoding="async">
+              <img src="snake-wrangling.jpeg" alt="Derek Toth removing a snake from a filming location with a snake hook" width="621" height="466" loading="lazy" decoding="async">
             </picture>
-            <figcaption>Rattlesnake wrangling on location</figcaption>
+            <figcaption>
+              <span class="cap-title">On-location snake removal</span>
+              <span class="cap-detail">Clearing wildlife from a live shooting location before the crew moved in.</span>
+            </figcaption>
+          </figure>
+          <figure class="reveal">
+            <picture>
+              <source srcset="assets/img/rattlesnake-onset.webp" type="image/webp">
+              <img src="assets/img/rattlesnake-onset.jpg" alt="A Southern Pacific rattlesnake coiled on the ground, found on a filming location" width="768" height="1024" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>
+              <span class="cap-title">Southern Pacific rattlesnake</span>
+              <span class="cap-detail">Identified on a filming location and safely relocated well away from cast and crew.</span>
+            </figcaption>
           </figure>
           <figure class="reveal">
             <picture>
               <source srcset="assets/img/IMG_9602.webp" type="image/webp">
-              <img src="assets/img/IMG_9602.JPG" alt="Derek Toth with an animal actor at the Deadpool &amp; Wolverine world premiere" width="1000" height="1250" loading="lazy" decoding="async" class="crop-low">
+              <img src="assets/img/IMG_9602.JPG" alt="Derek Toth with an animal actor at the Deadpool &amp; Wolverine world premiere" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
-            <figcaption>Deadpool &amp; Wolverine world premiere</figcaption>
+            <figcaption>
+              <span class="cap-title">Deadpool &amp; Wolverine world premiere</span>
+              <span class="cap-detail">On the carpet representing on-set animal work for a major studio release.</span>
+            </figcaption>
           </figure>
         </div>
       </div>

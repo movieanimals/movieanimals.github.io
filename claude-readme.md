@@ -60,8 +60,9 @@ Motion is deliberately restrained: one-time scroll reveals, hover lifts, nav sha
 
 ### Common Tasks
 
-**To add a gallery photo**: place the image (ideally with a WebP twin) in `assets/img/`,
-then copy this block inside `<div class="gallery">`:
+**To add a gallery photo**: place the image plus a WebP twin in `assets/img/`
+(resize to ~1100px on the long edge, JPEG q72 / WebP q70), then copy this block
+inside `<div class="gallery">`:
 
 ```html
 <figure class="reveal">
@@ -69,11 +70,16 @@ then copy this block inside `<div class="gallery">`:
     <source srcset="assets/img/YOUR-PHOTO.webp" type="image/webp">
     <img src="assets/img/YOUR-PHOTO.jpg" alt="Describe the photo" width="W" height="H" loading="lazy" decoding="async">
   </picture>
-  <figcaption>Short caption</figcaption>
+  <figcaption>
+    <span class="cap-title">Short title</span>
+    <span class="cap-detail">One professional sentence, revealed on hover.</span>
+  </figcaption>
 </figure>
 ```
 
-The grid auto-fits; photos are cropped to 4:3 via `aspect-ratio` + `object-fit: cover`.
+The gallery is a 2-column CSS masonry (`column-count`), so photos keep their natural
+aspect ratio with no cropping and portrait/landscape mix freely. `.cap-title` is always
+visible; `.cap-detail` expands on hover (and shows by default on touch devices).
 
 **To modify styles**: Edit the `<style>` block in `index.html`.
 
