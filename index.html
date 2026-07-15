@@ -179,15 +179,35 @@
     }
 
     .nav-links .nav-link {
+      position: relative;
       color: var(--muted);
       text-decoration: none;
       font-size: 0.92rem;
       font-weight: 500;
-      transition: var(--transition);
+      transition: color 0.25s ease;
     }
 
-    .nav-links .nav-link:hover {
+    .nav-links .nav-link::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -6px;
+      height: 2px;
+      background-color: var(--teal);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .nav-links .nav-link:hover,
+    .nav-links .nav-link.active {
       color: var(--ink);
+    }
+
+    .nav-links .nav-link:hover::after,
+    .nav-links .nav-link.active::after {
+      transform: scaleX(1);
     }
 
     /* Buttons */
@@ -265,15 +285,15 @@
       grid-template-columns: 1.05fr 0.95fr;
       gap: 3.5rem;
       align-items: center;
-      padding: 4.5rem 0 4rem;
+      padding: 5rem 0 4.5rem;
     }
 
     h1 {
-      font-size: clamp(2.3rem, 5vw, 3.5rem);
+      font-size: clamp(2.4rem, 5.2vw, 3.75rem);
       font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      margin-bottom: 1.2rem;
+      line-height: 1.06;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.3rem;
     }
 
     h1 .accent {
@@ -347,7 +367,8 @@
 
     /* Sections */
     .section {
-      padding: 5rem 0;
+      padding: 5.5rem 0;
+      scroll-margin-top: 72px;
     }
 
     .section.alt {
@@ -355,13 +376,22 @@
     }
 
     .kicker {
-      display: block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
       color: var(--teal);
       font-size: 0.8rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      margin-bottom: 0.7rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .kicker::before {
+      content: '';
+      width: 24px;
+      height: 2px;
+      background-color: var(--teal);
     }
 
     h2 {
@@ -394,20 +424,28 @@
     }
 
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px);
       box-shadow: var(--shadow);
+      border-color: rgba(3, 82, 86, 0.28);
     }
 
     .icon-chip {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
       background-color: rgba(3, 82, 86, 0.08);
       color: var(--teal);
-      margin-bottom: 1rem;
+      margin-bottom: 1.1rem;
+      transition: var(--transition);
+    }
+
+    .card:hover .icon-chip {
+      background-color: var(--teal);
+      color: #FFFFFF;
+      transform: rotate(-5deg);
     }
 
     .icon-chip svg {
@@ -906,6 +944,27 @@
       const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Scroll-spy: highlight the nav link for the section in view
+      const spyLinks = Array.from(document.querySelectorAll('.nav-links .nav-link'));
+      const linkFor = (id) => spyLinks.find((l) => l.getAttribute('href') === `#${id}`);
+      const sections = ['services', 'work', 'about', 'contact']
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+
+      if ('IntersectionObserver' in window && sections.length) {
+        const spy = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const link = linkFor(entry.target.id);
+            if (!link) return;
+            if (entry.isIntersecting) {
+              spyLinks.forEach((l) => l.classList.remove('active'));
+              link.classList.add('active');
+            }
+          });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        sections.forEach((s) => spy.observe(s));
+      }
     });
   </script>
 
